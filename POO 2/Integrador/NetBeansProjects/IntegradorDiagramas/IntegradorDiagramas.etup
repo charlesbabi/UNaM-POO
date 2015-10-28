@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<XMI xmlns:UML="omg.org/UML/1.4" xmi.version="2.0">
+   <XMI.header>
+      <XMI.metamodel xmi.name="UML" xmi.version="1.4"/>
+		<XMI.documentation>
+			<XMI.exporter>
+				Embarcadero's Describe
+			</XMI.exporter>
+			<XMI.exporterVersion>
+				6.0
+			</XMI.exporterVersion>
+		</XMI.documentation>
+   </XMI.header>
+
+   <XMI.content>
+   <UML:Profile xmi.id="DCE.E7AE2B42-F9D9-9489-D437-F1D8CB0EC344" name="Unnamed" isCloned="true" href=".\IntegradorDiagramas.etup#//*[@xmi.id=&apos;DCE.E7AE2B42-F9D9-9489-D437-F1D8CB0EC344&apos;]" isDirty="false"><UML:Element.ownedElement>
+<UML:Stereotype xmi.id="DCE.81665BFE-5A25-F051-748C-3F50492B9DB3" name="Hasta terminas la coleccion" owner="__uri_.\IntegradorDiagramas.etup#//*[@xmi.id=&apos;DCE.E7AE2B42-F9D9-9489-D437-F1D8CB0EC344&apos;]"/>
+<UML:Stereotype xmi.id="DCE.772D11FB-CD77-6955-03A3-47D6EB37F6A8" name="Hasta terminas la coleccion" owner="__uri_.\IntegradorDiagramas.etup#//*[@xmi.id=&apos;DCE.E7AE2B42-F9D9-9489-D437-F1D8CB0EC344&apos;]"/>
+<UML:Stereotype xmi.id="DCE.6F9B174B-4F6D-90E4-0A10-D0EB03D0E20A" name="Hasta terminas la coleccion" owner="__uri_.\IntegradorDiagramas.etup#//*[@xmi.id=&apos;DCE.E7AE2B42-F9D9-9489-D437-F1D8CB0EC344&apos;]"/>
+<UML:Stereotype xmi.id="DCE.AC4FC1BD-A8C4-FCA9-51F2-C1A001478AAB" name="asdasdasd" owner="__uri_.\IntegradorDiagramas.etup#//*[@xmi.id=&apos;DCE.E7AE2B42-F9D9-9489-D437-F1D8CB0EC344&apos;]"/>
+<UML:Stereotype xmi.id="DCE.4D0A99DB-7A77-38D6-5163-05E341FE0FF3" name="41" owner="__uri_.\IntegradorDiagramas.etup#//*[@xmi.id=&apos;DCE.E7AE2B42-F9D9-9489-D437-F1D8CB0EC344&apos;]"/>
+<UML:Stereotype xmi.id="DCE.63D57615-C51C-BF7F-D450-38C1C89FEEC5" name="41" owner="__uri_.\IntegradorDiagramas.etup#//*[@xmi.id=&apos;DCE.E7AE2B42-F9D9-9489-D437-F1D8CB0EC344&apos;]"/>
+<UML:Stereotype xmi.id="DCE.4F99BBF5-1F1F-5D6B-12ED-DF6949BB64A5" name="41" owner="__uri_.\IntegradorDiagramas.etup#//*[@xmi.id=&apos;DCE.E7AE2B42-F9D9-9489-D437-F1D8CB0EC344&apos;]"/>
+<UML:Stereotype xmi.id="DCE.8BB36AF6-CD69-FB03-A145-E9C628CFD6FE" name="asdasdasd" owner="__uri_.\IntegradorDiagramas.etup#//*[@xmi.id=&apos;DCE.E7AE2B42-F9D9-9489-D437-F1D8CB0EC344&apos;]"/>
+<UML:Stereotype xmi.id="DCE.1FBD8DE7-07F1-EE87-61B2-AE2420A1FDEA" name="41" owner="__uri_.\IntegradorDiagramas.etup#//*[@xmi.id=&apos;DCE.E7AE2B42-F9D9-9489-D437-F1D8CB0EC344&apos;]"/></UML:Element.ownedElement></UML:Profile></XMI.content>
+</XMI>

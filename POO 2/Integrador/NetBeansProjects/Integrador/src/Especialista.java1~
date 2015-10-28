@@ -1,0 +1,78 @@
+
+// <editor-fold defaultstate="collapsed" desc=" UML Marker "> 
+// #[regen=yes,id=DCE.A0E5A2C1-9D23-0933-42B9-BA9098708F9C]
+// </editor-fold> 
+public class Especialista extends Persona {
+
+    // <editor-fold defaultstate="collapsed" desc=" UML Marker "> 
+    // #[regen=yes,id=DCE.D6774C15-2EBB-821B-66FB-79C67AB8C829]
+    // </editor-fold> 
+    private Calendar horarioEntrada;
+
+    // <editor-fold defaultstate="collapsed" desc=" UML Marker "> 
+    // #[regen=yes,id=DCE.3BBFC3AC-FB1C-FC60-2C6B-F7E7832395F4]
+    // </editor-fold> 
+    private Marca mMarca;
+
+    // <editor-fold defaultstate="collapsed" desc=" UML Marker "> 
+    // #[regen=yes,id=DCE.6CD29727-44DD-843B-0FD4-3820D05F335D]
+    // </editor-fold> 
+    public Especialista () {
+    }
+
+    // <editor-fold defaultstate="collapsed" desc=" UML Marker "> 
+    // #[regen=yes,id=DCE.A3106F04-744F-A751-1F4F-D469D7FDC135]
+    // </editor-fold> 
+    public int getDni () {
+        return 0;
+    }
+
+    // <editor-fold defaultstate="collapsed" desc=" UML Marker "> 
+    // #[regen=yes,id=DCE.B94572D5-B3B9-58E1-9FDC-75FE617F614D]
+    // </editor-fold> 
+    public void setDni (int val) {
+    }
+
+    // <editor-fold defaultstate="collapsed" desc=" UML Marker "> 
+    // #[regen=yes,id=DCE.8975B3F1-B0F7-E15A-1501-B30B573121A8]
+    // </editor-fold> 
+    public String getNombre () {
+        return null;
+    }
+
+    // <editor-fold defaultstate="collapsed" desc=" UML Marker "> 
+    // #[regen=yes,id=DCE.1C50176A-A314-AC08-79A5-3CC6762E77E4]
+    // </editor-fold> 
+    public void setNombre (String val) {
+    }
+
+    // <editor-fold defaultstate="collapsed" desc=" UML Marker "> 
+    // #[regen=yes,regenBody=yes,id=DCE.B11A7C33-44C5-A7AB-97CF-AC115BF8701D]
+    // </editor-fold> 
+    public Calendar getHorarioEntrada () {
+        return horarioEntrada;
+    }
+
+    // <editor-fold defaultstate="collapsed" desc=" UML Marker "> 
+    // #[regen=yes,regenBody=yes,id=DCE.9BBE672E-DD2E-4FA6-903A-58BA682B9912]
+    // </editor-fold> 
+    public void setHorarioEntrada (Calendar val) {
+        this.horarioEntrada = val;
+    }
+
+    // <editor-fold defaultstate="collapsed" desc=" UML Marker "> 
+    // #[regen=yes,regenBody=yes,id=DCE.896DD66E-D356-CBF0-D54A-BE9A310DC695]
+    // </editor-fold> 
+    public Marca getMarca () {
+        return mMarca;
+    }
+
+    // <editor-fold defaultstate="collapsed" desc=" UML Marker "> 
+    // #[regen=yes,regenBody=yes,id=DCE.08FAA466-D2E0-3D11-9CE1-C9F7BC747B8F]
+    // </editor-fold> 
+    public void setMarca (Marca val) {
+        this.mMarca = val;
+    }
+
+}
+

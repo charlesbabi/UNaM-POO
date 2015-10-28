@@ -1,0 +1,52 @@
+
+// <editor-fold defaultstate="collapsed" desc=" UML Marker "> 
+// #[regen=yes,id=DCE.55C0D6C2-28C2-73EC-586F-B26CE0EF80AC]
+// </editor-fold> 
+public class Persona {
+
+    // <editor-fold defaultstate="collapsed" desc=" UML Marker "> 
+    // #[regen=yes,id=DCE.B70370C5-11E5-CB75-6FEC-4E974D08342E]
+    // </editor-fold> 
+    private int dni;
+
+    // <editor-fold defaultstate="collapsed" desc=" UML Marker "> 
+    // #[regen=yes,id=DCE.678859B3-D287-E3B8-2279-4843911BBC24]
+    // </editor-fold> 
+    private String nombre;
+
+    // <editor-fold defaultstate="collapsed" desc=" UML Marker "> 
+    // #[regen=yes,id=DCE.688DFE77-B2F6-B7B1-4577-48E70F1AF26A]
+    // </editor-fold> 
+    public Persona () {
+    }
+
+    // <editor-fold defaultstate="collapsed" desc=" UML Marker "> 
+    // #[regen=yes,regenBody=yes,id=DCE.89F0A9A5-0A29-983D-D9CE-09EC140F35F5]
+    // </editor-fold> 
+    public int getDni () {
+        return dni;
+    }
+
+    // <editor-fold defaultstate="collapsed" desc=" UML Marker "> 
+    // #[regen=yes,regenBody=yes,id=DCE.D3E6D03C-A1AC-092C-8141-562C74D716CB]
+    // </editor-fold> 
+    public void setDni (int val) {
+        this.dni = val;
+    }
+
+    // <editor-fold defaultstate="collapsed" desc=" UML Marker "> 
+    // #[regen=yes,regenBody=yes,id=DCE.9191CD65-ABBC-123A-C229-6729C78F26A9]
+    // </editor-fold> 
+    public String getNombre () {
+        return nombre;
+    }
+
+    // <editor-fold defaultstate="collapsed" desc=" UML Marker "> 
+    // #[regen=yes,regenBody=yes,id=DCE.DFD6DB67-F62A-A3C9-11B5-6DA6A88FE953]
+    // </editor-fold> 
+    public void setNombre (String val) {
+        this.nombre = val;
+    }
+
+}
+

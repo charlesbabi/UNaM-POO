@@ -1,0 +1,33 @@
+
+// <editor-fold defaultstate="collapsed" desc=" UML Marker "> 
+// #[regen=yes,id=DCE.545A09CB-79B8-5743-00DA-7CC2645227F9]
+// </editor-fold> 
+public class Cliente extends Persona {
+
+    // <editor-fold defaultstate="collapsed" desc=" UML Marker "> 
+    // #[regen=yes,id=DCE.5C77AD26-4C5A-CD99-8E17-34DC2CF98581]
+    // </editor-fold> 
+    private Vehiculo mVehiculo;
+
+    // <editor-fold defaultstate="collapsed" desc=" UML Marker "> 
+    // #[regen=yes,id=DCE.FE7B9870-D8FB-5751-9A5E-B01F76CE1DA7]
+    // </editor-fold> 
+    public Cliente () {
+    }
+
+    // <editor-fold defaultstate="collapsed" desc=" UML Marker "> 
+    // #[regen=yes,regenBody=yes,id=DCE.A41A3439-3A5A-700D-477B-178C321768CE]
+    // </editor-fold> 
+    public Vehiculo getVehiculo () {
+        return mVehiculo;
+    }
+
+    // <editor-fold defaultstate="collapsed" desc=" UML Marker "> 
+    // #[regen=yes,regenBody=yes,id=DCE.CE71B478-B1B5-9601-D2B8-93C13B50AADD]
+    // </editor-fold> 
+    public void setVehiculo (Vehiculo val) {
+        this.mVehiculo = val;
+    }
+
+}
+

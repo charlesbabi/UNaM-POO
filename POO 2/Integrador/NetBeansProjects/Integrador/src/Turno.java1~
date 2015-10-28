@@ -1,0 +1,109 @@
+
+// <editor-fold defaultstate="collapsed" desc=" UML Marker "> 
+// #[regen=yes,id=DCE.6F464C47-EB1F-C42E-7629-EC686CD85C15]
+// </editor-fold> 
+public class Turno {
+
+    // <editor-fold defaultstate="collapsed" desc=" UML Marker "> 
+    // #[regen=yes,id=DCE.111017FB-4B54-8681-68AD-0703A7D2AA96]
+    // </editor-fold> 
+    private int id;
+
+    // <editor-fold defaultstate="collapsed" desc=" UML Marker "> 
+    // #[regen=yes,id=DCE.A9952EDA-4ED2-2659-E44C-2FEAD4E2F390]
+    // </editor-fold> 
+    private int duracion;
+
+    // <editor-fold defaultstate="collapsed" desc=" UML Marker "> 
+    // #[regen=yes,id=DCE.AB1DF823-AE7D-235C-C715-3F59B82EB427]
+    // </editor-fold> 
+    private int horario;
+
+    // <editor-fold defaultstate="collapsed" desc=" UML Marker "> 
+    // #[regen=yes,id=DCE.70EC6726-44C6-285A-5DEC-0AF2AC86AE6E]
+    // </editor-fold> 
+    private Servicio mServicio;
+
+    // <editor-fold defaultstate="collapsed" desc=" UML Marker "> 
+    // #[regen=yes,id=DCE.3B743D40-80BC-60A3-0AEE-C162C1A1A1A1]
+    // </editor-fold> 
+    private Especialista mEspecialista;
+
+    // <editor-fold defaultstate="collapsed" desc=" UML Marker "> 
+    // #[regen=yes,id=DCE.B8BD2242-0907-4941-9ECA-D0912F0738E6]
+    // </editor-fold> 
+    public Turno () {
+    }
+
+    // <editor-fold defaultstate="collapsed" desc=" UML Marker "> 
+    // #[regen=yes,regenBody=yes,id=DCE.CB484AFA-69F9-3882-7D6D-13FD121DAE90]
+    // </editor-fold> 
+    public int getDuracion () {
+        return duracion;
+    }
+
+    // <editor-fold defaultstate="collapsed" desc=" UML Marker "> 
+    // #[regen=yes,regenBody=yes,id=DCE.DBE61C3A-C38F-5488-40F6-1641BC5B77EF]
+    // </editor-fold> 
+    public void setDuracion (int val) {
+        this.duracion = val;
+    }
+
+    // <editor-fold defaultstate="collapsed" desc=" UML Marker "> 
+    // #[regen=yes,regenBody=yes,id=DCE.10A10448-C2E5-0E9D-1025-1CF8430B12BA]
+    // </editor-fold> 
+    public int getHorario () {
+        return horario;
+    }
+
+    // <editor-fold defaultstate="collapsed" desc=" UML Marker "> 
+    // #[regen=yes,regenBody=yes,id=DCE.4D86AB46-5852-BEFE-AEB4-32EB0D5710C2]
+    // </editor-fold> 
+    public void setHorario (int val) {
+        this.horario = val;
+    }
+
+    // <editor-fold defaultstate="collapsed" desc=" UML Marker "> 
+    // #[regen=yes,regenBody=yes,id=DCE.CF675DE1-1A3D-7822-F269-2C1BEC376BC1]
+    // </editor-fold> 
+    public int getId () {
+        return id;
+    }
+
+    // <editor-fold defaultstate="collapsed" desc=" UML Marker "> 
+    // #[regen=yes,regenBody=yes,id=DCE.6293A28C-F76E-3BEF-C646-61F057A164DE]
+    // </editor-fold> 
+    public void setId (int val) {
+        this.id = val;
+    }
+
+    // <editor-fold defaultstate="collapsed" desc=" UML Marker "> 
+    // #[regen=yes,regenBody=yes,id=DCE.0950BA85-CF9B-94AD-A0A6-BED3DE2A560C]
+    // </editor-fold> 
+    public Especialista getEspecialista () {
+        return mEspecialista;
+    }
+
+    // <editor-fold defaultstate="collapsed" desc=" UML Marker "> 
+    // #[regen=yes,regenBody=yes,id=DCE.410D7192-B9BB-1AD0-2C7C-3ADC10BC8287]
+    // </editor-fold> 
+    public void setEspecialista (Especialista val) {
+        this.mEspecialista = val;
+    }
+
+    // <editor-fold defaultstate="collapsed" desc=" UML Marker "> 
+    // #[regen=yes,regenBody=yes,id=DCE.AB9966BF-CED7-0E82-D83D-963E85A4BB1E]
+    // </editor-fold> 
+    public Servicio getServicio () {
+        return mServicio;
+    }
+
+    // <editor-fold defaultstate="collapsed" desc=" UML Marker "> 
+    // #[regen=yes,regenBody=yes,id=DCE.D75D8359-C417-4936-00D0-47248983204B]
+    // </editor-fold> 
+    public void setServicio (Servicio val) {
+        this.mServicio = val;
+    }
+
+}
+

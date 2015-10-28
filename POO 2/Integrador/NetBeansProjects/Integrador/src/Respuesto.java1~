@@ -1,0 +1,33 @@
+
+// <editor-fold defaultstate="collapsed" desc=" UML Marker "> 
+// #[regen=yes,id=DCE.CCD3F5A3-0767-9C7C-1CAD-273D3E99F22F]
+// </editor-fold> 
+public class Respuesto {
+
+    // <editor-fold defaultstate="collapsed" desc=" UML Marker "> 
+    // #[regen=yes,id=DCE.09530209-93F2-D3CE-7ACC-D2A1AEB3C7BD]
+    // </editor-fold> 
+    private int id;
+
+    // <editor-fold defaultstate="collapsed" desc=" UML Marker "> 
+    // #[regen=yes,id=DCE.95EF6794-E2B2-F2E8-2AEF-8807E7062667]
+    // </editor-fold> 
+    public Respuesto () {
+    }
+
+    // <editor-fold defaultstate="collapsed" desc=" UML Marker "> 
+    // #[regen=yes,regenBody=yes,id=DCE.B28BFDD0-EE28-257E-2036-02CA1C678744]
+    // </editor-fold> 
+    public int getId () {
+        return id;
+    }
+
+    // <editor-fold defaultstate="collapsed" desc=" UML Marker "> 
+    // #[regen=yes,regenBody=yes,id=DCE.19C224F2-594E-1CB9-9A38-45861F78F2A6]
+    // </editor-fold> 
+    public void setId (int val) {
+        this.id = val;
+    }
+
+}
+
