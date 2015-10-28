@@ -1,3 +1,5 @@
+package modelo;
+
 
 // <editor-fold defaultstate="collapsed" desc=" UML Marker "> 
 // #[regen=yes,id=DCE.0FB75C3D-CE8D-08F4-F0B6-D9E48A4B6415]
