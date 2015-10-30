@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class name="modelo.Reserva" table="reservas" dynamic-insert="false" dynamic-update="false" mutable="true"  optimistic-lock="version" polymorphism="implicit" select-before-update="false">
+    <id column="reserva_id" name="id" type="int">
+      <generator class="sequence"/>
+    </id>
+    
+    <property name="fecha" column="fecha" type="date" />
+    
+    <many-to-one name="vehiculo" column="patente"/>
+    <many-to-one name="horario" column="horario_id"/>
+    
+    <many-to-one name="especialista" column="especialista_dni"/>
+    <many-to-one name="cliente" column="cliente_dni"/>
+        
+    <list name="problemas" table="problemas_reserva">
+         <key column="reserva_id"/>
+         <list-index column="problemas_id"/>
+         <many-to-many  class="modelo.Problema"/>
+    </list>  
+    
+  </class>
+</hibernate-mapping>

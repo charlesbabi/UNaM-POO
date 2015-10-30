@@ -2,10 +2,14 @@
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
   <class name="modelo.Horario" table="horarios" >
-      <id name="id" column="id">
-          <generator class="increment" />
-      </id>
-    <property name="entrada" column="entrada" />
-    <property name="salida" column="salida" />
+    <id name="id" column="horario_id">
+        <generator class="sequence" />
+    </id>
+    <property name="horarioEntrada" column="horarioEntrada" />
+    <property name="diaEntrada" column="diaEntrada" />
+    <property name="horarioSalida" column="horarioSalida" />
+    <property name="diaSalida" column="diaSalida" />   
+    
+       
   </class>
 </hibernate-mapping>

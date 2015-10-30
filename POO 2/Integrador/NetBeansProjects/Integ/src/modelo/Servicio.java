@@ -10,24 +10,24 @@ import java.util.ArrayList;
 public class Servicio {
 
     // <editor-fold defaultstate="collapsed" desc=" UML Marker "> 
-    // #[regen=yes,id=DCE.43DE8C36-67AD-B461-C78A-A6CD658AEE27]
-    // </editor-fold> 
-    private String observacion;
-
-    // <editor-fold defaultstate="collapsed" desc=" UML Marker "> 
     // #[regen=yes,id=DCE.9BBA1D43-66EC-5E6F-8CE7-430CC4A76945]
     // </editor-fold> 
     private int id;
+    
+    // <editor-fold defaultstate="collapsed" desc=" UML Marker "> 
+    // #[regen=yes,id=DCE.43DE8C36-67AD-B461-C78A-A6CD658AEE27]
+    // </editor-fold> 
+    private String observacion;   
 
     // <editor-fold defaultstate="collapsed" desc=" UML Marker "> 
     // #[regen=yes,id=DCE.644542CA-A24D-CAC4-D06C-C6AA220D233D]
     // </editor-fold> 
-    private ArrayList mRepuestoLinea;
+    private ArrayList repuestoLinea;
 
     // <editor-fold defaultstate="collapsed" desc=" UML Marker "> 
     // #[regen=yes,id=DCE.61863D7D-EFD1-7564-1381-7FE2632FC91A]
     // </editor-fold> 
-    private Reserva mReserva;
+    private Reserva reserva;
 
     // <editor-fold defaultstate="collapsed" desc=" UML Marker "> 
     // #[regen=yes,id=DCE.E14FFCFA-0FAC-20CD-ED3B-C0318566ADD8]
@@ -38,8 +38,8 @@ public class Servicio {
     public Servicio(String observacion, int id, ArrayList mRepuestoLinea, Reserva mReserva) {
         this.observacion = observacion;
         this.id = id;
-        this.mRepuestoLinea = mRepuestoLinea;
-        this.mReserva = mReserva;
+        this.repuestoLinea = mRepuestoLinea;
+        this.reserva = mReserva;
     }
 
     // <editor-fold defaultstate="collapsed" desc=" UML Marker "> 
@@ -60,28 +60,28 @@ public class Servicio {
     // #[regen=yes,regenBody=yes,id=DCE.F51991FB-E190-2347-ADAD-61B3809D743A]
     // </editor-fold> 
     public ArrayList getRepuestoLinea () {
-        return mRepuestoLinea;
+        return repuestoLinea;
     }
 
     // <editor-fold defaultstate="collapsed" desc=" UML Marker "> 
     // #[regen=yes,regenBody=yes,id=DCE.47631D68-E2D8-6966-C2FB-A207DF2C8FC3]
     // </editor-fold> 
     public void setRepuestoLinea (ArrayList val) {
-        this.mRepuestoLinea = val;
+        this.repuestoLinea = val;
     }
 
     // <editor-fold defaultstate="collapsed" desc=" UML Marker "> 
     // #[regen=yes,regenBody=yes,id=DCE.99095B47-6ECF-E245-41DA-542DB608ABD4]
     // </editor-fold> 
     public Reserva getReserva () {
-        return mReserva;
+        return reserva;
     }
 
     // <editor-fold defaultstate="collapsed" desc=" UML Marker "> 
     // #[regen=yes,regenBody=yes,id=DCE.44060FBC-43E6-C257-98EB-83188C713E35]
     // </editor-fold> 
     public void setReserva (Reserva val) {
-        this.mReserva = val;
+        this.reserva = val;
     }
 
     // <editor-fold defaultstate="collapsed" desc=" UML Marker "> 

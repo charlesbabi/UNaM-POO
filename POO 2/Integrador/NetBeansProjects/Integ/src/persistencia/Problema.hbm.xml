@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class name="modelo.Problema" table="problemas" dynamic-insert="false" dynamic-update="false" mutable="true" optimistic-lock="version" polymorphism="implicit" select-before-update="false">
+    <id name="id" column="problema_id">
+        <generator class="sequence" />
+    </id>
+    <property name="descripcion" column="descripcion" />
+    <property name="tiempo" column="tiempo" />
+    <list name="reservas" inverse="true" table="reservas">
+        <key column="problema_id" />
+        <list-index column="reserva_id"/>
+        <many-to-many class="modelo.Reserva" />
+    </list>
+  </class>    
+</hibernate-mapping>

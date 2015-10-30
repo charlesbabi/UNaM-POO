@@ -2,9 +2,22 @@
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
   <class name="modelo.Servicio" table="servicios" dynamic-insert="false" dynamic-update="false" mutable="true" optimistic-lock="version" polymorphism="implicit" select-before-update="false">
-      <id name="id" column="id">
-          <generator class="increment" />
+      <id name="id" column="servicio_id">
+          <generator class="sequence" />
       </id>
-      
+      <property name="observacion" column="observacion" type="string" />
+    
+    <list name="repuestoLinea" cascade="all">
+        <key column="servicio_id"/>
+        <list-index column="id"/>
+        <one-to-many class="modelo.RepuestoLinea"/>
+    </list>
+    
+    <many-to-one name="reserva" column="reserva_id"/>
+
+     <joined-subclass name="modelo.Reparacion" table="reparaciones">
+      <key column="servicio_id"/>
+      <property name="manoDeObra" column="mano_de_obra" type="float" />
+    </joined-subclass>
   </class>
 </hibernate-mapping>

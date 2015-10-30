@@ -3,17 +3,11 @@
 <hibernate-mapping>
   <class name="modelo.Empresa" table="empresa">
       <id name="id" column="id">
-          <generator class="assigned" />
+          <generator class="sequence" />
       </id>
       
-      <property name="nombre" column="nombre" type="string" />
+      <property name="nombre" column="nombre_empresa" type="string" />
       <property name="direccion" column="direccion" type="string" />
-      
-      <map name="personas" cascade="all">
-        <key column="empresa_id"/>
-        <map-key column="dni" type="int"/>
-        <one-to-many class="modelo.Persona"/>
-      </map>
       
       <map name="marcas" cascade="delete, save-update, all">
           <key column="empresa_id"/>
@@ -21,11 +15,54 @@
           <one-to-many class="modelo.Marca" />
       </map>
       
+      
       <map name="modelos" cascade="delete, save-update, all" >
           <key column="empresa_id"/>
           <map-key column="id" type="int" />
           <one-to-many class="modelo.Modelo" />
       </map>
+      
+      <map name="vehiculos" cascade="delete, save-update, all">
+          <key column="empresa_id"/>
+          <map-key column="patente" type="string" />
+          <one-to-many class="modelo.Vehiculo" />
+      </map>
+      
+      <map name="clientes" cascade="all">
+        <key column="empresa_id"/>
+        <map-key column="dni" type="int"/>
+        <one-to-many class="modelo.Cliente"/>
+      </map>
+      
+      <map name="especialistas" cascade="all">
+        <key column="empresa_id"/>
+        <map-key column="dni" type="int"/>
+        <one-to-many class="modelo.Especialista"/>
+      </map>
+      
+      <map name="servicios" cascade="delete, save-update, all" >
+          <key column="empresa_id"/>
+          <map-key column="id" type="int" />
+          <one-to-many class="modelo.Servicio" />
+      </map>
+      
+      <map name="repuestos" cascade="delete, save-update, all" >
+          <key column="empresa_id"/>
+          <map-key column="id" type="int" />
+          <one-to-many class="modelo.Repuesto" />
+      </map>
+      
+      <map name="problemas" cascade="delete, save-update, all" >
+          <key column="empresa_id"/>
+          <map-key column="id" type="int" />
+          <one-to-many class="modelo.Problema" />
+      </map>
+      
+      <list name="reservas" cascade="all">
+         <key column="empresa_id"/>
+         <list-index column="reserva_id"/>
+         <one-to-many class="modelo.Reserva"/>
+      </list>         
       
   </class>
 </hibernate-mapping>

@@ -2,24 +2,23 @@
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
   <class name="modelo.Marca" table="marcas">
-      <id name="id" column="id">
-          <generator class="increment" />
+      <id name="nombre" column="nombre_marca">
+          <generator class="assigned" />
       </id>
       
       <property name="valorPorHora" column="valor_por_hora" type="float" /> 
-           
-      <property name="nombre" column="nombre" type="string" />
       
-      <map name="modelos" cascade="all">
-        <key column="marca_id"/>
-        <map-key column="nombre" type="string"/>
-        <one-to-many class="modelo.Modelo"/>
-      </map>
+      <list name="modelos" cascade="all">
+         <key column="nombre_marca"/>
+         <list-index column="nombre"/>
+         <one-to-many class="modelo.Modelo"/>
+      </list>
       
-      <map name="especialistas" cascade="all">
-         <key column="marca_id" />
-         <map-key column="dni" type="int" />
-         <one-to-many class="modelo.Especialista" />
-      </map>      
+      <list name="especialistas" cascade="all">
+         <key column="nombre_marca"/>
+         <list-index column="dni"/>
+         <one-to-many class="modelo.Especialista"/>
+      </list>
+
   </class>
 </hibernate-mapping>

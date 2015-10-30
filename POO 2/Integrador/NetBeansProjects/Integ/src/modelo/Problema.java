@@ -1,5 +1,7 @@
 package modelo;
 
+import java.util.List;
+
 
 // <editor-fold defaultstate="collapsed" desc=" UML Marker "> 
 // #[regen=yes,id=DCE.0FB75C3D-CE8D-08F4-F0B6-D9E48A4B6415]
@@ -20,6 +22,8 @@ public class Problema {
     // #[regen=yes,id=DCE.D464F5D9-181B-D5CA-5F98-C297512CA5F2]
     // </editor-fold> 
     private int tiempo;
+    
+    private List reservas;
 
     // <editor-fold defaultstate="collapsed" desc=" UML Marker "> 
     // #[regen=yes,id=DCE.2F63F81A-84F0-3E66-3950-7237B2EF7FAD]
@@ -76,6 +80,16 @@ public class Problema {
     public void setTiempo (int val) {
         this.tiempo = val;
     }
+
+    public List getReservas() {
+        return reservas;
+    }
+
+    public void setReservas(List reservas) {
+        this.reservas = reservas;
+    }
+    
+    
 
 }
 

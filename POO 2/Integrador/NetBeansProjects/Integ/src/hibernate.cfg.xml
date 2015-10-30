@@ -16,7 +16,10 @@
     <mapping resource="persistencia/Marca.hbm.xml"/>
     <mapping resource="persistencia/Horario.hbm.xml"/>
     <mapping resource="persistencia/Empresa.hbm.xml"/>
-    <mapping resource="persistencia/Turno.hbm.xml"/>
     <mapping resource="persistencia/Servicio.hbm.xml"/>
+    <mapping resource="persistencia/Reserva.hbm.xml"/>
+    <mapping resource="persistencia/Repuesto.hbm.xml"/>
+    <mapping resource="persistencia/Problema.hbm.xml"/>
+    <mapping resource="persistencia/RepuestoLinea.hbm.xml"/>
   </session-factory>
 </hibernate-configuration>

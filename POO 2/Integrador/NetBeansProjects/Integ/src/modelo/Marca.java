@@ -1,7 +1,7 @@
 package modelo;
 
 
-import java.util.Map;
+import java.util.ArrayList;
 
 
 // <editor-fold defaultstate="collapsed" desc=" UML Marker "> 
@@ -22,7 +22,9 @@ public class Marca {
     // <editor-fold defaultstate="collapsed" desc=" UML Marker "> 
     // #[regen=yes,id=DCE.382DE849-B7D4-0032-453F-7DA19BEBDCDF]
     // </editor-fold> 
-    private Map mModelo;
+    private ArrayList modelos;
+
+    private ArrayList especialistas;
 
     // <editor-fold defaultstate="collapsed" desc=" UML Marker "> 
     // #[regen=yes,id=DCE.358FC9FD-01DE-EF5F-54F5-C5567AE7E683]
@@ -35,19 +37,12 @@ public class Marca {
         this.valorPorHora = valorPorHora;
     }
 
-
-    // <editor-fold defaultstate="collapsed" desc=" UML Marker "> 
-    // #[regen=yes,regenBody=yes,id=DCE.F5EBB1BC-9079-596B-834D-3970A1218C85]
-    // </editor-fold> 
-    public Map getModelo () {
-        return mModelo;
+    public ArrayList getModelos() {
+        return modelos;
     }
 
-    // <editor-fold defaultstate="collapsed" desc=" UML Marker "> 
-    // #[regen=yes,regenBody=yes,id=DCE.EEC70099-5353-D4AE-A932-04B8E4947425]
-    // </editor-fold> 
-    public void setModelo (Map val) {
-        this.mModelo = val;
+    public void setModelos(ArrayList modelo) {
+        this.modelos = modelo;
     }
 
     // <editor-fold defaultstate="collapsed" desc=" UML Marker "> 
@@ -78,10 +73,23 @@ public class Marca {
         this.valorPorHora = val;
     }
 
+    public ArrayList getEspecialistas() {
+        return especialistas;
+    }
+
+    public void setEspecialistas(ArrayList especialistas) {
+        this.especialistas = especialistas;
+    }
+
+
     // <editor-fold defaultstate="collapsed" desc=" UML Marker "> 
     // #[regen=yes,id=DCE.08F61CF9-EAD6-B29E-B7E6-77323925CCC0]
     // </editor-fold> 
     public void agregarModelo (String nombre) {
+    }
+
+    public void asociarEspecialista (Especialista unEspecialista){
+        
     }
 
 }

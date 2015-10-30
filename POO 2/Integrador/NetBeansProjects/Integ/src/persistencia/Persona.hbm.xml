@@ -6,14 +6,15 @@
       <generator class="assigned"/>
     </id>
     
-    <property column="nombre" name="nombre"/>
     <property column="apellido" name="apellido" />
-
+    <property column="nombre_persona" name="nombre"/>
+    <property column="telefono" name="telefono" />
+    
     <joined-subclass name="modelo.Cliente" table="clientes">
       <key column="dni"/>
       
       <map name="vehiculos" cascade="all">
-        <key column="dni" />
+        <key column="cliente_dni" />
         <map-key column="patente" type="string"/>
         <one-to-many class="modelo.Vehiculo"/>
       </map>
@@ -22,16 +23,22 @@
     <joined-subclass name="modelo.Especialista" table="especialistas">
       <key column="dni"/>
       
-      <list name="turnos">
+      <list name="reservas">
         <key column="especialista_dni"/>
-        <list-index column="turno_index" />
-        <one-to-many class="modelo.Turno"/>
+        <list-index column="reserva_id" />
+        <one-to-many class="modelo.Reserva"/>
       </list>
       
       <list name="horarios">
         <key column="especialista_dni"/>
-        <list-index column="horarios_index" />
+        <list-index column="horario_id" />
         <one-to-many class="modelo.Horario"/>
+      </list>
+      
+      <list name="servicios">
+        <key column="especialista_dni"/>
+        <list-index column="servicios_id" />
+        <one-to-many class="modelo.Servicio"/>
       </list>
       
     </joined-subclass>
