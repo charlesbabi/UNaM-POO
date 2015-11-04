@@ -28,6 +28,8 @@ public class Servicio {
     // #[regen=yes,id=DCE.61863D7D-EFD1-7564-1381-7FE2632FC91A]
     // </editor-fold> 
     private Reserva reserva;
+    
+    private int tiempo;
 
     // <editor-fold defaultstate="collapsed" desc=" UML Marker "> 
     // #[regen=yes,id=DCE.E14FFCFA-0FAC-20CD-ED3B-C0318566ADD8]
@@ -96,6 +98,14 @@ public class Servicio {
     // </editor-fold> 
     public void setObservacion (String val) {
         this.observacion = val;
+    }
+
+    public int getTiempo() {
+        return tiempo;
+    }
+
+    public void setTiempo(int tiempo) {
+        this.tiempo = tiempo;
     }
 
 }

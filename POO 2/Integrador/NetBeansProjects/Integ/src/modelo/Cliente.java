@@ -18,6 +18,7 @@ public class Cliente extends Persona {
     // #[regen=yes,id=DCE.647A70B8-8FAB-78D7-B548-A56B3A2D5EFB]
     // </editor-fold> 
     public Cliente () {
+        this.vehiculos = new HashMap();
     }
 
     public Cliente(int dni, String apellido, String nombre, String telefono) {

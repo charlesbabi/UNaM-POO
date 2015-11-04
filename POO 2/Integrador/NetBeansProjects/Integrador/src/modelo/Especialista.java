@@ -3,12 +3,13 @@ package modelo;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
+import java.util.List;
 
 public class Especialista extends Persona {
 
     private Marca marca;
-    private ArrayList turnos;
-    private ArrayList horarios;
+    private List turnos;
+    private List horarios;
  
     public Especialista () {
         super();
@@ -31,19 +32,19 @@ public class Especialista extends Persona {
         this.marca = val;
     }
 
-    public ArrayList getHorarios() {
+    public List getHorarios() {
         return horarios;
     }
 
-    public void setHorarios(ArrayList horarios) {
+    public void setHorarios(List horarios) {
         this.horarios = horarios;
     }
 
-    public ArrayList getTurnos() {
+    public List getTurnos() {
         return turnos;
     }
 
-    public void setTurnos(ArrayList turnos) {
+    public void setTurnos(List turnos) {
         this.turnos = turnos;
     }
 

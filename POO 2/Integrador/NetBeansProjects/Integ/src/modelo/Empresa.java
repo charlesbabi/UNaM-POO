@@ -3,6 +3,8 @@ package modelo;
 
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import persistencia.Persistencia;
 
@@ -50,14 +52,24 @@ public class Empresa {
     // <editor-fold defaultstate="collapsed" desc=" UML Marker "> 
     // #[regen=yes,id=DCE.73733F03-DA45-8475-E64A-6B09951A02AA]
     // </editor-fold> 
-    private ArrayList reservas;
+    private List reservas;
     // <editor-fold defaultstate="collapsed" desc=" UML Marker "> 
     // #[regen=yes,id=DCE.1816ED96-B77C-76F5-FD89-02309AB3D25E]
     // </editor-fold> 
     public Empresa () {
+        this.marcas = new HashMap();
+        this.modelos = new HashMap();
+        this.vehiculos = new HashMap();
+        this.clientes = new HashMap();
+        this.especialistas = new HashMap();
+        this.servicios = new HashMap();
+        this.repuestos = new HashMap();
+        this.problemas = new HashMap();
+        this.reservas = new ArrayList();
     }
 
     public Empresa(String nombre, String direccion) {
+        this();
         this.nombre = nombre;
         this.direccion = direccion;
     }
@@ -160,11 +172,11 @@ public class Empresa {
         this.nombre = nombre;
     }
 
-    public ArrayList getReservas() {
+    public List getReservas() {
         return reservas;
     }
 
-    public void setReservas(ArrayList reservas) {
+    public void setReservas(List reservas) {
         this.reservas = reservas;
     }
 
@@ -186,7 +198,7 @@ public class Empresa {
         Cliente aux = null;
         aux = (Cliente) clientes.get(dni);
         if (aux == null){
-            throw new Exception("El cliente " + dni + " no se encuentra en el sistema.");
+            throw new Exception("El Cliente con DNI " + dni + " no se encuentra en el sistema.");
         }
         return aux;
     }
@@ -204,8 +216,8 @@ public class Empresa {
 
 
     //Metodos Especialistas
-    public ArrayList buscarEspecialistasPorMarca (Marca unaMarca) throws Exception{
-        ArrayList aux;
+    public List buscarEspecialistasPorMarca (Marca unaMarca) throws Exception{
+        List aux;
         aux = unaMarca.getEspecialistas();
         if (aux == null){
             throw new Exception("La Marca " + unaMarca.getNombre() + " no tiene especialistas asignados.");

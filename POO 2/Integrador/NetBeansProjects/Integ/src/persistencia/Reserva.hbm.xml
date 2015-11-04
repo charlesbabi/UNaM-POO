@@ -7,6 +7,7 @@
     </id>
     
     <property name="fecha" column="fecha" type="date" />
+    <property name="estado" column="estado" type="short" />
     
     <many-to-one name="vehiculo" column="patente"/>
     <many-to-one name="horario" column="horario_id"/>
@@ -14,11 +15,5 @@
     <many-to-one name="especialista" column="especialista_dni"/>
     <many-to-one name="cliente" column="cliente_dni"/>
         
-    <list name="problemas" table="problemas_reserva">
-         <key column="reserva_id"/>
-         <list-index column="problemas_id"/>
-         <many-to-many  class="modelo.Problema"/>
-    </list>  
-    
   </class>
 </hibernate-mapping>

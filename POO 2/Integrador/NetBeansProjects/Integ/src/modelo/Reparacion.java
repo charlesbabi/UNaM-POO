@@ -2,6 +2,7 @@ package modelo;
 
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 // <editor-fold defaultstate="collapsed" desc=" UML Marker "> 
@@ -13,6 +14,11 @@ public class Reparacion extends Servicio {
     // #[regen=yes,id=DCE.C2BBFB67-478C-4301-F0E4-ABCAB7751F25]
     // </editor-fold> 
     private float manoDeObra;
+        
+    // <editor-fold defaultstate="collapsed" desc=" UML Marker "> 
+    // #[regen=yes,id=DCE.083224B6-EE9A-8A5D-5B58-09003CEDA4EA]
+    // </editor-fold> 
+    private List problemas;
 
     // <editor-fold defaultstate="collapsed" desc=" UML Marker "> 
     // #[regen=yes,id=DCE.F24380AF-CDC7-248D-7917-360B2CF7BB81]
@@ -37,6 +43,14 @@ public class Reparacion extends Servicio {
     // </editor-fold> 
     public void setManoDeObra (float val) {
         this.manoDeObra = val;
+    }
+
+    public List getProblemas() {
+        return problemas;
+    }
+
+    public void setProblemas(List problemas) {
+        this.problemas = problemas;
     }
 
 }

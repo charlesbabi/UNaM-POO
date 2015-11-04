@@ -23,7 +23,7 @@ public class Problema {
     // </editor-fold> 
     private int tiempo;
     
-    private List reservas;
+    private List reparaciones;
 
     // <editor-fold defaultstate="collapsed" desc=" UML Marker "> 
     // #[regen=yes,id=DCE.2F63F81A-84F0-3E66-3950-7237B2EF7FAD]
@@ -81,15 +81,13 @@ public class Problema {
         this.tiempo = val;
     }
 
-    public List getReservas() {
-        return reservas;
+    public List getReparaciones() {
+        return reparaciones;
     }
 
-    public void setReservas(List reservas) {
-        this.reservas = reservas;
+    public void setReparaciones(List reparaciones) {
+        this.reparaciones = reparaciones;
     }
     
-    
-
 }
 

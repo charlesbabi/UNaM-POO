@@ -10,7 +10,7 @@
       
       <list name="modelos" cascade="all">
          <key column="nombre_marca"/>
-         <list-index column="nombre"/>
+         <list-index column="nombre_modelo"/>
          <one-to-many class="modelo.Modelo"/>
       </list>
       

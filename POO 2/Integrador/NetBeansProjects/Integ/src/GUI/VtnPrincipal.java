@@ -47,6 +47,8 @@ public class VtnPrincipal extends javax.swing.JFrame {
         MenuModelo = new javax.swing.JMenuItem();
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenuItem4 = new javax.swing.JMenuItem();
+        MenuSolicitud = new javax.swing.JMenu();
+        ItemMenuServicio = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Sistema tu Carrito");
@@ -115,6 +117,19 @@ public class VtnPrincipal extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu1);
 
+        MenuSolicitud.setText("Solicitud");
+        MenuSolicitud.setName("Solicitud"); // NOI18N
+
+        ItemMenuServicio.setText("Servicio");
+        ItemMenuServicio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ItemMenuServicioActionPerformed(evt);
+            }
+        });
+        MenuSolicitud.add(ItemMenuServicio);
+
+        jMenuBar1.add(MenuSolicitud);
+
         setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -143,6 +158,12 @@ public class VtnPrincipal extends javax.swing.JFrame {
     private void MenuModeloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuModeloActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_MenuModeloActionPerformed
+
+    private void ItemMenuServicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ItemMenuServicioActionPerformed
+        // TODO add your handling code here:
+        VtnSolicitudServicio ventana = new VtnSolicitudServicio(this.emp);
+        ventana.setVisible(true);
+    }//GEN-LAST:event_ItemMenuServicioActionPerformed
 
     /**
      * @param args the command line arguments
@@ -181,8 +202,10 @@ public class VtnPrincipal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem ItemMenuServicio;
     private javax.swing.JMenuItem MenuMarcas;
     private javax.swing.JMenuItem MenuModelo;
+    private javax.swing.JMenu MenuSolicitud;
     private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;

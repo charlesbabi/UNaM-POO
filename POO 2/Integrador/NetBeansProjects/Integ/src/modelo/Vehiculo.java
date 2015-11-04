@@ -1,7 +1,9 @@
 package modelo;
 
 
+import java.text.SimpleDateFormat;
 import java.util.GregorianCalendar;
+import java.util.Locale;
 
 
 // <editor-fold defaultstate="collapsed" desc=" UML Marker "> 
@@ -76,6 +78,12 @@ public class Vehiculo {
     // </editor-fold> 
     public void setPatente (String val) {
         this.patente = val;
+    }
+    
+    @Override
+    public String toString(){
+        SimpleDateFormat sdf = new SimpleDateFormat("MMMMM/yyyy");
+        return this.patente + " " + this.mModelo.getNombre() + " " + sdf.format(this.fechaDeCompra.getTime());        
     }
 
 }

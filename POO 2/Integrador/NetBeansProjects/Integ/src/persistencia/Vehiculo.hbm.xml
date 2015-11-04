@@ -6,7 +6,7 @@
           <generator class="assigned" />
       </id>
       
-      <property name="fechaDeCompra" column="fecha_de_venta" type="date" />
+      <property name="fechaDeCompra" column="fecha_de_venta" type="calendar_date" />
       
       <many-to-one name="modelo" column="modelo" 
        class="modelo.Modelo"/>

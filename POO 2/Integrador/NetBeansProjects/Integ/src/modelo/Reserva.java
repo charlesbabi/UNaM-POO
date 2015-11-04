@@ -37,11 +37,8 @@ public class Reserva {
     // #[regen=yes,id=DCE.DE90E75F-D2A5-9C8B-0B2D-80C6A979368A]
     // </editor-fold> 
     private Cliente cliente;
-
-    // <editor-fold defaultstate="collapsed" desc=" UML Marker "> 
-    // #[regen=yes,id=DCE.083224B6-EE9A-8A5D-5B58-09003CEDA4EA]
-    // </editor-fold> 
-    private List problemas;
+    
+    private short estado;
 
     // <editor-fold defaultstate="collapsed" desc=" UML Marker "> 
     // #[regen=yes,id=DCE.61C4CCBF-6125-BCE0-E96A-FDBF712BA46B]
@@ -105,14 +102,13 @@ public class Reserva {
         this.cliente = cliente;
     }
 
-    public List getProblemas() {
-        return problemas;
+    public short getEstado() {
+        return estado;
     }
 
-    public void setProblemas(List problemas) {
-        this.problemas = problemas;
+    public void setEstado(short estado) {
+        this.estado = estado;
     }
-
-
+    
 }
 

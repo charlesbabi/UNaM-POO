@@ -7,10 +7,10 @@
     </id>
     <property name="descripcion" column="descripcion" />
     <property name="tiempo" column="tiempo" />
-    <list name="reservas" inverse="true" table="reservas">
+    <list name="reparaciones" inverse="true" table="reparaciones_problemas">
         <key column="problema_id" />
-        <list-index column="reserva_id"/>
-        <many-to-many class="modelo.Reserva" />
+        <list-index column="servicio_id"/>
+        <many-to-many class="modelo.Reparacion" />
     </list>
   </class>    
 </hibernate-mapping>

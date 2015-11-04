@@ -3,7 +3,7 @@
 <hibernate-mapping>
   <class name="modelo.Horario" table="horarios" >
     <id name="id" column="horario_id">
-        <generator class="sequence" />
+        <generator class="identity" />
     </id>
     <property name="horarioEntrada" column="horarioEntrada" />
     <property name="diaEntrada" column="diaEntrada" />

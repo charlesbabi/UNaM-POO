@@ -6,6 +6,7 @@
 package principal;
 
 import modelo.Empresa;
+import GUI.VtnPrincipal;
 
 /**
  *
@@ -22,7 +23,9 @@ public class Main {
             empresa = (Empresa) Empresa.getPersistencia().get("modelo.Empresa", 1);
             if (empresa == null){
                 empresa = new Empresa("Empresa 01", "Calle falsa 123");
-            }      
+            }
+            VtnPrincipal ventana = new VtnPrincipal(empresa);
+            ventana.setVisible(true);
     }
 
 }

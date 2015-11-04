@@ -2,6 +2,7 @@ package modelo;
 
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 // <editor-fold defaultstate="collapsed" desc=" UML Marker "> 
@@ -22,26 +23,29 @@ public class Marca {
     // <editor-fold defaultstate="collapsed" desc=" UML Marker "> 
     // #[regen=yes,id=DCE.382DE849-B7D4-0032-453F-7DA19BEBDCDF]
     // </editor-fold> 
-    private ArrayList modelos;
+    private List modelos;
 
-    private ArrayList especialistas;
+    private List especialistas;
 
     // <editor-fold defaultstate="collapsed" desc=" UML Marker "> 
     // #[regen=yes,id=DCE.358FC9FD-01DE-EF5F-54F5-C5567AE7E683]
     // </editor-fold> 
     public Marca () {
+        this.modelos = new ArrayList();
+        this.especialistas = new ArrayList();
     }
 
     public Marca(String nombre, float valorPorHora) {
+        this();
         this.nombre = nombre;
         this.valorPorHora = valorPorHora;
     }
 
-    public ArrayList getModelos() {
+    public List getModelos() {
         return modelos;
     }
 
-    public void setModelos(ArrayList modelo) {
+    public void setModelos(List modelo) {
         this.modelos = modelo;
     }
 
@@ -73,11 +77,11 @@ public class Marca {
         this.valorPorHora = val;
     }
 
-    public ArrayList getEspecialistas() {
+    public List getEspecialistas() {
         return especialistas;
     }
 
-    public void setEspecialistas(ArrayList especialistas) {
+    public void setEspecialistas(List especialistas) {
         this.especialistas = especialistas;
     }
 

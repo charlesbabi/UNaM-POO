@@ -11,14 +11,13 @@
       
       <map name="marcas" cascade="delete, save-update, all">
           <key column="empresa_id"/>
-          <map-key column="nombre" type="string" />
+          <map-key column="nombre_marca" type="string" />
           <one-to-many class="modelo.Marca" />
-      </map>
-      
+      </map>     
       
       <map name="modelos" cascade="delete, save-update, all" >
           <key column="empresa_id"/>
-          <map-key column="id" type="int" />
+          <map-key column="nombre_modelo" type="string" />
           <one-to-many class="modelo.Modelo" />
       </map>
       
@@ -42,19 +41,19 @@
       
       <map name="servicios" cascade="delete, save-update, all" >
           <key column="empresa_id"/>
-          <map-key column="id" type="int" />
+          <map-key column="servicio_id" type="int" />
           <one-to-many class="modelo.Servicio" />
       </map>
       
       <map name="repuestos" cascade="delete, save-update, all" >
-          <key column="empresa_id"/>
-          <map-key column="id" type="int" />
+          <key column="id"/>
+          <map-key column="repuesto_id" type="int" />
           <one-to-many class="modelo.Repuesto" />
       </map>
       
       <map name="problemas" cascade="delete, save-update, all" >
           <key column="empresa_id"/>
-          <map-key column="id" type="int" />
+          <map-key column="problema_id" type="int" />
           <one-to-many class="modelo.Problema" />
       </map>
       

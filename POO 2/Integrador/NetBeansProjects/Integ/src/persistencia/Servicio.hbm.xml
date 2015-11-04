@@ -6,6 +6,7 @@
           <generator class="sequence" />
       </id>
       <property name="observacion" column="observacion" type="string" />
+      <property name="tiempo" column="tiempo" type="integer" />
     
     <list name="repuestoLinea" cascade="all">
         <key column="servicio_id"/>
@@ -16,8 +17,21 @@
     <many-to-one name="reserva" column="reserva_id"/>
 
      <joined-subclass name="modelo.Reparacion" table="reparaciones">
-      <key column="servicio_id"/>
-      <property name="manoDeObra" column="mano_de_obra" type="float" />
+        <key column="servicio_id"/>
+        <property name="manoDeObra" column="mano_de_obra" type="float" />
+          
+        <list name="problemas" table="reparaciones_problemas">
+             <key column="servicio_id"/>
+             <list-index column="problemas_id"/>
+             <many-to-many class="modelo.Problema"/>
+        </list>        
     </joined-subclass>
+    
+    <joined-subclass name="modelo.Mantenimiento" table="mantenimientos">
+        <key column="servicio_id"/>
+    </joined-subclass>
+    
+    
+    
   </class>
 </hibernate-mapping>
