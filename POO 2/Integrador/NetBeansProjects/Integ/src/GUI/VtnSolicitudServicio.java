@@ -319,18 +319,20 @@ public class VtnSolicitudServicio extends javax.swing.JFrame {
         try {
             // TODO add your handling code here:
             List aux = this.emp.buscarEspecialistasPorMarca(((Vehiculo)ComboVehiculos.getSelectedItem()).getModelo().getMarca());
-            Iterator it = aux.iterator();            
+            Iterator it = aux.iterator();  
+            /*
             while(it.hasNext()){
-                List horAux = ( it.next()).getHorarios();
+                //List horAux = ( it.next()).getHorarios();
                 Iterator it2 = horAux.iterator();
                 while(it2.hasNext()){
                     Horario aux2 = (Horario) it2.next();
                     
-                    for (i = aux2.)
+                  //  for (i = aux2.)
                     
-                    horariosDeTrabajo[aux2.getDiaEntrada()][aux2.getHorarioEntrada()][] =  aux2;
+                    //horariosDeTrabajo[aux2.getDiaEntrada()][aux2.getHorarioEntrada()][] =  aux2;
                 }
             }
+            */
             llenarTabla();
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage());
