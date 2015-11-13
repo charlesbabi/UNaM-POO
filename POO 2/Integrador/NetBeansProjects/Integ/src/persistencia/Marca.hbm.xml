@@ -14,11 +14,18 @@
          <one-to-many class="modelo.Modelo"/>
       </list>
       
+      <map name="especialistas" cascade="all">
+        <key column="nombre_marca"/>
+        <map-key column="dni" type="int"/>
+        <one-to-many class="modelo.Especialista"/>
+      </map>
+      <!--
       <list name="especialistas" cascade="all">
          <key column="nombre_marca"/>
          <list-index column="dni"/>
          <one-to-many class="modelo.Especialista"/>
       </list>
+      -->
 
   </class>
 </hibernate-mapping>

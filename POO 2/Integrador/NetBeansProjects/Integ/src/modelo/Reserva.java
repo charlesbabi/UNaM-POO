@@ -1,9 +1,7 @@
 package modelo;
 
 
-import java.util.ArrayList;
 import java.util.GregorianCalendar;
-import java.util.List;
 
 
 // <editor-fold defaultstate="collapsed" desc=" UML Marker "> 
@@ -26,7 +24,7 @@ public class Reserva {
     // <editor-fold defaultstate="collapsed" desc=" UML Marker "> 
     // #[regen=yes,id=DCE.3091E8DB-F9CF-041A-DFDD-D7B2D8B39D43]
     // </editor-fold> 
-    private Horario horario;
+    private int duracion;
 
     // <editor-fold defaultstate="collapsed" desc=" UML Marker "> 
     // #[regen=yes,id=DCE.4F8247DE-5AFE-A2E8-7CAF-C81AC1B40C9F]
@@ -46,10 +44,10 @@ public class Reserva {
     public Reserva () {
     }
 
-    public Reserva(GregorianCalendar fecha, Vehiculo vehiculo, Horario horario, Especialista especialista, Cliente cliente) {
+    public Reserva(GregorianCalendar fecha, Vehiculo vehiculo, int duracion, Especialista especialista, Cliente cliente) {
         this.fecha = fecha;
         this.vehiculo = vehiculo;
-        this.horario = horario;
+        this.duracion = duracion;
         this.especialista = especialista;
         this.cliente = cliente;
     }  
@@ -78,13 +76,14 @@ public class Reserva {
         this.vehiculo = vehiculo;
     }
 
-    public Horario getHorario() {
-        return horario;
+    public int getDuracion() {
+        return duracion;
     }
 
-    public void setHorario(Horario horario) {
-        this.horario = horario;
+    public void setDuracion(int duracion) {
+        this.duracion = duracion;
     }
+
 
     public Especialista getEspecialista() {
         return especialista;

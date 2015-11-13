@@ -35,6 +35,8 @@
         <one-to-many class="modelo.Horario"/>
       </list>
       
+      <many-to-one name="marca" column="nombre_marca" class="modelo.Marca" />
+      
       <list name="servicios">
         <key column="especialista_dni"/>
         <list-index column="servicios_id" />

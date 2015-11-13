@@ -5,11 +5,10 @@
     <id name="id" column="horario_id">
         <generator class="identity" />
     </id>
-    <property name="horarioEntrada" column="horarioEntrada" />
-    <property name="diaEntrada" column="diaEntrada" />
-    <property name="horarioSalida" column="horarioSalida" />
-    <property name="diaSalida" column="diaSalida" />   
     
+    <property name="entrada" column="fecha_entrada" />
+    <property name="salida" column="fecha_salida" />
+
        
   </class>
 </hibernate-mapping>

@@ -6,11 +6,11 @@
       <generator class="sequence"/>
     </id>
     
-    <property name="fecha" column="fecha" type="date" />
+    <property name="fecha" column="fecha" />
     <property name="estado" column="estado" type="short" />
+    <property name="duracion" column="duracion" type="integer" />
     
-    <many-to-one name="vehiculo" column="patente"/>
-    <many-to-one name="horario" column="horario_id"/>
+    <many-to-one name="vehiculo" column="patente" />
     
     <many-to-one name="especialista" column="especialista_dni"/>
     <many-to-one name="cliente" column="cliente_dni"/>

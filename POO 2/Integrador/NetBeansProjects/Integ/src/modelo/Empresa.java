@@ -2,8 +2,10 @@ package modelo;
 
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import persistencia.Persistencia;
@@ -216,9 +218,9 @@ public class Empresa {
 
 
     //Metodos Especialistas
-    public List buscarEspecialistasPorMarca (Marca unaMarca) throws Exception{
-        List aux;
-        aux = unaMarca.getEspecialistas();
+    public Map buscarEspecialistasPorMarca (Marca unaMarca) throws Exception{
+        this.getEspecialistas();
+        Map aux = unaMarca.getEspecialistas();
         if (aux == null){
             throw new Exception("La Marca " + unaMarca.getNombre() + " no tiene especialistas asignados.");
         }
@@ -226,13 +228,27 @@ public class Empresa {
     }
 
     //Metodos Reserva
-    public void confirmarReserva(Cliente unCliente, Vehiculo unVehiculo, Especialista unEspecialista, GregorianCalendar fecha, Horario unHorario) throws Exception{
-        this.getReservas();
-        Reserva unaReserva = null;
-        unaReserva = new Reserva(fecha, unVehiculo, unHorario, unEspecialista, unCliente);
-        reservas.add(unaReserva);
-        persistencia.insert(unaReserva);
-        persistencia.update(this);
+    public void confirmarReserva(Cliente unCliente, Vehiculo unVehiculo, Especialista unEspecialista, GregorianCalendar fecha, int duracion) throws Exception{
+        Iterator itReservas = this.getReservas().iterator();
+        boolean act = true;
+        while(itReservas.hasNext() && act == true){
+            Reserva temp = (Reserva) itReservas.next();
+            if(temp.getEspecialista() == unEspecialista &&  temp.getFecha().get(Calendar.HOUR_OF_DAY) == fecha.get(Calendar.HOUR_OF_DAY) &&  temp.getFecha().get(Calendar.YEAR) == fecha.get(Calendar.YEAR) &&  temp.getFecha().get(Calendar.MONTH) == fecha.get(Calendar.MONTH) &&  temp.getFecha().get(Calendar.DATE) == fecha.get(Calendar.DATE)){
+                act = false;
+            }
+        }
+        if(act){
+            Reserva unaReserva = null;
+            unaReserva = new Reserva(fecha, unVehiculo, duracion, unEspecialista, unCliente);
+            reservas.add(unaReserva);
+            persistencia.insert(unaReserva);
+            unEspecialista.asociarReserva(unaReserva);
+            //persistencia.update(unEspecialista);
+            persistencia.update(this);            
+        }else{
+            throw new Exception("Ya existe un turno asignado en ese horario a ese especialista");
+        }  
+        
     }
 
 }

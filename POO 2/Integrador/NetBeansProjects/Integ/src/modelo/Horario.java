@@ -1,5 +1,7 @@
 package modelo;
 
+import java.util.GregorianCalendar;
+
 
 // <editor-fold defaultstate="collapsed" desc=" UML Marker "> 
 // #[regen=yes,id=DCE.86A57DE9-1BE3-D2A1-DE26-76B4CD6A99D6]
@@ -7,22 +9,10 @@ package modelo;
 public class Horario {
     
     private int id;
-
-    // <editor-fold defaultstate="collapsed" desc=" UML Marker "> 
-    // #[regen=yes,id=DCE.6F09D722-2337-8002-B940-4E2F6467CDB1]
-    // </editor-fold> 
-    private short horarioEntrada;
     
-    private short diaEntrada;
-
-    // <editor-fold defaultstate="collapsed" desc=" UML Marker "> 
-    // #[regen=yes,id=DCE.ADB923B2-5A1E-9894-2AEA-E608C90D1EC9]
-    // </editor-fold> 
-    private short horarioSalida;
-    // <editor-fold defaultstate="collapsed" desc=" UML Marker "> 
-    // #[regen=yes,id=DCE.F7D4C613-9F2C-75C8-E08F-268D69298A90]
-    // </editor-fold> 
-    private short diaSalida;
+    GregorianCalendar entrada;
+    GregorianCalendar salida;
+    
 
     // <editor-fold defaultstate="collapsed" desc=" UML Marker "> 
     // #[regen=yes,id=DCE.BD009B4B-BF33-ACBA-9102-421D9BCB85B1]
@@ -30,13 +20,12 @@ public class Horario {
     public Horario () {
     }
 
-    public Horario(short horarioEntrada, short diaEntrada, short horarioSalida, short diaSalida) {
-        this.horarioEntrada = horarioEntrada;
-        this.diaEntrada = diaEntrada;
-        this.horarioSalida = horarioSalida;
-        this.diaSalida = diaSalida;
+    public Horario(int id, GregorianCalendar entrada, GregorianCalendar Salida) {
+        this.id = id;
+        this.entrada = entrada;
+        this.salida = Salida;
     }
-
+    
     public int getId() {
         return id;
     }
@@ -44,42 +33,23 @@ public class Horario {
     public void setId(int id) {
         this.id = id;
     }
-    
-    
 
-    public short getHorarioEntrada() {
-        return horarioEntrada;
+    public GregorianCalendar getEntrada() {
+        return entrada;
     }
 
-    public void setHorarioEntrada(short horarioEntrada) {
-        this.horarioEntrada = horarioEntrada;
+    public void setEntrada(GregorianCalendar entrada) {
+        this.entrada = entrada;
     }
 
-    public short getDiaEntrada() {
-        return diaEntrada;
+    public GregorianCalendar getSalida() {
+        return salida;
     }
 
-    public void setDiaEntrada(short diaEntrada) {
-        this.diaEntrada = diaEntrada;
+    public void setSalida(GregorianCalendar Salida) {
+        this.salida = Salida;
     }
-
-    public short getHorarioSalida() {
-        return horarioSalida;
-    }
-
-    public void setHorarioSalida(short horarioSalida) {
-        this.horarioSalida = horarioSalida;
-    }
-
-    public short getDiaSalida() {
-        return diaSalida;
-    }
-
-    public void setDiaSalida(short diaSalida) {
-        this.diaSalida = diaSalida;
-    }
-
-    
+        
 
 }
 

@@ -5,18 +5,16 @@
  */
 package GUI;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import javax.swing.table.DefaultTableModel;
 import modelo.Cliente;
 import modelo.Empresa;
 import modelo.Especialista;
-import modelo.Horario;
 import modelo.Vehiculo;
 
 /**
@@ -27,8 +25,8 @@ public class VtnSolicitudServicio extends javax.swing.JFrame {
 
     private Empresa emp;
     private GregorianCalendar diaSeleccionado;
-    private Especialista[][][] horariosDeTrabajo;
     private int diasMostrados = 8;
+    private int duracionMantenimiento = 2;
     /**
      * Creates new form VtnSolicitudServicio
      */
@@ -41,8 +39,8 @@ public class VtnSolicitudServicio extends javax.swing.JFrame {
         this();
         this.emp = emp;
         this.diaSeleccionado = new GregorianCalendar();
-        
-        CalFecha.getDayChooser().addPropertyChangeListener(
+        try{
+            CalFecha.getDayChooser().addPropertyChangeListener(
                 new java.beans.PropertyChangeListener() {
  
                     @Override
@@ -51,12 +49,15 @@ public class VtnSolicitudServicio extends javax.swing.JFrame {
                         if (evt.getPropertyName().compareTo("day") == 0) {
                             //SimpleDateFormat formatoDeFecha = new SimpleDateFormat("dd/MM/yyyy");
                             diaSeleccionado = (GregorianCalendar) CalFecha.getCalendar();
-                            llenarTabla();
-                            //JOptionPane.showMessageDialog(rootPane, CalFecha.getDate());
-                            //txtFechaSeleccionada.setText(formatoDeFecha.format(cldFecha.getDate()));
+                            llenarEspecialistas();
                         }
                     }
-                });    
+                });  
+        }catch(Exception ex){
+            JOptionPane.showMessageDialog(rootPane, ex.getMessage());
+        }
+         
+        
     }
 
     /**
@@ -77,9 +78,15 @@ public class VtnSolicitudServicio extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         ComboVehiculos = new javax.swing.JComboBox();
         CalFecha = new com.toedter.calendar.JCalendar();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
         BtnBuscarEspecialista = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        ListaEspecialistas = new javax.swing.JList();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        ListaHorario = new javax.swing.JList();
+        jButton1 = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -93,7 +100,6 @@ public class VtnSolicitudServicio extends javax.swing.JFrame {
         jLabel2.setText("Apellido y Nombre");
 
         TxtApellidoYNombre.setEditable(false);
-        TxtApellidoYNombre.setText("jTextField1");
         TxtApellidoYNombre.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 TxtApellidoYNombreActionPerformed(evt);
@@ -159,7 +165,7 @@ public class VtnSolicitudServicio extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(ComboVehiculos, 0, 210, Short.MAX_VALUE)
+                .addComponent(ComboVehiculos, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -176,25 +182,34 @@ public class VtnSolicitudServicio extends javax.swing.JFrame {
             }
         });
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {},
-                {},
-                {},
-                {}
-            },
-            new String [] {
-
-            }
-        ));
-        jScrollPane1.setViewportView(jTable1);
-
-        BtnBuscarEspecialista.setText("Buscar Turnos");
+        BtnBuscarEspecialista.setText("Agregar Reserva");
         BtnBuscarEspecialista.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BtnBuscarEspecialistaActionPerformed(evt);
             }
         });
+
+        ListaEspecialistas.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                ListaEspecialistasValueChanged(evt);
+            }
+        });
+        jScrollPane2.setViewportView(ListaEspecialistas);
+
+        jScrollPane3.setViewportView(ListaHorario);
+
+        jButton1.setText("Cancelar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jLabel3.setText("Especialistas");
+
+        jLabel4.setText("Horarios Libres");
+
+        jLabel5.setText("Fecha");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -206,31 +221,48 @@ public class VtnSolicitudServicio extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane1))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(CalFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(BtnBuscarEspecialista))
+                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(CalFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel5))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel4)
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(BtnBuscarEspecialista)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton1)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel5))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(CalFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(BtnBuscarEspecialista))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(10, 10, 10)
-                                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(18, 18, 18)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(CalFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1)
+                    .addComponent(BtnBuscarEspecialista))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -245,7 +277,9 @@ public class VtnSolicitudServicio extends javax.swing.JFrame {
         // TODO add your handling code here:       
         
         TxtApellidoYNombre.setText("");
-        ComboVehiculos.removeAllItems();
+        if(ComboVehiculos.getItemCount()> 0){
+            ComboVehiculos.removeAllItems();
+        }
         
         if (TxtDni.getText().length() > 5){
             try {
@@ -273,79 +307,77 @@ public class VtnSolicitudServicio extends javax.swing.JFrame {
         
     }//GEN-LAST:event_BtnBuscarClienteActionPerformed
 
-    public void cargarHorariosDeTrabajo(){
-        horariosDeTrabajo = new Especialista[diasMostrados][48][];
-    }
-    
-    public void llenarTabla(){
-        DefaultTableModel modelo = (DefaultTableModel) jTable1.getModel();
-        ((DefaultTableModel) jTable1.getModel()).setColumnCount(0);
-        int i = 0;
-        GregorianCalendar dia = (GregorianCalendar) CalFecha.getCalendar();
-        SimpleDateFormat formatoDeFecha = new SimpleDateFormat("dd-MM");
-        modelo.addColumn(formatoDeFecha.format(dia.getTime()));
-        for(i = 0; i < diasMostrados; i++){
-            dia.add(Calendar.DAY_OF_YEAR, 1);
-            modelo.addColumn(formatoDeFecha.format(dia.getTime()));
-        }
-        for(i = 1; i < 48; i++){
-            modelo.addRow((Object[])(Object)i);
-        }
-        jTable1.setModel(modelo);
+    private void LimpiarCampos(){
+        
     }
     
     private void ComboVehiculosItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_ComboVehiculosItemStateChanged
-        try {
-            // TODO add your handling code here:
-            Vehiculo aux = (Vehiculo) ComboVehiculos.getSelectedItem();
-            this.emp.buscarEspecialistasPorMarca(aux.getModelo().getMarca());
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(rootPane, ex.getMessage());
-        }       
+           
     }//GEN-LAST:event_ComboVehiculosItemStateChanged
 
     private void ComboVehiculosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ComboVehiculosMouseClicked
-        // TODO add your handling code here:
-        try {
-            // TODO add your handling code here:
-            Vehiculo aux = (Vehiculo) ComboVehiculos.getSelectedItem();
-            this.emp.buscarEspecialistasPorMarca(aux.getModelo().getMarca());
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(rootPane, ex.getMessage());
-        }  
+
     }//GEN-LAST:event_ComboVehiculosMouseClicked
 
-    private void llenarHorariosDeTrabajo(){
-        try {
-            // TODO add your handling code here:
-            List aux = this.emp.buscarEspecialistasPorMarca(((Vehiculo)ComboVehiculos.getSelectedItem()).getModelo().getMarca());
-            Iterator it = aux.iterator();  
-            /*
-            while(it.hasNext()){
-                //List horAux = ( it.next()).getHorarios();
-                Iterator it2 = horAux.iterator();
-                while(it2.hasNext()){
-                    Horario aux2 = (Horario) it2.next();
-                    
-                  //  for (i = aux2.)
-                    
-                    //horariosDeTrabajo[aux2.getDiaEntrada()][aux2.getHorarioEntrada()][] =  aux2;
-                }
-            }
-            */
-            llenarTabla();
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, ex.getMessage());
-        }   
+    private void llenarHorarios(GregorianCalendar dia, Especialista unEspeci){
+        try{
+           if(unEspeci != null){
+                ListaHorario.setListData(unEspeci.buscarHorariosLibres(dia).toArray());
+           }                    
+        }catch(Exception ex){
+            JOptionPane.showMessageDialog(rootPane, ex.getMessage());
+        }                  
     }
     
+    private void llenarEspecialistas(){
+        try{
+           if(ComboVehiculos.getItemCount() > 0){
+                Vehiculo aux = (Vehiculo) ComboVehiculos.getSelectedItem();
+                Map especialistasAux = this.emp.buscarEspecialistasPorMarca(aux.getModelo().getMarca()); 
+                ListaEspecialistas.setListData(especialistasAux.values().toArray());    
+           }
+        }catch(Exception ex){
+            JOptionPane.showMessageDialog(rootPane, ex.getMessage());
+        }   
+    }
+
     private void BtnBuscarEspecialistaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnBuscarEspecialistaActionPerformed
-             
+        try {
+            Cliente auxCliente = null;
+            Vehiculo auxVehiculo = null;
+            Especialista auxEspecialista = null;
+            if(!TxtDni.getText().isEmpty()){                
+                int dniAux = Integer.parseInt(TxtDni.getText());
+                auxCliente = this.emp.buscarCliente(dniAux);
+                if(ComboVehiculos.getItemCount() > 0){
+                    auxVehiculo = (Vehiculo) ComboVehiculos.getSelectedItem();   
+                    if(!ListaEspecialistas.isSelectionEmpty()){
+                        auxEspecialista = (Especialista)ListaEspecialistas.getSelectedValue();
+                        if(!ListaHorario.isSelectionEmpty()){
+                            diaSeleccionado.set(Calendar.HOUR_OF_DAY, Integer.parseInt(ListaHorario.getSelectedValue().toString()));
+                            //JOptionPane.showMessageDialog(rootPane, diaSeleccionado.get(Calendar.HOUR_OF_DAY));
+                            this.emp.confirmarReserva(auxCliente, auxVehiculo , auxEspecialista , diaSeleccionado, duracionMantenimiento);
+                        }
+                    }
+                }
+            }            
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(rootPane, ex.getMessage());
+        }
     }//GEN-LAST:event_BtnBuscarEspecialistaActionPerformed
 
     private void CalFechaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CalFechaMouseClicked
 
     }//GEN-LAST:event_CalFechaMouseClicked
+
+    private void ListaEspecialistasValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_ListaEspecialistasValueChanged
+        // TODO add your handling code here:
+        llenarHorarios(diaSeleccionado, (Especialista)ListaEspecialistas.getSelectedValue());
+    }//GEN-LAST:event_ListaEspecialistasValueChanged
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -388,13 +420,19 @@ public class VtnSolicitudServicio extends javax.swing.JFrame {
     private javax.swing.JButton BtnBuscarEspecialista;
     private com.toedter.calendar.JCalendar CalFecha;
     private javax.swing.JComboBox ComboVehiculos;
+    private javax.swing.JList ListaEspecialistas;
+    private javax.swing.JList ListaHorario;
     private javax.swing.JTextField TxtApellidoYNombre;
     private javax.swing.JTextField TxtDni;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     // End of variables declaration//GEN-END:variables
 }

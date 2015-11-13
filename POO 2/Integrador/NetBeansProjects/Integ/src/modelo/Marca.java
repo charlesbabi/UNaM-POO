@@ -2,7 +2,9 @@ package modelo;
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 // <editor-fold defaultstate="collapsed" desc=" UML Marker "> 
@@ -25,14 +27,14 @@ public class Marca {
     // </editor-fold> 
     private List modelos;
 
-    private List especialistas;
+    private Map especialistas;
 
     // <editor-fold defaultstate="collapsed" desc=" UML Marker "> 
     // #[regen=yes,id=DCE.358FC9FD-01DE-EF5F-54F5-C5567AE7E683]
     // </editor-fold> 
     public Marca () {
         this.modelos = new ArrayList();
-        this.especialistas = new ArrayList();
+        this.especialistas = new HashMap();
     }
 
     public Marca(String nombre, float valorPorHora) {
@@ -77,11 +79,11 @@ public class Marca {
         this.valorPorHora = val;
     }
 
-    public List getEspecialistas() {
+    public Map getEspecialistas() {
         return especialistas;
     }
 
-    public void setEspecialistas(List especialistas) {
+    public void setEspecialistas(Map especialistas) {
         this.especialistas = especialistas;
     }
 
