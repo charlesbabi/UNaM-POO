@@ -23,7 +23,9 @@ public class Vehiculo {
     // <editor-fold defaultstate="collapsed" desc=" UML Marker "> 
     // #[regen=yes,id=DCE.5D651E12-FE4F-9DE8-1C58-BF051000728D]
     // </editor-fold> 
-    private Modelo mModelo;
+    private Modelo modelo;
+    
+    private Reserva reserva;
 
     // <editor-fold defaultstate="collapsed" desc=" UML Marker "> 
     // #[regen=yes,id=DCE.B7CAE72E-2886-B7EB-9765-66F2B7002475]
@@ -34,7 +36,7 @@ public class Vehiculo {
     public Vehiculo(String patente, GregorianCalendar fechaDeCompra, Modelo mModelo) {
         this.patente = patente;
         this.fechaDeCompra = fechaDeCompra;
-        this.mModelo = mModelo;
+        this.modelo = mModelo;
     }
 
     // <editor-fold defaultstate="collapsed" desc=" UML Marker "> 
@@ -55,14 +57,14 @@ public class Vehiculo {
     // #[regen=yes,regenBody=yes,id=DCE.36C1DD1F-DD0A-1F5C-D0D5-724D93F6ADCC]
     // </editor-fold> 
     public Modelo getModelo () {
-        return mModelo;
+        return modelo;
     }
 
     // <editor-fold defaultstate="collapsed" desc=" UML Marker "> 
     // #[regen=yes,regenBody=yes,id=DCE.453CE9B1-89F8-6BED-AE02-13E32B5E1108]
     // </editor-fold> 
     public void setModelo (Modelo val) {
-        this.mModelo = val;
+        this.modelo = val;
     }
 
     // <editor-fold defaultstate="collapsed" desc=" UML Marker "> 
@@ -82,8 +84,18 @@ public class Vehiculo {
     @Override
     public String toString(){
         SimpleDateFormat sdf = new SimpleDateFormat("MMMMM/yyyy");
-        return this.patente + " " + this.mModelo.getNombre() + " " + sdf.format(this.fechaDeCompra.getTime());        
+        return this.patente + " " + this.modelo.getNombre() + " " + sdf.format(this.fechaDeCompra.getTime());        
     }
+
+    public Reserva getReserva() {
+        return reserva;
+    }
+
+    public void setReserva(Reserva reserva) {
+        this.reserva = reserva;
+    }
+    
+    
 
 }
 

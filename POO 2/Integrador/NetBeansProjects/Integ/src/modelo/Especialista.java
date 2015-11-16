@@ -136,7 +136,7 @@ public class Especialista extends Persona {
         return retorno;        
     }
     
-    public void asociarReserva(Reserva unaReserva){
+    public void agregarReserva(Reserva unaReserva){
         this.getReservas();
         this.reservas.add(unaReserva);
     }

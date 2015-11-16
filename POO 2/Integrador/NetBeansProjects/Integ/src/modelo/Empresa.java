@@ -242,7 +242,9 @@ public class Empresa {
             unaReserva = new Reserva(fecha, unVehiculo, duracion, unEspecialista, unCliente);
             reservas.add(unaReserva);
             persistencia.insert(unaReserva);
-            unEspecialista.asociarReserva(unaReserva);
+            unEspecialista.agregarReserva(unaReserva);
+            unCliente.agregarReserva(unaReserva);
+            unVehiculo.setReserva(unaReserva);
             //persistencia.update(unEspecialista);
             persistencia.update(this);            
         }else{
