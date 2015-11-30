@@ -1,6 +1,7 @@
 package modelo;
 
 
+import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 
@@ -44,12 +45,17 @@ public class Reserva {
     public Reserva () {
     }
 
-    public Reserva(GregorianCalendar fecha, Vehiculo vehiculo, int duracion, Especialista especialista, Cliente cliente) {
-        this.fecha = fecha;
-        this.vehiculo = vehiculo;
-        this.duracion = duracion;
-        this.especialista = especialista;
-        this.cliente = cliente;
+public Reserva(GregorianCalendar fecha, Vehiculo vehiculo, int duracion, Especialista especialista, Cliente cliente) throws Exception {
+            this.fecha = fecha;
+            this.vehiculo = vehiculo;
+            this.duracion = duracion;
+            this.especialista = especialista;
+            this.cliente = cliente;
+            this.especialista.agregarReserva(this);
+            this.cliente.agregarReserva(this);
+            this.vehiculo.setReserva(this);
+            Empresa.getPersistencia().insert(this);
+            
     }  
 
     public int getId() {
@@ -109,5 +115,21 @@ public class Reserva {
         this.estado = estado;
     }
     
+    //Metodo Reservas
+    public boolean estaOcupado(GregorianCalendar fecha, int hora){
+        boolean retorno = false;        
+        if(this.getFecha().get(Calendar.HOUR_OF_DAY) == hora && Funciones.compararFecha(this.getFecha(), fecha) == 0){
+            retorno = true;
+        }        
+        return retorno;
+    }
+    
+    public boolean estaOcupadoRangoHorario(GregorianCalendar fecha, int hora) throws Exception{
+        boolean retorno = false;
+        if(this.getFecha().get(Calendar.HOUR_OF_DAY) >= fecha.get(Calendar.HOUR_OF_DAY) && this.getFecha().get(Calendar.HOUR_OF_DAY) <= fecha.get(Calendar.HOUR_OF_DAY) && Funciones.compararFecha(this.getFecha(), fecha) == 0){
+            retorno = true;
+        }
+        return retorno;
+    }
 }
 

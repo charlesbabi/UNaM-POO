@@ -57,9 +57,9 @@
           <one-to-many class="modelo.Problema" />
       </map>
       
-      <list name="reservas" cascade="all">
+      <list name="reservas" >
          <key column="empresa_id"/>
-         <list-index column="reserva_id"/>
+         <list-index column="reserva_empresa_index"/>
          <one-to-many class="modelo.Reserva"/>
       </list>         
       

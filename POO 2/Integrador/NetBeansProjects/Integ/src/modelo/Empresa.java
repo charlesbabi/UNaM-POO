@@ -2,19 +2,18 @@ package modelo;
 
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Observable;
 import persistencia.Persistencia;
 
 
 // <editor-fold defaultstate="collapsed" desc=" UML Marker "> 
 // #[regen=yes,id=DCE.AE5E9171-F96A-E557-6D83-2E7D4707B2DA]
 // </editor-fold> 
-public class Empresa {
+public class Empresa extends Observable {
 
     private static Persistencia persistencia = new Persistencia();
 
@@ -25,16 +24,16 @@ public class Empresa {
     // <editor-fold defaultstate="collapsed" desc=" UML Marker "> 
     // #[regen=yes,id=DCE.E659E3FE-57A5-57CE-CC0B-FB614FE7CBBA]
     // </editor-fold> 
-    private Map marcas;    
-    private Map modelos;
+    private Map <String, Marca> marcas;    
+    private Map <String, Modelo> modelos;
     // <editor-fold defaultstate="collapsed" desc=" UML Marker "> 
     // #[regen=yes,id=DCE.2FA1DEB3-83BA-2C1F-DE03-AD182EF7F94E]
     // </editor-fold> 
-    private Map vehiculos;
+    private Map <String, Vehiculo> vehiculos;
     // <editor-fold defaultstate="collapsed" desc=" UML Marker "> 
     // #[regen=yes,id=DCE.D94FDA2B-D825-B80B-F93C-159DB0785050]
     // </editor-fold> 
-    private Map clientes;
+    private Map <Integer, Cliente> clientes;
     // <editor-fold defaultstate="collapsed" desc=" UML Marker "> 
     // #[regen=yes,id=DCE.51E497F0-779B-87E0-F538-F49854B21032]
     // </editor-fold> 
@@ -54,7 +53,7 @@ public class Empresa {
     // <editor-fold defaultstate="collapsed" desc=" UML Marker "> 
     // #[regen=yes,id=DCE.73733F03-DA45-8475-E64A-6B09951A02AA]
     // </editor-fold> 
-    private List reservas;
+    private List <Reserva> reservas;
     // <editor-fold defaultstate="collapsed" desc=" UML Marker "> 
     // #[regen=yes,id=DCE.1816ED96-B77C-76F5-FD89-02309AB3D25E]
     // </editor-fold> 
@@ -187,8 +186,7 @@ public class Empresa {
         this.getClientes();
         if(!clientes.containsKey(dni)){
             Cliente unCliente = new Cliente(dni, apellido, nombre, telefono);
-            clientes.put(dni, unCliente);
-            persistencia.insert(unCliente);
+            clientes.put(dni, unCliente);            
             persistencia.update(this);
         }else{
             throw new Exception("La Persona con el DNI: " + dni + " ya se encuentra registrada.");
@@ -198,7 +196,7 @@ public class Empresa {
     public Cliente buscarCliente (int dni) throws Exception{
         this.getClientes();
         Cliente aux = null;
-        aux = (Cliente) clientes.get(dni);
+        aux = clientes.get(dni);
         if (aux == null){
             throw new Exception("El Cliente con DNI " + dni + " no se encuentra en el sistema.");
         }
@@ -211,9 +209,19 @@ public class Empresa {
         Vehiculo aux = null;
         aux = (Vehiculo) vehiculos.get(patente);
         if (aux == null){
-            throw new Exception("El Vehiculoi " + patente + " no se encuentra en el sistema.");
+            throw new Exception("El Vehiculo " + patente + " no se encuentra en el sistema.");
         }
         return aux;
+    }
+    
+    public Map buscarVehiculos (Cliente unCliente) throws Exception{
+        Map retorno;
+        if (unCliente.getVehiculos().size() > 0){
+            retorno = unCliente.getVehiculos();
+        }else{
+            throw new Exception("El cliente no posee vehiculos cargados.");
+        }
+        return retorno;
     }
 
 
@@ -221,7 +229,7 @@ public class Empresa {
     public Map buscarEspecialistasPorMarca (Marca unaMarca) throws Exception{
         this.getEspecialistas();
         Map aux = unaMarca.getEspecialistas();
-        if (aux == null){
+        if (aux.isEmpty()){
             throw new Exception("La Marca " + unaMarca.getNombre() + " no tiene especialistas asignados.");
         }
         return aux;
@@ -229,29 +237,40 @@ public class Empresa {
 
     //Metodos Reserva
     public void confirmarReserva(Cliente unCliente, Vehiculo unVehiculo, Especialista unEspecialista, GregorianCalendar fecha, int duracion) throws Exception{
-        Iterator itReservas = this.getReservas().iterator();
-        boolean act = true;
-        while(itReservas.hasNext() && act == true){
-            Reserva temp = (Reserva) itReservas.next();
-            if(temp.getEspecialista() == unEspecialista &&  temp.getFecha().get(Calendar.HOUR_OF_DAY) == fecha.get(Calendar.HOUR_OF_DAY) &&  temp.getFecha().get(Calendar.YEAR) == fecha.get(Calendar.YEAR) &&  temp.getFecha().get(Calendar.MONTH) == fecha.get(Calendar.MONTH) &&  temp.getFecha().get(Calendar.DATE) == fecha.get(Calendar.DATE)){
-                act = false;
-            }
-        }
-        if(act){
-            Reserva unaReserva = null;
-            unaReserva = new Reserva(fecha, unVehiculo, duracion, unEspecialista, unCliente);
-            reservas.add(unaReserva);
-            persistencia.insert(unaReserva);
-            unEspecialista.agregarReserva(unaReserva);
-            unCliente.agregarReserva(unaReserva);
-            unVehiculo.setReserva(unaReserva);
-            //persistencia.update(unEspecialista);
-            persistencia.update(this);            
-        }else{
-            throw new Exception("Ya existe un turno asignado en ese horario a ese especialista");
-        }  
+        this.getReservas();
+        Reserva unaReserva = null;
+        unaReserva = new Reserva(fecha, unVehiculo, duracion, unEspecialista, unCliente);
+        //if(!this.getReservas().contains(unaReserva)){
+            reservas.add(unaReserva);            
+            persistencia.update(this);
+            this.setChanged();
+            this.notifyObservers();            
+        //}else{
+          //  throw new Exception("La empresa ya posee esa reserva.");
+        //}      
         
+        /*
+            Iterator<Reserva> itReservas = unEspecialista.getReservas().iterator();
+            boolean act = true;
+            while(itReservas.hasNext() && act == true){
+                Reserva temp = itReservas.next();
+                if (temp != null && temp.estaOcupadoRangoHorario(fecha, duracion)){
+                    act = false;
+                }
+            }
+            if(act){
+                           
+            }else{
+                throw new Exception("Ya existe un turno asignado en ese horario a ese especialista");
+            }  
+            */
+            
     }
-
+    
+    public List buscarHorariosLibres(Especialista unEspecialista, GregorianCalendar fecha, int duracion) throws Exception{
+        List<Horario> retorno;
+        retorno = unEspecialista.buscarHorariosLibres(fecha, duracion);
+        return retorno;
+    }
 }
 

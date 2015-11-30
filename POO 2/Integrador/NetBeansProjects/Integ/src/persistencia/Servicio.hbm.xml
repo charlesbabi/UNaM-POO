@@ -10,7 +10,7 @@
     
     <list name="repuestoLinea" cascade="all">
         <key column="servicio_id"/>
-        <list-index column="id"/>
+        <list-index column="repuesto_servicio_index"/>
         <one-to-many class="modelo.RepuestoLinea"/>
     </list>
     
@@ -22,7 +22,7 @@
           
         <list name="problemas" table="reparaciones_problemas">
              <key column="servicio_id"/>
-             <list-index column="problemas_id"/>
+             <list-index column="problema_reparacion_index"/>
              <many-to-many class="modelo.Problema"/>
         </list>        
     </joined-subclass>

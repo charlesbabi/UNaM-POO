@@ -4,16 +4,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/D:/Git/UNaM-POO/POO%202/Integrador/NetBeansProjects/Integ/src/modelo/Horario.java</file>
             <file>file:/D:/Git/UNaM-POO/POO%202/Integrador/NetBeansProjects/Integ/src/modelo/Reserva.java</file>
-            <file>file:/D:/Git/UNaM-POO/POO%202/Integrador/NetBeansProjects/Integ/src/persistencia/Modelo.hbm.xml</file>
+            <file>file:/D:/Git/UNaM-POO/POO%202/Integrador/NetBeansProjects/Integ/src/GUI/VtnPrincipal.java</file>
             <file>file:/D:/Git/UNaM-POO/POO%202/Integrador/NetBeansProjects/Integ/src/GUI/VtnSolicitudServicio.java</file>
-            <file>file:/D:/Git/UNaM-POO/POO%202/Integrador/NetBeansProjects/Integ/src/modelo/Marca.java</file>
-            <file>file:/D:/Git/UNaM-POO/POO%202/Integrador/NetBeansProjects/Integ/src/persistencia/Vehiculo.hbm.xml</file>
-            <file>file:/D:/Git/UNaM-POO/POO%202/Integrador/NetBeansProjects/Integ/src/modelo/Cliente.java</file>
             <file>file:/D:/Git/UNaM-POO/POO%202/Integrador/NetBeansProjects/Integ/src/modelo/Especialista.java</file>
-            <file>file:/D:/Git/UNaM-POO/POO%202/Integrador/NetBeansProjects/Integ/src/persistencia/Persistencia.java</file>
-            <file>file:/D:/Git/UNaM-POO/POO%202/Integrador/NetBeansProjects/Integ/src/persistencia/Marca.hbm.xml</file>
-            <file>file:/D:/Git/UNaM-POO/POO%202/Integrador/NetBeansProjects/Integ/src/modelo/Vehiculo.java</file>
             <file>file:/D:/Git/UNaM-POO/POO%202/Integrador/NetBeansProjects/Integ/src/modelo/Empresa.java</file>
         </group>
     </open-files>

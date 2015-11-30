@@ -14,12 +14,12 @@ public class Especialista extends Persona {
     // <editor-fold defaultstate="collapsed" desc=" UML Marker "> 
     // #[regen=yes,id=DCE.BAEF1E2F-51D3-14BC-7430-64F63410C358]
     // </editor-fold> 
-    private List reservas;
+    private List<Reserva> reservas;
     
     // <editor-fold defaultstate="collapsed" desc=" UML Marker "> 
     // #[regen=yes,id=DCE.1F85FF7B-420A-75AC-E13E-300C975E257F]
     // </editor-fold> 
-    private List horarios;
+    private List<Horario> horarios;
     
     // <editor-fold defaultstate="collapsed" desc=" UML Marker "> 
     // #[regen=yes,id=DCE.478D4E7E-96D8-A4ED-A098-BC309E38A2C7]
@@ -29,7 +29,7 @@ public class Especialista extends Persona {
     // <editor-fold defaultstate="collapsed" desc=" UML Marker "> 
     // #[regen=yes,id=DCE.CEC991BA-5F43-2208-9DDC-00562144E64E]
     // </editor-fold> 
-    private List servicios;
+    private List<Servicio> servicios;
 
     // <editor-fold defaultstate="collapsed" desc=" UML Marker "> 
     // #[regen=yes,id=DCE.076D2615-D693-409D-6BB7-3EB83BC9D618]
@@ -96,21 +96,21 @@ public class Especialista extends Persona {
         this.getReservas();
         
         boolean retorno = false;
-        int dia = fecha.get(Calendar.DAY_OF_WEEK);
+        //int dia = fecha.get(Calendar.DAY_OF_WEEK);
 
-        Iterator it = this.reservas.iterator();
+        Iterator<Reserva> it = this.reservas.iterator();
         while(it.hasNext() && retorno == false){
-            Reserva aux = (Reserva) it.next();
-            GregorianCalendar diaReserva = aux.getFecha();
-            int horaReserva =  aux.getFecha().get(Calendar.HOUR_OF_DAY);
-            if(aux.getEstado() == 0 && diaReserva.get(Calendar.YEAR) == fecha.get(Calendar.YEAR) && diaReserva.get(Calendar.MONTH) == fecha.get(Calendar.MONTH) && diaReserva.get(Calendar.DATE) == fecha.get(Calendar.DATE) && hora >= horaReserva & hora < horaReserva + aux.getDuracion()){
-                retorno = true;
-            }
+            Reserva aux = it.next();        
+            if(aux != null){
+                if(aux.estaOcupado(fecha, hora)){
+                    retorno = true;
+                }
+            }                
         }        
         return retorno;
     }
     
-    public List buscarHorariosLibres(GregorianCalendar fecha){        
+    public List buscarHorariosLibres(GregorianCalendar fecha, int duracion){        
         this.getHorarios();
         this.getReservas();
         
@@ -118,10 +118,9 @@ public class Especialista extends Persona {
         int dia = fecha.get(Calendar.DAY_OF_WEEK);
         
         //Buscar horarios de trabajo.
-        Iterator it = this.horarios.iterator();
-        it.next();
+        Iterator <Horario> it = this.horarios.iterator();
         while(it.hasNext()){
-            Horario aux = (Horario) it.next();
+            Horario aux = it.next();
             if (dia == aux.entrada.get(Calendar.DAY_OF_WEEK)){
                 int horaAux = aux.entrada.get(Calendar.HOUR_OF_DAY);
                 while(horaAux < aux.salida.get(Calendar.HOUR_OF_DAY)){
@@ -132,14 +131,23 @@ public class Especialista extends Persona {
                 }                
             }
         }
-
         return retorno;        
     }
     
-    public void agregarReserva(Reserva unaReserva){
-        this.getReservas();
-        this.reservas.add(unaReserva);
+    public void agregarReserva(Reserva unaReserva) throws Exception{
+        Iterator<Reserva> itReservas = this.getReservas().iterator();
+        boolean act = true;
+            while(itReservas.hasNext() && act == true){
+                Reserva temp = itReservas.next();
+                if (temp != null && temp.estaOcupadoRangoHorario(unaReserva.getFecha(), unaReserva.getDuracion())){
+                    act = false;
+                }
+            }        
+        if(act){
+            this.reservas.add(unaReserva);
+        }else{
+            throw new Exception("El horario para esa reserva esta ocupado.");
+        }       
     }
-
 }
 

@@ -9,7 +9,7 @@
     <property name="tiempo" column="tiempo" />
     <list name="reparaciones" inverse="true" table="reparaciones_problemas">
         <key column="problema_id" />
-        <list-index column="servicio_id"/>
+        <list-index column="servicio_problema_index"/>
         <many-to-many class="modelo.Reparacion" />
     </list>
   </class>    

@@ -18,20 +18,26 @@
         <map-key column="patente" type="string"/>
         <one-to-many class="modelo.Vehiculo"/>
       </map>
+      
+      <list name="reservas" >
+        <key column="cliente_dni"/>
+        <list-index column="reserva_cliente_index" />
+        <one-to-many class="modelo.Reserva"/>
+      </list>
     </joined-subclass>
 
     <joined-subclass name="modelo.Especialista" table="especialistas">
       <key column="dni"/>
       
-      <list name="reservas">
+      <list name="reservas" >
         <key column="especialista_dni"/>
-        <list-index column="reserva_id" />
+        <list-index column="reserva_especialista_index" />
         <one-to-many class="modelo.Reserva"/>
       </list>
       
       <list name="horarios">
         <key column="especialista_dni"/>
-        <list-index column="horario_id" />
+        <list-index column="horario_especialista_index" />
         <one-to-many class="modelo.Horario"/>
       </list>
       
@@ -39,7 +45,7 @@
       
       <list name="servicios">
         <key column="especialista_dni"/>
-        <list-index column="servicios_id" />
+        <list-index column="servicios_especialista_index" />
         <one-to-many class="modelo.Servicio"/>
       </list>
       
