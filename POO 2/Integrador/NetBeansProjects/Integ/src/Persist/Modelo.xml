@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class table="modelos" dynamic-insert="false" dynamic-update="false" mutable="true" name="model.Modelo" optimistic-lock="version" polymorphism="implicit" select-before-update="false">
+      <id name="nombre" column="modelo_nombre" type="string">
+          <generator class="assigned"/>
+      </id>
+      <many-to-one name="marca" class="model.Marca" column="marca_nombre"/>
+      
+  </class>
+</hibernate-mapping>

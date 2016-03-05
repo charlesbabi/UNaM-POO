@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class table="repuestos" dynamic-insert="false" dynamic-update="false" mutable="true" name="model.Repuesto" optimistic-lock="version" polymorphism="implicit" select-before-update="false">
+      <id name="id" column="repuesto_id" type="integer">
+          <generator class="sequence"/>
+      </id>
+      <property name="descripcion" column="repuesto_descripcion" type="string"/>
+      <property name="valor" column="repuesto_valor" type="float" />
+      <property name="stock" column="repuesto_stock" type="integer" />
+       
+ </class>
+</hibernate-mapping>

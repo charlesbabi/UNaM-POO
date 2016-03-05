@@ -13,11 +13,11 @@ import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 import javax.swing.JOptionPane;
-import modelo.Cliente;
-import modelo.Empresa;
-import modelo.Especialista;
+import model.Cliente;
+import model.Empresa;
+import model.Especialista;
 import modelo.Funciones;
-import modelo.Vehiculo;
+import model.Vehiculo;
 
 /**
  *
@@ -284,7 +284,7 @@ public class VtnSolicitudServicio extends javax.swing.JFrame implements Observer
             ComboVehiculos.removeAllItems();
         }
         if (TxtDni.getText().length() > 5) {
-            try {
+            /*try {
                 this.emp.getClientes();
                 Cliente aux;
                 int dniAux = Integer.parseInt(TxtDni.getText());
@@ -302,7 +302,7 @@ public class VtnSolicitudServicio extends javax.swing.JFrame implements Observer
                 }
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(rootPane, ex.getMessage());
-            }
+            }*/
         } else {
             JOptionPane.showMessageDialog(rootPane, "Ingrese al menos 6 digitos.");
         }
@@ -339,6 +339,7 @@ public class VtnSolicitudServicio extends javax.swing.JFrame implements Observer
     }
 
     private void BtnBuscarEspecialistaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnBuscarEspecialistaActionPerformed
+        /*
         try {
             Cliente auxCliente = null;
             Vehiculo auxVehiculo = null;
@@ -371,6 +372,7 @@ public class VtnSolicitudServicio extends javax.swing.JFrame implements Observer
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(rootPane, ex.getMessage());
         }
+        */
     }//GEN-LAST:event_BtnBuscarEspecialistaActionPerformed
 
     private void CalFechaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CalFechaMouseClicked

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class table="horarios" dynamic-insert="false" dynamic-update="false" mutable="true" name="model.Horario" optimistic-lock="version" polymorphism="implicit" select-before-update="false">
+    <id name="id" column="horario_id" type="integer">
+        <generator class="sequence"/>
+    </id>
+    <one-to-one name="reserva" class="model.Reserva" />
+    <property name="entrada" column="horario_entrada" type="date" />
+    <property name="salida" column="horario_salida" type="date" />
+    
+  </class>
+</hibernate-mapping>

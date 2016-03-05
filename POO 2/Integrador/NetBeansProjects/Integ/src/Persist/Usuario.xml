@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class table="usuarios" dynamic-insert="false" dynamic-update="false" mutable="true" name="model.Usuario" optimistic-lock="version" polymorphism="implicit" select-before-update="false">
+      <id name="nombreUsuario" column="usuario_nombre" type="string">
+          <generator class="assigned"/>
+      </id>
+      <property name="clave" column="usuario_clave" type="string"/>
+      <one-to-one name="unaPersona" class="model.Persona"/>
+  </class>
+</hibernate-mapping>

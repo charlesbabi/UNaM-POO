@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class table="empresa" dynamic-insert="false" dynamic-update="false" mutable="true" name="model.Empresa" optimistic-lock="version" polymorphism="implicit" select-before-update="false">
+      <id name="id" column="empresa_id" type="integer">
+          <generator class="sequence" />
+      </id>
+      <property name="nombre" type="string" />
+      <property name="direccion" type="string" />
+      
+      <map name="vehiculos" cascade="all">
+        <key column="empresa_id" />
+        <map-key column="patente" type="string"/>
+        <one-to-many class="model.Vehiculo"/>
+      </map>
+      
+      <map name="marcas" cascade="all">
+        <key column="empresa_id" />
+        <map-key column="marca_nombre" type="string"/>
+        <one-to-many class="model.Marca"/>
+      </map>
+      
+      <map name="modelos" cascade="all">
+        <key column="empresa_id" />
+        <map-key column="modelo_nombre" type="string"/>
+        <one-to-many class="model.Modelo"/>
+      </map>
+      
+      <map name="clientes" cascade="all">
+        <key column="empresa_id" />
+        <map-key column="persona_dni" type="string"/>
+        <one-to-many class="model.Cliente"/>
+      </map>
+      
+      <map name="especialistas" cascade="all">
+        <key column="empresa_id" />
+        <map-key column="persona_dni" type="string"/>
+        <one-to-many class="model.Especialista"/>
+      </map>
+      
+      <map name="servicios" cascade="all">
+        <key column="empresa_id" />
+        <map-key column="servicios_id" type="integer"/>
+        <one-to-many class="model.Servicio"/>
+      </map>
+      
+      <map name="repuestos" cascade="all">
+        <key column="empresa_id" />
+        <map-key column="repuesto_id" type="integer"/>
+        <one-to-many class="model.Repuesto"/>
+      </map>
+      
+      <map name="problemas" cascade="all">
+        <key column="empresa_id" />
+        <map-key column="problema_id" type="integer"/>
+        <one-to-many class="model.Problema"/>
+      </map>
+      
+      <map name="usuarios" cascade="all">
+        <key column="empresa_id" />
+        <map-key column="usuario_nombre" type="string"/>
+        <one-to-many class="model.Usuario"/>
+      </map>
+
+      <list name="reservas">
+        <key column="empresa_id"/>
+        <list-index column="empresa_reserva_index" />
+        <one-to-many class="model.Reserva"/>
+      </list>
+      
+      
+      
+  </class>
+</hibernate-mapping>

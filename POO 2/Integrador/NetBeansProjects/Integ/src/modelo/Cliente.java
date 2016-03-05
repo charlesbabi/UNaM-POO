@@ -30,14 +30,14 @@ public class Cliente extends Persona {
         Empresa.getPersistencia().insert(this);
     }
 
-    public Map getVehiculos() {
+    public Map<String, Vehiculo> getVehiculos() {
         return vehiculos;
     }
 
-    public void setVehiculos(Map vehiculos) {
+    public void setVehiculos(Map<String, Vehiculo> vehiculos) {
         this.vehiculos = vehiculos;
     }
-
+    
     public List getReservas() {
         return reservas;
     }

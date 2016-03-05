@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class table="servicios" dynamic-insert="false" dynamic-update="false" mutable="true" name="model.Servicio" optimistic-lock="version" polymorphism="implicit" select-before-update="false">
+      <id name="id" column="servicio_id" type="integer">
+          <generator class="sequence"/>
+      </id>
+      <property name="observacion" column="servicio_observacion" type="string" />
+      <list name="repuestoLinea">
+        <key column="servicio_id"/>
+        <list-index column="servicio_repuestoLinea_index" />
+        <one-to-many class="model.RepuestoLinea"/>
+      </list>
+      <property name="tiempo" column="servicio_tiempo" type="integer" />
+      <list name="problemas">
+        <key column="servicio_id"/>
+        <list-index column="servicio_problema_index" />
+        <one-to-many class="model.Problema"/>
+      </list>
+  </class>
+</hibernate-mapping>

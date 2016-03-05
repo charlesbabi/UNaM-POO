@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class table="dias" dynamic-insert="false" dynamic-update="false" mutable="true" name="model.Dia" optimistic-lock="version" polymorphism="implicit" select-before-update="false">
+    <id name="fecha" column="dia_id" type="date">
+        <generator class="assigned"/>
+    </id>
+      
+    <list name="horarios">
+        <key column="horario_id"/>
+        <list-index column="horarios_dia_index" />
+        <one-to-many class="model.Horario"/>
+    </list>
+    
+    <list name="servicios">
+        <key column="horario_id"/>
+        <list-index column="horarios_servicio_index" />
+        <one-to-many class="model.Servicio"/>
+    </list>
+  </class>
+</hibernate-mapping>

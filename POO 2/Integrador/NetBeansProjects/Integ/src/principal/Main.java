@@ -5,7 +5,7 @@
 
 package principal;
 
-import modelo.Empresa;
+import model.Empresa;
 import GUI.VtnPrincipal;
 
 /**
@@ -20,7 +20,7 @@ public class Main {
     public static void main(String[] args) {
         // TODO code application logic here           
             Empresa empresa = null;
-            empresa = (Empresa) Empresa.getPersistencia().get("modelo.Empresa", 1);
+            empresa = (Empresa) Empresa.getPersistencia().get("model.Empresa", 1);
             if (empresa == null){
                 empresa = new Empresa("Empresa 01", "Calle falsa 123");
             }

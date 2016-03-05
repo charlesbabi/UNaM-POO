@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class table="marcas" dynamic-insert="false" dynamic-update="false" mutable="true" name="model.Marca" optimistic-lock="version" polymorphism="implicit" select-before-update="false">
+    <id name="nombre" column="marca_nombre" type="string">
+        <generator class="assigned"/>
+    </id>
+    
+    <property name="valorPorHora" column="marca_valor" type="float"/>
+      
+    <list name="modelos">
+        <key column="marca_nombre"/>
+        <list-index column="marca_modelo_index" />
+        <one-to-many class="model.Modelo"/>
+    </list>
+    
+    <map name="especialistas" cascade="all">
+        <key column="marca_nombre" />
+        <map-key column="persona_dni" type="string"/>
+        <one-to-many class="model.Especialista"/>
+    </map>
+
+  </class>
+</hibernate-mapping>

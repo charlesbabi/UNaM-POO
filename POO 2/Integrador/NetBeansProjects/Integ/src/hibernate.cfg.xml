@@ -10,16 +10,19 @@
     <property name="query.factory_class">org.hibernate.hql.classic.ClassicQueryTranslatorFactory</property>
     <property name="show_sql">true </property>
     <property name="hibernate.hbm2ddl.auto">update</property>
-    <mapping resource="persistencia/Persona.hbm.xml"/>
-    <mapping resource="persistencia/Vehiculo.hbm.xml"/>
-    <mapping resource="persistencia/Modelo.hbm.xml"/>
-    <mapping resource="persistencia/Marca.hbm.xml"/>
-    <mapping resource="persistencia/Horario.hbm.xml"/>
-    <mapping resource="persistencia/Empresa.hbm.xml"/>
-    <mapping resource="persistencia/Servicio.hbm.xml"/>
-    <mapping resource="persistencia/Reserva.hbm.xml"/>
-    <mapping resource="persistencia/Repuesto.hbm.xml"/>
-    <mapping resource="persistencia/Problema.hbm.xml"/>
-    <mapping resource="persistencia/RepuestoLinea.hbm.xml"/>
+    <mapping resource="Persist/Vehiculo.hbm.xml"/>
+    <mapping resource="Persist/Agenda.xml"/>
+    <mapping resource="Persist/Persona.xml"/>
+    <mapping resource="Persist/Dia.xml"/>
+    <mapping resource="Persist/Empresa.xml"/>
+    <mapping resource="Persist/Horario.xml"/>
+    <mapping resource="Persist/Marca.xml"/>
+    <mapping resource="Persist/Modelo.xml"/>
+    <mapping resource="Persist/Problema.xml"/>
+    <mapping resource="Persist/Reserva.xml"/>
+    <mapping resource="Persist/Servicio.xml"/>
+    <mapping resource="Persist/Repuesto.xml"/>
+    <mapping resource="Persist/RepuestoLinea.xml"/>
+    <mapping resource="Persist/Usuario.xml"/>
   </session-factory>
 </hibernate-configuration>
