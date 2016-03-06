@@ -14,12 +14,11 @@ public class Persona {
    private Usuario usuario;
 
    public Persona (){
-        this.dni = "";
-        this.apellido = "";
-        this.nombre = "";
-        this.telefono = "";
+       this.usuario = null;
    }
+   
     public Persona(String dni, String apellido, String nombre, String telefono) {
+        this();
         this.dni = dni;
         this.apellido = apellido;
         this.nombre = nombre;

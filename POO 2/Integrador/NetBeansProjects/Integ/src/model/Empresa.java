@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Observable;
-import persistencia.Persistencia;
+import Persist.Persistencia;
 
 
 public class Empresa extends Observable {
@@ -34,7 +34,7 @@ public class Empresa extends Observable {
         this.modelos = new HashMap();
         this.vehiculos = new HashMap <String, Vehiculo>();
         this.clientes = new HashMap <String, Cliente>();
-        this.especialistas = new HashMap();
+        this.especialistas = new HashMap <String, Especialista>();
         this.servicios = new HashMap();
         this.repuestos = new HashMap();
         this.problemas = new HashMap();
@@ -74,7 +74,7 @@ public class Empresa extends Observable {
    } 
    
    public List buscarVehiculos(Cliente unCliente) throws Exception {
-       this.getVehiculos();
+       //this.getVehiculos();
        List retorno = unCliente.getVehiculos();
        if (retorno.size() <= 0){
            throw new Exception("El cliente no posee vehiculos cargados.");
@@ -86,19 +86,34 @@ public class Empresa extends Observable {
    
    public void agregarMarca(String nombre, float valorPorHora) throws Exception{
        this.getMarcas();
-       Marca aux = this.buscarMarca(nombre);
-       if (aux != null){
-           throw new Exception("La Marca "+ aux.getNombre() +" ya se encuentra registrada");
+       nombre = nombre.toUpperCase();
+       boolean aux = existeMarca(nombre);
+       if (aux == false){
+           Marca unaMarca = new Marca(nombre, valorPorHora);
+           this.marcas.put(nombre, unaMarca);
+           persistencia.update(this);
+       }else{
+           throw new Exception("La Marca "+ nombre +" ya se encuentra registrada");
        }
    }
    
    public Marca buscarMarca(String nombre) throws Exception{
        this.getMarcas();
-       Marca aux = this.marcas.get(nombre);
+       Marca aux = this.marcas.get(nombre.toUpperCase());
        if (aux == null){
            throw new Exception("La Marca solicitada no existe.");
        }
        return aux;
+   }
+   
+   public boolean existeMarca (String nombre) throws Exception{
+       boolean retorno = false;
+       this.getMarcas();
+       Marca aux = this.marcas.get(nombre.toUpperCase());
+       if (aux != null){
+           retorno = true;
+       }
+       return retorno;
    }
    
    // Metodos Modelos
@@ -123,6 +138,9 @@ public class Empresa extends Observable {
    // Metodos Cliente
 
    public void agregarCliente(String dni, String nombre, String apellido, String telefono) throws Exception {
+       this.getClientes();
+       nombre = nombre.toUpperCase();
+       apellido = apellido.toUpperCase();
        boolean asd = existeCliente(dni);
        if(asd == false){
            Cliente unCliente = new Cliente(dni, apellido, nombre, telefono);
@@ -150,16 +168,15 @@ public class Empresa extends Observable {
            retorno = true;
        }
        return retorno;
-   }
-   
+   }   
    
    // Metodos Especilista
    
    public void agregarEspecialista (String dni, String apellido, String nombre, String telefono, Marca unaMarca) throws Exception{
        this.getEspecialistas();
-       Especialista unEspecialista = buscarEspecialista(dni);
-       if(unEspecialista == null){
-           unEspecialista = new Especialista( dni,  apellido,  nombre, telefono, unaMarca);
+       boolean asd = existeEspecialista(dni);
+       if(asd == false){
+           Especialista unEspecialista = new Especialista( dni,  apellido,  nombre, telefono, unaMarca);
            especialistas.put(dni, unEspecialista);
            persistencia.update(this);
        }else{
@@ -176,6 +193,15 @@ public class Empresa extends Observable {
        return aux;
    }
 
+   public boolean existeEspecialista(String dni) throws Exception {
+       this.getEspecialistas();
+       boolean retorno = false;
+       Especialista aux = this.especialistas.get(dni);
+       if (aux != null){
+           retorno = true;
+       }
+       return retorno;
+   }
 
    /** Metodos Especialistas
     *
@@ -261,6 +287,14 @@ public class Empresa extends Observable {
         this.direccion = direccion;
     }
 
+    public Map<String, Vehiculo> getVehiculos() {
+        return vehiculos;
+    }
+
+    public void setVehiculos(Map<String, Vehiculo> vehiculos) {
+        this.vehiculos = vehiculos;
+    }
+
     public Map<String, Marca> getMarcas() {
         return marcas;
     }
@@ -277,20 +311,20 @@ public class Empresa extends Observable {
         this.modelos = modelos;
     }
 
-    public Map<String, Vehiculo> getVehiculos() {
-        return vehiculos;
-    }
-
-    public void setVehiculos(Map<String, Vehiculo> vehiculos) {
-        this.vehiculos = vehiculos;
-    }
-
     public Map<String, Cliente> getClientes() {
         return clientes;
     }
 
     public void setClientes(Map<String, Cliente> clientes) {
         this.clientes = clientes;
+    }
+
+    public Map<String, Especialista> getEspecialistas() {
+        return especialistas;
+    }
+
+    public void setEspecialistas(Map<String, Especialista> especialistas) {
+        this.especialistas = especialistas;
     }
 
     public Map getServicios() {
@@ -333,14 +367,6 @@ public class Empresa extends Observable {
         this.usuarios = usuarios;
     }
 
-    public Map<String, Especialista> getEspecialistas() {
-        return especialistas;
-    }
-
-    public void setEspecialistas(Map<String, Especialista> especialistas) {
-        this.especialistas = especialistas;
-    }
-
-    
+   
 
 }

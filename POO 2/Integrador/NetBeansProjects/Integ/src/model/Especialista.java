@@ -1,19 +1,32 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.List;
 
 public class Especialista extends Persona {
 
-   private List<Reserva> reservas;
+   private List reservas;
    private Marca marca;
-   private List<Servicio> servicios;
+   private List servicios;
    private Agenda agenda;
+   
+   public Especialista(){
+       super();
+       this.reservas = new ArrayList();
+       this.marca = null;
+       this.servicios = new ArrayList();
+       this.agenda = null;
+   }
 
     public Especialista(String dni, String apellido, String nombre,String telefono, Marca unaMarca) {
         super(dni, apellido, nombre, telefono);
+        this.reservas = new ArrayList();
+        this.servicios = new ArrayList();
+        this.agenda = null;
         this.marca = unaMarca;
+        Empresa.getPersistencia().insert(this);
     }   
    
    private boolean estaOcupado(GregorianCalendar fecha, int hora) {       
@@ -61,11 +74,11 @@ public class Especialista extends Persona {
        }       
    }
 
-    public List<Reserva> getReservas() {
+    public List getReservas() {
         return reservas;
     }
 
-    public void setReservas(List<Reserva> reservas) {
+    public void setReservas(List reservas) {
         this.reservas = reservas;
     }
 
@@ -77,11 +90,11 @@ public class Especialista extends Persona {
         this.marca = marca;
     }
 
-    public List<Servicio> getServicios() {
+    public List getServicios() {
         return servicios;
     }
 
-    public void setServicios(List<Servicio> servicios) {
+    public void setServicios(List servicios) {
         this.servicios = servicios;
     }
 

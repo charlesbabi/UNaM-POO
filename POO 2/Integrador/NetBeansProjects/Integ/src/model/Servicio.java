@@ -10,7 +10,19 @@ public class Servicio {
    private ArrayList repuestoLinea;
    private int tiempo;
    private List <Problema> problemas;
+   private Reserva reserva;
 
+    public Servicio() {
+    }
+
+    public Servicio(int id, String observacion, int tiempo, Reserva reserva) {
+        this();
+        this.id = id;
+        this.observacion = observacion;
+        this.tiempo = tiempo;
+        this.reserva = reserva;
+    }
+   
     public int getId() {
         return id;
     }
@@ -50,6 +62,15 @@ public class Servicio {
     public void setProblemas(List<Problema> problemas) {
         this.problemas = problemas;
     }
+
+    public Reserva getReserva() {
+        return reserva;
+    }
+
+    public void setReserva(Reserva reserva) {
+        this.reserva = reserva;
+    }
+
    
    
    

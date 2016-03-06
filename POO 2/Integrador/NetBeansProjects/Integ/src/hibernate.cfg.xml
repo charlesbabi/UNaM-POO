@@ -11,18 +11,18 @@
     <property name="show_sql">true </property>
     <property name="hibernate.hbm2ddl.auto">update</property>
     <mapping resource="Persist/Vehiculo.hbm.xml"/>
-    <mapping resource="Persist/Agenda.xml"/>
-    <mapping resource="Persist/Persona.xml"/>
-    <mapping resource="Persist/Dia.xml"/>
-    <mapping resource="Persist/Empresa.xml"/>
-    <mapping resource="Persist/Horario.xml"/>
-    <mapping resource="Persist/Marca.xml"/>
-    <mapping resource="Persist/Modelo.xml"/>
-    <mapping resource="Persist/Problema.xml"/>
-    <mapping resource="Persist/Reserva.xml"/>
-    <mapping resource="Persist/Servicio.xml"/>
-    <mapping resource="Persist/Repuesto.xml"/>
-    <mapping resource="Persist/RepuestoLinea.xml"/>
-    <mapping resource="Persist/Usuario.xml"/>
+    <mapping resource="Persist/Agenda.hbm.xml"/>
+    <mapping resource="Persist/Persona.hbm.xml"/>
+    <mapping resource="Persist/Dia.hbm.xml"/>
+    <mapping resource="Persist/Empresa.hbm.xml"/>
+    <mapping resource="Persist/Horario.hbm.xml"/>
+    <mapping resource="Persist/Marca.hbm.xml"/>
+    <mapping resource="Persist/Modelo.hbm.xml"/>
+    <mapping resource="Persist/Problema.hbm.xml"/>
+    <mapping resource="Persist/Reserva.hbm.xml"/>
+    <mapping resource="Persist/Servicio.hbm.xml"/>
+    <mapping resource="Persist/Repuesto.hbm.xml"/>
+    <mapping resource="Persist/RepuestoLinea.hbm.xml"/>
+    <mapping resource="Persist/Usuario.hbm.xml"/>
   </session-factory>
 </hibernate-configuration>

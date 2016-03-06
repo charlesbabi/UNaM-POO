@@ -1,8 +1,8 @@
 package model;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Map;
 
 public class Marca {
@@ -12,10 +12,22 @@ public class Marca {
    private List modelos;
    private Map especialistas;
 
+   public Marca(){
+        this.modelos = new ArrayList ();
+        this.especialistas = new HashMap();
+   }
+   
     public Marca(String nombre, float valorPorHora) {
+        this();
         this.nombre = nombre;
         this.valorPorHora = valorPorHora;
+        Empresa.getPersistencia().insert(this);
     }   
+    
+   @Override
+    public String toString(){
+        return nombre + " - " + valorPorHora;
+    }
    
     public String getNombre() {
         return nombre;

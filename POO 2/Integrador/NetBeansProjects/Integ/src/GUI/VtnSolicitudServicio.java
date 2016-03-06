@@ -6,17 +6,14 @@
 package GUI;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.GregorianCalendar;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 import javax.swing.JOptionPane;
-import model.Cliente;
 import model.Empresa;
 import model.Especialista;
-import modelo.Funciones;
+//import modelo.Funciones;
 import model.Vehiculo;
 
 /**

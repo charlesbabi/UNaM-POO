@@ -9,17 +9,16 @@ public class Vehiculo {
    private Cliente cliente;
 
     public Vehiculo(){
-        this.patente = "";
-        this.fechaDeCompra = null;
-        this.modelo = null;
-        this.cliente = null;
+        this.reserva = null;
     }
     
     public Vehiculo(String patente, GregorianCalendar fechaDeCompra, Modelo modelo, Cliente cliente) {
+        this();
         this.patente = patente;
         this.fechaDeCompra = fechaDeCompra;
         this.modelo = modelo;
         this.cliente = cliente;
+        
     }   
 
    @Override
