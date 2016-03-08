@@ -6,10 +6,16 @@ public class Modelo {
 
    private Marca marca;
    
+   public Modelo(){
+       this.nombre = "";
+       this.marca = null;
+   }
    
     public Modelo(String nombre, Marca marca) {
         this.nombre = nombre;
         this.marca = marca;
+        this.marca.agregarModelo(this);  
+        Empresa.getPersistencia().insert(this);              
     }
 
     public String getNombre() {
@@ -28,6 +34,9 @@ public class Modelo {
         this.marca = marca;
     }
 
-
+    @Override
+    public String toString(){
+        return this.nombre;
+    }
    
 }

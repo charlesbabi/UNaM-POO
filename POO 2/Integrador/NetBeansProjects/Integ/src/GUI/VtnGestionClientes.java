@@ -5,9 +5,17 @@
  */
 package GUI;
 
-import java.util.Arrays;
+import java.awt.HeadlessException;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
+import java.util.Calendar;
+import java.util.Iterator;
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
+import model.Cliente;
 import model.Empresa;
 
 /**
@@ -20,6 +28,7 @@ public class VtnGestionClientes extends javax.swing.JFrame {
      * Creates new form VtnGestionClientes
      */
     Empresa emp = null;
+    private TableRowSorter trsfiltro;
     
     public VtnGestionClientes() {
         initComponents();
@@ -28,7 +37,18 @@ public class VtnGestionClientes extends javax.swing.JFrame {
     public VtnGestionClientes(Empresa emp) {
         initComponents();
         this.emp = emp;
+        cargarComboEstados(ComboEstados);
         actualizarClientes();
+        cargarCombo(ComboFiltro);        
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+ 
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            if(jTable1.getSelectedRow() > 0){
+                BtnEliminar.setVisible(true);
+            }
+        }
+        });
     }
 
     /**
@@ -43,12 +63,19 @@ public class VtnGestionClientes extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        TxtBusqueda = new javax.swing.JTextField();
+        BtnAgregar = new javax.swing.JButton();
+        BtnAdministrar = new javax.swing.JButton();
+        ComboFiltro = new javax.swing.JComboBox();
         jButton1 = new javax.swing.JButton();
+        BtnEliminar = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        ComboEstados = new javax.swing.JComboBox();
+        jButton3 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
+        jTable1.setAutoCreateRowSorter(true);
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -57,66 +84,198 @@ public class VtnGestionClientes extends javax.swing.JFrame {
 
             }
         ));
+        jTable1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        jTable1.setFocusable(false);
+        jTable1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane1.setViewportView(jTable1);
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
         jLabel1.setText("Gestion de Clientes");
 
-        jTextField1.setText("jTextField1");
+        TxtBusqueda.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                TxtBusquedaKeyTyped(evt);
+            }
+        });
 
-        jButton1.setText("jButton1");
+        BtnAgregar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/add.png"))); // NOI18N
+        BtnAgregar.setText("Agregar");
+        BtnAgregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnAgregarActionPerformed(evt);
+            }
+        });
+
+        BtnAdministrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/application_form_edit.png"))); // NOI18N
+        BtnAdministrar.setText("Administrar Vehiculos");
+        BtnAdministrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnAdministrarActionPerformed(evt);
+            }
+        });
+
+        ComboFiltro.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        jButton1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/cross.png"))); // NOI18N
+        jButton1.setText("Salir");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
 
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/add.png"))); // NOI18N
-        jButton2.setText(" ");
+        BtnEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/delete16.png"))); // NOI18N
+        BtnEliminar.setText("Cambiar Estado");
+        BtnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnEliminarActionPerformed(evt);
+            }
+        });
+
+        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/arrow_refresh_small.png"))); // NOI18N
+        jButton2.setText("Actualizar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        jButton3.setText("Modificar");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(317, 317, 317)
-                .addComponent(jLabel1)
-                .addContainerGap(360, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(BtnEliminar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jButton2)
-                        .addGap(0, 516, Short.MAX_VALUE)))
-                .addContainerGap())
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(ComboEstados, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane1)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(144, 144, 144)
+                            .addComponent(jLabel1))
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(TxtBusqueda, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(18, 18, 18)
+                            .addComponent(ComboFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(BtnAgregar)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(BtnAdministrar))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(46, 46, 46)
+                .addGap(35, 35, 35)
                 .addComponent(jLabel1)
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
+                .addGap(29, 29, 29)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(BtnAdministrar, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(BtnAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ComboFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(TxtBusqueda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(151, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton1)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(BtnEliminar)
+                        .addComponent(jButton2)
+                        .addComponent(ComboEstados, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jButton3)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void BtnAdministrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnAdministrarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_BtnAdministrarActionPerformed
+
+    private void BtnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnAgregarActionPerformed
+        VtnAltaDeCliente AltaCliente = new VtnAltaDeCliente(emp);
+        AltaCliente.setLocationRelativeTo(null);
+        AltaCliente.setVisible(true);
+    }//GEN-LAST:event_BtnAgregarActionPerformed
+
+    private void TxtBusquedaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TxtBusquedaKeyTyped
+        TxtBusqueda.addKeyListener(new KeyAdapter() {
+        public void keyReleased(final KeyEvent e) {
+            String cadena = (TxtBusqueda.getText()).toUpperCase();
+            TxtBusqueda.setText(cadena);
+            repaint();
+            filtro();
+            }
+        });
+        trsfiltro = new TableRowSorter(jTable1.getModel());
+        jTable1.setRowSorter(trsfiltro);
+    }//GEN-LAST:event_TxtBusquedaKeyTyped
+
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
+        this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void BtnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnEliminarActionPerformed
+        if (jTable1.getSelectedRow() >= 0) {
+            try {
+                //JOptionPane.showMessageDialog(this, );
+                Cliente unCliente = this.emp.buscarCliente((String) jTable1.getModel().getValueAt(jTable1.getSelectedRow(), 0)); 
+                int opcion = JOptionPane.showConfirmDialog(this, "¿Seguro que desea cambiar el estado del Cliente " + unCliente.getDni() + "?");
+                if (opcion == 0) {
+                    this.emp.cambiarEstadoCliente(unCliente);
+                    JOptionPane.showMessageDialog(this, "Se cambio de estado correctamente");
+                }
+            } catch (Exception ex) {
+                 JOptionPane.showMessageDialog(this, ex.getMessage());
+            }
+            //jTable1.getModel().getValueAt(jTable1.getSelectedRow(), 1);
+        } else {
+            JOptionPane.showMessageDialog(this, "Debe seleccionar un Cliente para eliminar.");
+        }
+    }//GEN-LAST:event_BtnEliminarActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        actualizarClientes();
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        
+        try {
+            VtnAltaDeCliente ventana;
+            ventana = new VtnAltaDeCliente(this.emp, this.emp.buscarCliente((String) jTable1.getModel().getValueAt(jTable1.getSelectedRow(), 0)));
+            ventana.setLocationRelativeTo(null);
+            ventana.setVisible(true);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage());
+        }
+        
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    public void filtro() {
+        
+        trsfiltro.setRowFilter(javax.swing.RowFilter.regexFilter(TxtBusqueda.getText(), ComboFiltro.getSelectedIndex()));
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -151,32 +310,74 @@ public class VtnGestionClientes extends javax.swing.JFrame {
             }
         });
     }
+    
+    //Metodos especificos
+    
     private void actualizarClientes(){
         try {
             DefaultTableModel modelo = new DefaultTableModel();
+            modelo.isCellEditable(0, 0);
             modelo.setColumnCount(0);
-            /*
+            
             modelo.addColumn("DNI");
             modelo.addColumn("APELLIDO");
             modelo.addColumn("NOMBRE");
+            modelo.addColumn("FECHA DE NAC.");
             modelo.addColumn("TELEFONO");
-            modelo.addColumn("VEHICULOS");
-                    */
-            JOptionPane.showMessageDialog(this, emp.getClientes().getClass().getFields());
-            modelo.setColumnIdentifiers(this.emp.getClientes().getClass().getFields());
+            modelo.addColumn("ESTADO");
+            Iterator <Cliente> it = this.emp.getClientes().values().iterator();
+            Object[] fila = new Object[6];
+            Cliente aux = null;
             
+            while(it.hasNext()){
+                aux = it.next();
+                fila[0] = aux.getDni();
+                fila[1] = aux.getApellido();
+                fila[2] = aux.getNombre();
+                fila[3] = aux.getFechaDeNacimiento().get(Calendar.DAY_OF_MONTH) + "-" + aux.getFechaDeNacimiento().get(Calendar.MONTH) + "-" +aux.getFechaDeNacimiento().get(Calendar.YEAR);
+                fila[4] = aux.getTelefono();
+                fila[5] = aux.getEstado();
+                boolean estado;
+                if((ComboEstados.getSelectedIndex() == 1 && aux.getEstado() == true) || (ComboEstados.getSelectedIndex() == 0 && aux.getEstado() == false) || ComboEstados.getSelectedIndex() == 2){
+                    modelo.addRow(fila);
+                }
+            }            
             this.jTable1.setModel(modelo);
-        } catch (Exception e) {
+            jTable1.setLayout(null);
+        } catch (SecurityException e) {
+        } catch (HeadlessException e) {
         }             
     }
     
+    private void cargarCombo(JComboBox unCombo){
+        unCombo.removeAllItems();
+        unCombo.insertItemAt("DNI", 0);
+        unCombo.insertItemAt("Apellido", 1);
+        unCombo.insertItemAt("Nombre", 2);
+        unCombo.insertItemAt("Telefono", 3);
+        unCombo.setSelectedIndex(1);
+    }
+    
+    private void cargarComboEstados(JComboBox unCombo){
+        unCombo.removeAllItems();
+        unCombo.insertItemAt("Eliminados", 0);
+        unCombo.insertItemAt("Activos", 1);
+        unCombo.insertItemAt("Todos", 2);
+        unCombo.setSelectedIndex(1);
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton BtnAdministrar;
+    private javax.swing.JButton BtnAgregar;
+    private javax.swing.JButton BtnEliminar;
+    private javax.swing.JComboBox ComboEstados;
+    private javax.swing.JComboBox ComboFiltro;
+    private javax.swing.JTextField TxtBusqueda;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 }

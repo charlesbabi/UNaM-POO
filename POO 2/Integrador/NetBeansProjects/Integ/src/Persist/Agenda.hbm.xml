@@ -2,14 +2,15 @@
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
   <class table="agendas" dynamic-insert="false" dynamic-update="false" mutable="true" name="model.Agenda" optimistic-lock="version" polymorphism="implicit" select-before-update="false">
-      <id name="id" column="agenda_id" type="integer">
-          <generator class="sequence"/>
+      <id name="id" column="agenda_id" type="string">
+          <generator class="assigned"/>
       </id>
       
       <map name="dias" cascade="all">
         <key column="agenda_id" />
-        <map-key column="dia_id" type="date"/>
+        <map-key column="dia_id" type="calendar_date"/>
         <one-to-many class="model.Dia"/>
       </map>
+      
   </class>
 </hibernate-mapping>

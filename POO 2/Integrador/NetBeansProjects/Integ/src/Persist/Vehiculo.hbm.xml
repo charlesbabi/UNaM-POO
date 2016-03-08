@@ -6,11 +6,10 @@
         <generator class="assigned" />
     </id>
     
-    <property name="fechaDeCompra" column="fechaDeCompra" type="date" />
-    <!--
+    <property name="fechaDeCompra" column="fechaDeCompra" type="calendar_date" />    
     <many-to-one name="cliente" column="cliente_dni" class="model.Cliente" />
     <many-to-one name="modelo" column="modelo_nombre" class="model.Modelo" />
-    
+    <!--
     <one-to-one name="reserva" class="model.Reserva" />
     -->
   </class>

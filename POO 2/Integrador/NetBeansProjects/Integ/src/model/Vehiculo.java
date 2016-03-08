@@ -18,7 +18,8 @@ public class Vehiculo {
         this.fechaDeCompra = fechaDeCompra;
         this.modelo = modelo;
         this.cliente = cliente;
-        
+        this.cliente.agregarVehiculo(this);
+        Empresa.getPersistencia().insert(this);
     }   
 
    @Override

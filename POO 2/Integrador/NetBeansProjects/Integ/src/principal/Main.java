@@ -25,6 +25,7 @@ public class Main {
                 empresa = new Empresa("Empresa 01", "Calle falsa 123");
             }
             VtnPrincipal ventana = new VtnPrincipal(empresa);
+            ventana.setLocationRelativeTo(null);
             ventana.setVisible(true);
     }
 

@@ -62,12 +62,13 @@ public class Marca {
     }
    
 
-   public void agregarModelo(String nombre) {
+   public void agregarModelo(Modelo unModelo) {
+       this.modelos.add(unModelo);
    }
    
 
    public void asociarEspecialista(Especialista unEspecialista) {
-       
+       this.especialistas.put(unEspecialista.getDni(), unEspecialista);
    }
 
 }

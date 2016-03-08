@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Observable;
 import Persist.Persistencia;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 
 public class Empresa extends Observable {
@@ -54,12 +56,13 @@ public class Empresa extends Observable {
 
    public void agregarVehiculo (String patente, GregorianCalendar fechaDeCompra, Modelo modelo, Cliente unCliente) throws Exception {
        this.getVehiculos();
-        Vehiculo aux = this.buscarVehiculo(patente);
-       if(aux == null){
-           aux = new Vehiculo ( patente,  fechaDeCompra,  modelo, unCliente);
-           this.vehiculos.put(patente, aux);
+       boolean aux = this.existeVehiculo(patente);
+       if(aux == false){
+           Vehiculo vehiculo = new Vehiculo ( patente,  fechaDeCompra,  modelo, unCliente);
+           this.vehiculos.put(patente, vehiculo);
+           persistencia.update(this);
        }else{
-           throw new Exception ("El Vehiculo " + aux.getPatente() + " ya se encuentra registrado.");
+           throw new Exception ("El Vehiculo "+ modelo.getNombre()+ " - " + patente + " ya se encuentra registrado.");
        }
    }
    
@@ -82,6 +85,15 @@ public class Empresa extends Observable {
        return retorno;
    }
    
+   public boolean existeVehiculo(String patente) throws Exception {
+       this.getVehiculos();
+       boolean retorno = false;
+       Vehiculo aux = vehiculos.get(patente);
+       if (aux != null){
+           retorno = true;
+       }
+       return retorno;
+   } 
    // Metodos Marcas
    
    public void agregarMarca(String nombre, float valorPorHora) throws Exception{
@@ -120,9 +132,14 @@ public class Empresa extends Observable {
    
    public void agregarModelo(String nombre, Marca marca) throws Exception{
        this.getModelos();
-       Modelo aux = this.buscarModelo(nombre);
-       if (aux != null){
-           throw new Exception("La Marca "+ aux.getNombre() +" ya se encuentra registrada");
+       nombre = nombre.toUpperCase();
+       boolean aux = existeModelo(nombre, marca);
+       if (aux == false) {
+           Modelo unModelo = new Modelo(nombre, marca);
+           this.modelos.put(nombre, unModelo);
+           persistencia.update(this);
+       } else {
+           throw new Exception("El Modelo "+ nombre +" ya se encuentra registrada " + "para la marca " + marca.getNombre() + ".");
        }
    }
    
@@ -135,15 +152,25 @@ public class Empresa extends Observable {
        return aux;
    }
    
+   public boolean existeModelo(String nombre, Marca marca) throws Exception{
+       this.getMarcas();
+       boolean retorno = false;
+       Modelo aux = this.modelos.get(nombre);
+       if (aux != null && aux.getMarca() == marca){
+           retorno = true;
+       }
+       return retorno;
+   }
+   
    // Metodos Cliente
 
-   public void agregarCliente(String dni, String nombre, String apellido, String telefono) throws Exception {
+   public void agregarCliente(String dni, String nombre, String apellido, GregorianCalendar fechaDeNacimiento, String telefono) throws Exception {
        this.getClientes();
        nombre = nombre.toUpperCase();
        apellido = apellido.toUpperCase();
        boolean asd = existeCliente(dni);
        if(asd == false){
-           Cliente unCliente = new Cliente(dni, apellido, nombre, telefono);
+           Cliente unCliente = new Cliente(dni, apellido, nombre, fechaDeNacimiento, telefono);
            clientes.put(dni, unCliente);
            persistencia.update(this);
        }else{
@@ -170,13 +197,59 @@ public class Empresa extends Observable {
        return retorno;
    }   
    
-   // Metodos Especilista
+   public void eliminarCliente(String dni)throws Exception {
+       this.getClientes();
+       Cliente aux = buscarCliente(dni);
+       if (aux != null){
+           boolean estado = false;
+           aux.setEstado(estado);
+           persistencia.update(aux);
+       }else{
+           throw new Exception("El Cliente con DNI " + dni + " no se encuentra en el sistema.");
+       }
+   }   
+      
+   public void comprobarEstadoActivoCliente(String dni)throws Exception {
+       this.getClientes();
+       Cliente aux = buscarCliente(dni);
+       if (aux != null){
+           if(aux.getEstado() == false){
+               throw new Exception("El Cliente con DNI " + dni + " esta dado de baja en el sistema.");
+           }
+       }else{
+           throw new Exception("El Cliente con DNI " + dni + " no se encuentra en el sistema.");
+       }
+   }
    
-   public void agregarEspecialista (String dni, String apellido, String nombre, String telefono, Marca unaMarca) throws Exception{
+   public void cambiarEstadoCliente(Cliente unCliente)throws Exception {
+       unCliente.cambiarEstado();
+       persistencia.update(unCliente);
+       persistencia.update(this);
+   }
+   
+   public void modificarCliente(String dni, String nombre, String apellido, GregorianCalendar fechaDeNacimiento, String telefono) throws Exception {
+       this.getClientes();
+       Cliente aux = this.clientes.get(dni);
+       nombre = nombre.toUpperCase();
+       apellido = apellido.toUpperCase();
+       if (aux == null){
+           throw new Exception("El Cliente con DNI " + dni + " no se encuentra en el sistema.");
+       }else{
+           aux.setNombre(nombre);
+           aux.setApellido(apellido);
+           aux.setFechaDeNacimiento(fechaDeNacimiento);
+           aux.setTelefono(telefono);
+           persistencia.update(aux);
+       }
+   }
+
+    // Metodos Especilista
+   
+   public void agregarEspecialista (String dni, String apellido, String nombre, GregorianCalendar fechaDeNacimiento, String telefono, Marca unaMarca) throws Exception{
        this.getEspecialistas();
        boolean asd = existeEspecialista(dni);
        if(asd == false){
-           Especialista unEspecialista = new Especialista( dni,  apellido,  nombre, telefono, unaMarca);
+           Especialista unEspecialista = new Especialista( dni,  apellido,  nombre, fechaDeNacimiento, telefono, unaMarca);
            especialistas.put(dni, unEspecialista);
            persistencia.update(this);
        }else{
@@ -202,7 +275,31 @@ public class Empresa extends Observable {
        }
        return retorno;
    }
+   
+   /**Genera una agena a partir de una fecha inicial hasta la final, en un especialista determinado con un intervalo determinado.
+    * 
+    * @param unEspecialista
+    * @param inicio
+    * @param fin
+    * @param intervalo
+    * @throws Exception 
+    */
+   public void generarAgenda(Especialista unEspecialista, GregorianCalendar inicio, GregorianCalendar fin, int intervalo) throws Exception {
+       this.getEspecialistas();
+       Horario unHorario;
+       Dia unDia;
+       while(inicio.before(fin) || inicio.equals(fin)){
+           unDia = new Dia(inicio);
+           SimpleDateFormat sdf = new SimpleDateFormat();
+           while(inicio.get(Calendar.HOUR_OF_DAY) <= fin.get(Calendar.HOUR_OF_DAY) && inicio.get(Calendar.MINUTE) <= fin.get(Calendar.MINUTE) ){
+               unHorario = new Horario(inicio, fin);
+               inicio.add(Calendar.MINUTE, intervalo);
+           }
+           
+       }
+   }
 
+   
    /** Metodos Especialistas
     *
     * @param unaMarca

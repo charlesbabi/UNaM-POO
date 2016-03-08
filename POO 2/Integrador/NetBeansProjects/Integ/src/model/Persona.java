@@ -1,5 +1,7 @@
 package model;
 
+import java.util.GregorianCalendar;
+
 /**  <editor-fold defaultstate="collapsed" desc=" UML Marker ">
  *  #[regen=yes,id=DCE.317FE082-359C-FF49-C289-D1467E3A1042]
  *  </editor-fold>
@@ -10,20 +12,29 @@ public class Persona {
    private String dni;
    private String apellido;
    private String nombre;
+   private GregorianCalendar fechaDeNacimiento;
    private String telefono;
    private Usuario usuario;
+   private boolean estado;
 
    public Persona (){
        this.usuario = null;
+       this.estado = true;
    }
    
-    public Persona(String dni, String apellido, String nombre, String telefono) {
+    public Persona(String dni, String apellido, String nombre, GregorianCalendar fechaDeNacimiento, String telefono) {
         this();
         this.dni = dni;
         this.apellido = apellido;
         this.nombre = nombre;
         this.telefono = telefono;
-    } 
+        this.fechaDeNacimiento = fechaDeNacimiento;
+    }
+    
+    //metodos especificos
+    public void cambiarEstado(){
+        estado = estado != true;
+    }
 
     public String getDni() {
         return dni;
@@ -65,6 +76,21 @@ public class Persona {
         this.usuario = unUsuario;
     }
 
-   
-   
+    public GregorianCalendar getFechaDeNacimiento() {
+        return fechaDeNacimiento;
+    }
+
+    public void setFechaDeNacimiento(GregorianCalendar fechaDeNacimiento) {
+        this.fechaDeNacimiento = fechaDeNacimiento;
+    }
+
+    public boolean getEstado() {
+        return estado;
+    }
+
+    public void setEstado(boolean estado) {
+        this.estado = estado;
+    }
+    
+    
 }

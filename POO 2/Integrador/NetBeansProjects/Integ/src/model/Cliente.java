@@ -1,6 +1,7 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 public class Cliente extends Persona {
@@ -11,8 +12,8 @@ public class Cliente extends Persona {
     public Cliente(){
         super();
     }   
-    public Cliente(String dni, String apellido, String nombre, String telefono) {
-        super(dni, apellido, nombre, telefono);        
+    public Cliente(String dni, String apellido, String nombre, GregorianCalendar fechaDeNacimiento, String telefono) {
+        super(dni, apellido, nombre, fechaDeNacimiento, telefono);        
         this.vehiculos = new ArrayList();
         this.reservas = new ArrayList();
         Empresa.getPersistencia().insert(this);
@@ -35,6 +36,10 @@ public class Cliente extends Persona {
            retorno = vehiculos;
        }
        return retorno; 
+   }
+   
+   public void agregarVehiculo(Vehiculo unCar){
+       this.vehiculos.add(unCar);       
    }
 
     public List getVehiculos() {

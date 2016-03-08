@@ -5,6 +5,10 @@
  */
 package GUI;
 
+import com.toedter.calendar.JDateChooser;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import javax.swing.JTextField;
 
 /**
@@ -39,5 +43,20 @@ public class Modulo {
         return retorno;        
     }
 
+    /** Pasar de DateChooser a Gregorian Calendar
+    * Este metodo pasa los años, mes y dias. Inicia en 0 las horas, minutos y segundos.
+     * @param unDate
+     * @return GregorianCalendar
+     * @throws java.lang.Exception
+    */
+    public static GregorianCalendar DateChooserToGregorianCalendar(JDateChooser unDate) throws Exception{
+        GregorianCalendar fecha = null;
+        if (unDate != null) {
+            fecha = new GregorianCalendar(unDate.getCalendar().get(Calendar.YEAR), unDate.getCalendar().get(Calendar.MONTH), unDate.getCalendar().get(Calendar.DAY_OF_MONTH),00,00,00);
+        } else {
+            throw new Exception("Ingrese un JDateChooser Válido para transformar a Gregorian Calendar.");
+        }        
+        return fecha;   
+    }
     
 }

@@ -42,15 +42,19 @@ public class VtnPrincipal extends javax.swing.JFrame {
         jMenu2 = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenuItem1 = new javax.swing.JMenuItem();
-        jMenu1 = new javax.swing.JMenu();
-        MenuModelo = new javax.swing.JMenuItem();
-        jMenu5 = new javax.swing.JMenu();
-        MiAltaDeMarca = new javax.swing.JMenuItem();
-        jMenu3 = new javax.swing.JMenu();
+        MenuGestion = new javax.swing.JMenu();
+        MenuClientes = new javax.swing.JMenu();
         jMenuItem5 = new javax.swing.JMenuItem();
         jMenuItem3 = new javax.swing.JMenuItem();
-        jMenu4 = new javax.swing.JMenu();
+        MenuEspecialista = new javax.swing.JMenu();
         MiAltaDeEspecialista = new javax.swing.JMenuItem();
+        MenuAgenda = new javax.swing.JMenuItem();
+        MenuMarcas = new javax.swing.JMenu();
+        MiAltaDeMarca = new javax.swing.JMenuItem();
+        MenuModelos = new javax.swing.JMenu();
+        jMenuItem4 = new javax.swing.JMenuItem();
+        MenuVehiculos = new javax.swing.JMenu();
+        MiAltaDeVehiculo = new javax.swing.JMenuItem();
         MenuSolicitud = new javax.swing.JMenu();
         ItemMenuServicio = new javax.swing.JMenuItem();
 
@@ -95,29 +99,9 @@ public class VtnPrincipal extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu2);
 
-        jMenu1.setText("Gestion");
+        MenuGestion.setText("Gestion");
 
-        MenuModelo.setText("Modelo");
-        MenuModelo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                MenuModeloActionPerformed(evt);
-            }
-        });
-        jMenu1.add(MenuModelo);
-
-        jMenu5.setText("Marcas");
-
-        MiAltaDeMarca.setText("Alta de Marca");
-        MiAltaDeMarca.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                MiAltaDeMarcaActionPerformed(evt);
-            }
-        });
-        jMenu5.add(MiAltaDeMarca);
-
-        jMenu1.add(jMenu5);
-
-        jMenu3.setText("Clientes");
+        MenuClientes.setText("Clientes");
 
         jMenuItem5.setText("Alta Cliente");
         jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
@@ -125,7 +109,7 @@ public class VtnPrincipal extends javax.swing.JFrame {
                 jMenuItem5ActionPerformed(evt);
             }
         });
-        jMenu3.add(jMenuItem5);
+        MenuClientes.add(jMenuItem5);
 
         jMenuItem3.setText("Gestionar Clientes");
         jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
@@ -133,11 +117,11 @@ public class VtnPrincipal extends javax.swing.JFrame {
                 jMenuItem3ActionPerformed(evt);
             }
         });
-        jMenu3.add(jMenuItem3);
+        MenuClientes.add(jMenuItem3);
 
-        jMenu1.add(jMenu3);
+        MenuGestion.add(MenuClientes);
 
-        jMenu4.setText("Especialistas");
+        MenuEspecialista.setText("Especialistas");
 
         MiAltaDeEspecialista.setText("Alta de Especialista");
         MiAltaDeEspecialista.addActionListener(new java.awt.event.ActionListener() {
@@ -145,11 +129,55 @@ public class VtnPrincipal extends javax.swing.JFrame {
                 MiAltaDeEspecialistaActionPerformed(evt);
             }
         });
-        jMenu4.add(MiAltaDeEspecialista);
+        MenuEspecialista.add(MiAltaDeEspecialista);
 
-        jMenu1.add(jMenu4);
+        MenuAgenda.setText("Generar Agenda");
+        MenuAgenda.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MenuAgendaActionPerformed(evt);
+            }
+        });
+        MenuEspecialista.add(MenuAgenda);
 
-        jMenuBar1.add(jMenu1);
+        MenuGestion.add(MenuEspecialista);
+
+        MenuMarcas.setText("Marcas");
+
+        MiAltaDeMarca.setText("Alta de Marca");
+        MiAltaDeMarca.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MiAltaDeMarcaActionPerformed(evt);
+            }
+        });
+        MenuMarcas.add(MiAltaDeMarca);
+
+        MenuGestion.add(MenuMarcas);
+
+        MenuModelos.setText("Modelos");
+
+        jMenuItem4.setText("Alta de Modelo");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
+        MenuModelos.add(jMenuItem4);
+
+        MenuGestion.add(MenuModelos);
+
+        MenuVehiculos.setText("Vehiculos");
+
+        MiAltaDeVehiculo.setText("Alta de Vehiculo");
+        MiAltaDeVehiculo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MiAltaDeVehiculoActionPerformed(evt);
+            }
+        });
+        MenuVehiculos.add(MiAltaDeVehiculo);
+
+        MenuGestion.add(MenuVehiculos);
+
+        jMenuBar1.add(MenuGestion);
 
         MenuSolicitud.setText("Solicitud");
         MenuSolicitud.setName("Solicitud"); // NOI18N
@@ -185,35 +213,54 @@ public class VtnPrincipal extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
-    private void MenuModeloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuModeloActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_MenuModeloActionPerformed
-
     private void ItemMenuServicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ItemMenuServicioActionPerformed
         // TODO add your handling code here:
         VtnSolicitudServicio ventana = new VtnSolicitudServicio(this.emp);
+        ventana.setLocationRelativeTo(null);
         ventana.setVisible(true);
     }//GEN-LAST:event_ItemMenuServicioActionPerformed
 
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
         VtnAltaDeCliente AltaCliente = new VtnAltaDeCliente(this.emp);
+        AltaCliente.setLocationRelativeTo(null);
         AltaCliente.setVisible(true);
     }//GEN-LAST:event_jMenuItem5ActionPerformed
 
     private void MiAltaDeEspecialistaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MiAltaDeEspecialistaActionPerformed
         VtnAltaDeEspecialista AltaEspecialista = new VtnAltaDeEspecialista(this.emp);
+        AltaEspecialista.setLocationRelativeTo(null);
         AltaEspecialista.setVisible(true);
     }//GEN-LAST:event_MiAltaDeEspecialistaActionPerformed
 
     private void MiAltaDeMarcaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MiAltaDeMarcaActionPerformed
         VtnAltaDeMarca AltaMarca = new VtnAltaDeMarca(this.emp);
+        AltaMarca.setLocationRelativeTo(null);
         AltaMarca.setVisible(true);
     }//GEN-LAST:event_MiAltaDeMarcaActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
         VtnGestionClientes GestionCliente = new VtnGestionClientes(this.emp);
+        GestionCliente.setLocationRelativeTo(null);
         GestionCliente.setVisible(true);
     }//GEN-LAST:event_jMenuItem3ActionPerformed
+
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+        VtnAltadeModelo ventana = new VtnAltadeModelo(this.emp);
+        ventana.setLocationRelativeTo(this);
+        ventana.setVisible(true);
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
+
+    private void MiAltaDeVehiculoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MiAltaDeVehiculoActionPerformed
+        VtnAltaDeVehiculo ventana = new VtnAltaDeVehiculo(this.emp);
+        ventana.setLocationRelativeTo(this);
+        ventana.setVisible(true);
+    }//GEN-LAST:event_MiAltaDeVehiculoActionPerformed
+
+    private void MenuAgendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuAgendaActionPerformed
+        VtnGenerarAgenda ventana = new VtnGenerarAgenda(this.emp);
+        ventana.setLocationRelativeTo(this);
+        ventana.setVisible(true);
+    }//GEN-LAST:event_MenuAgendaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -253,20 +300,24 @@ public class VtnPrincipal extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem ItemMenuServicio;
-    private javax.swing.JMenuItem MenuModelo;
+    private javax.swing.JMenuItem MenuAgenda;
+    private javax.swing.JMenu MenuClientes;
+    private javax.swing.JMenu MenuEspecialista;
+    private javax.swing.JMenu MenuGestion;
+    private javax.swing.JMenu MenuMarcas;
+    private javax.swing.JMenu MenuModelos;
     private javax.swing.JMenu MenuSolicitud;
+    private javax.swing.JMenu MenuVehiculos;
     private javax.swing.JMenuItem MiAltaDeEspecialista;
     private javax.swing.JMenuItem MiAltaDeMarca;
+    private javax.swing.JMenuItem MiAltaDeVehiculo;
     private javax.swing.JDesktopPane jDesktopPane1;
-    private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenu jMenu3;
-    private javax.swing.JMenu jMenu4;
-    private javax.swing.JMenu jMenu5;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables

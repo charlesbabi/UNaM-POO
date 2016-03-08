@@ -5,7 +5,7 @@
       <id name="id" column="reserva_id" type="integer">
           <generator class="sequence" />
       </id>
-      <property name="fecha" column="reserva_fecha" type="date"/>
+      <property name="fecha" column="reserva_fecha" type="calendar_date"/>
       <property name="duracion" column="reserva_duracion" type="integer"/>
       <many-to-one name="especialista" class="model.Especialista" column="especialista_dni"/>
       <many-to-one name="cliente" class="model.Cliente" column="cliente_dni" />

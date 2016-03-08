@@ -5,27 +5,33 @@
  */
 package GUI;
 
+import java.util.Iterator;
+import java.util.Map;
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import model.Empresa;
+import model.Marca;
+import model.Modelo;
 
 /**
  *
  * @author Adamantium
  */
-public class VtnAltaDeMarca extends javax.swing.JFrame {
+public class VtnAltadeModelo extends javax.swing.JFrame {
 
     /**
-     * Creates new form VtnAltaDeMarca
+     * Creates new form VtnAltadeModelo
      */
-     Empresa emp = null;
-    
-    public VtnAltaDeMarca() {
+    private Empresa emp;
+   
+    public VtnAltadeModelo() {
         initComponents();
     }
     
-    public VtnAltaDeMarca(Empresa unaEmpresa) {
+    public VtnAltadeModelo(Empresa emp) {
         initComponents();
-        this.emp = unaEmpresa;
+        this.emp = emp;
+        cargarCombo(CbMarcas);
     }
 
     /**
@@ -37,19 +43,17 @@ public class VtnAltaDeMarca extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        TxtModeloNombre = new javax.swing.JTextField();
         BtnCancelar = new javax.swing.JButton();
-        TxtValorPorHora = new javax.swing.JTextField();
-        TxtMarcaNombre = new javax.swing.JTextField();
         BtnAceptar = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        CbMarcas = new javax.swing.JComboBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        jLabel1.setText("Nombre");
-
-        jLabel2.setText("Valor por hora:");
+        TxtModeloNombre.setName(""); // NOI18N
 
         BtnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/cancel.png"))); // NOI18N
         BtnCancelar.setText("Cancelar");
@@ -58,14 +62,6 @@ public class VtnAltaDeMarca extends javax.swing.JFrame {
                 BtnCancelarActionPerformed(evt);
             }
         });
-
-        TxtValorPorHora.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                TxtValorPorHoraActionPerformed(evt);
-            }
-        });
-
-        TxtMarcaNombre.setName(""); // NOI18N
 
         BtnAceptar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/accept.png"))); // NOI18N
         BtnAceptar.setText("Aceptar");
@@ -76,7 +72,13 @@ public class VtnAltaDeMarca extends javax.swing.JFrame {
         });
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 0, 34)); // NOI18N
-        jLabel5.setText("Alta de Marca");
+        jLabel5.setText("Alta de Modelo");
+
+        jLabel1.setText("Nombre");
+
+        jLabel2.setText("Marca");
+
+        CbMarcas.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -85,37 +87,34 @@ public class VtnAltaDeMarca extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(BtnAceptar)
                     .addComponent(jLabel1)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(TxtMarcaNombre, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
+                    .addComponent(CbMarcas, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(BtnCancelar)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2)
-                            .addGap(121, 121, 121))
-                        .addComponent(TxtValorPorHora))
+                            .addComponent(TxtModeloNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(BtnAceptar)
-                        .addGap(44, 44, 44)
-                        .addComponent(BtnCancelar)))
+                        .addGap(8, 8, 8)
+                        .addComponent(jLabel5)
+                        .addGap(18, 18, 18)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(36, 36, 36)
-                .addComponent(jLabel5)
-                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel5)
-                .addGap(29, 29, 29)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(CbMarcas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(7, 7, 7)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(TxtMarcaNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(TxtValorPorHora, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addComponent(TxtModeloNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(28, 28, 28)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(BtnAceptar)
                     .addComponent(BtnCancelar))
@@ -129,20 +128,31 @@ public class VtnAltaDeMarca extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_BtnCancelarActionPerformed
 
-    private void TxtValorPorHoraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TxtValorPorHoraActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_TxtValorPorHoraActionPerformed
-
     private void BtnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnAceptarActionPerformed
         try {
-            this.emp.existeMarca(TxtMarcaNombre.getText());
-            float valor = Float.parseFloat(TxtValorPorHora.getText());
-            this.emp.agregarMarca(TxtMarcaNombre.getText(), valor);
+            if (CbMarcas.getSelectedIndex() >= 0) {
+                String nombre = TxtModeloNombre.getText();
+                Marca marca = (Marca) CbMarcas.getSelectedItem();
+                this.emp.existeModelo(nombre, marca);                 
+                this.emp.agregarModelo(nombre, marca);
+            } else {
+                JOptionPane.showMessageDialog(this, "Seleccione una Marca para continuar.");
+            }
+            
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage());
         }
     }//GEN-LAST:event_BtnAceptarActionPerformed
 
+    private void cargarCombo(JComboBox unCombo){
+        unCombo.removeAllItems();
+        Map lista = this.emp.getMarcas();
+        Iterator <Marca> it = lista.values().iterator();
+        while(it.hasNext()){
+            unCombo.addItem(it.next());
+        }
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -160,20 +170,20 @@ public class VtnAltaDeMarca extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(VtnAltaDeMarca.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VtnAltadeModelo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(VtnAltaDeMarca.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VtnAltadeModelo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(VtnAltaDeMarca.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VtnAltadeModelo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(VtnAltaDeMarca.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VtnAltadeModelo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new VtnAltaDeMarca().setVisible(true);
+                new VtnAltadeModelo().setVisible(true);
             }
         });
     }
@@ -181,8 +191,8 @@ public class VtnAltaDeMarca extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BtnAceptar;
     private javax.swing.JButton BtnCancelar;
-    private javax.swing.JTextField TxtMarcaNombre;
-    private javax.swing.JTextField TxtValorPorHora;
+    private javax.swing.JComboBox CbMarcas;
+    private javax.swing.JTextField TxtModeloNombre;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel5;

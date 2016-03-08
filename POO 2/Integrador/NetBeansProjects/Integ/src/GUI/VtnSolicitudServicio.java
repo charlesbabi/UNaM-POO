@@ -7,10 +7,13 @@ package GUI;
 
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 import javax.swing.JOptionPane;
+import model.Cliente;
 import model.Empresa;
 import model.Especialista;
 //import modelo.Funciones;
@@ -96,7 +99,7 @@ public class VtnSolicitudServicio extends javax.swing.JFrame implements Observer
 
         jLabel1.setText("Cliente DNI");
 
-        TxtDni.setText("35006321");
+        TxtDni.setText("123123");
 
         jLabel2.setText("Apellido y Nombre");
 
@@ -281,14 +284,14 @@ public class VtnSolicitudServicio extends javax.swing.JFrame implements Observer
             ComboVehiculos.removeAllItems();
         }
         if (TxtDni.getText().length() > 5) {
-            /*try {
+            try {
                 this.emp.getClientes();
                 Cliente aux;
-                int dniAux = Integer.parseInt(TxtDni.getText());
+                String dniAux = TxtDni.getText();
                 aux = this.emp.buscarCliente(dniAux);
-                Map vehiculos = aux.getVehiculos();
+                List vehiculos = aux.getVehiculos();
                 if (vehiculos.size() > 0) {
-                    Iterator<Vehiculo> it = vehiculos.values().iterator();
+                    Iterator<Vehiculo> it = vehiculos.iterator();
                     TxtApellidoYNombre.setText(aux.getApellido() + " " + aux.getNombre());
                     while (it.hasNext()) {
                         Vehiculo temp = it.next();
@@ -299,7 +302,7 @@ public class VtnSolicitudServicio extends javax.swing.JFrame implements Observer
                 }
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(rootPane, ex.getMessage());
-            }*/
+            }
         } else {
             JOptionPane.showMessageDialog(rootPane, "Ingrese al menos 6 digitos.");
         }

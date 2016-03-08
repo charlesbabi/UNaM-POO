@@ -17,29 +17,22 @@ public class Especialista extends Persona {
        this.reservas = new ArrayList();
        this.marca = null;
        this.servicios = new ArrayList();
-       this.agenda = null;
+       this.agenda = new Agenda();
    }
 
-    public Especialista(String dni, String apellido, String nombre,String telefono, Marca unaMarca) {
-        super(dni, apellido, nombre, telefono);
+    public Especialista(String dni, String apellido, String nombre, GregorianCalendar fechaDeNacimiento, String telefono, Marca unaMarca) {
+        super(dni, apellido, nombre, fechaDeNacimiento, telefono);
         this.reservas = new ArrayList();
         this.servicios = new ArrayList();
-        this.agenda = null;
+        this.agenda = new Agenda(dni, this);
         this.marca = unaMarca;
+        this.marca.asociarEspecialista(this);
         Empresa.getPersistencia().insert(this);
     }   
    
    private boolean estaOcupado(GregorianCalendar fecha, int hora) {       
        return false;
 
-   }
-   
-   /**  <editor-fold defaultstate="collapsed" desc=" UML Marker ">
-    *  #[regen=yes,id=DCE.714F1DFB-1C84-EAE9-A14C-1C6F55B9B346]
-    *  </editor-fold>
-    * 
-    * @pdOid cccde989-e4e9-40c9-b036-f5bdbc1731d7 */
-   public void registrarRespuestos() {
    }
    
    /**  <editor-fold defaultstate="collapsed" desc=" UML Marker ">
@@ -50,8 +43,9 @@ public class Especialista extends Persona {
    public void verReservas() {
    }
    
-   /** @param fecha 
+   /** *  @param fecha 
     * @param duracion
+     * @return List
     * @pdOid 68673683-eaad-418c-a97f-dc62517b5b79 */
    public List buscarHorariosLibres(GregorianCalendar fecha, int duracion) {        
      return null;
@@ -106,6 +100,8 @@ public class Especialista extends Persona {
         this.agenda = agenda;
     }
 
-   
-   
+    @Override
+    public String toString() {
+        return this.getApellido() +" "+ this.getNombre();
+    }   
 }

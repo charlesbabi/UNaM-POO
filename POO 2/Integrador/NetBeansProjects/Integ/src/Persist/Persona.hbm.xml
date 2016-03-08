@@ -8,6 +8,8 @@
       <property name="apellido" type="string" column="persona_apellido" />
       <property name="nombre" type="string" column="persona_nombre" />
       <property name="telefono" type="string" column="persona_telefono" />
+      <property name="fechaDeNacimiento" type="calendar_date" column="persona_fecha_de_nacimiento" />
+      <property name="estado" type="boolean" column="persona_estado" />
       
       <joined-subclass name="model.Cliente" table="clientes" >
           <key column="persona_dni" />

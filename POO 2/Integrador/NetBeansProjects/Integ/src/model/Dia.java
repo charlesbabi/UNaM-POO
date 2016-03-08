@@ -8,15 +8,36 @@ package model;
 
 import java.util.*;
 
-/** @pdOid aebe4f6b-c403-4f45-8e54-83b1c7476155 */
 public class Dia {
-   /** @pdOid 8cb14bd9-0e29-4991-b840-e0c128c1f427 */
    private GregorianCalendar fecha;
-   /** @pdOid 3c193e61-91f5-4995-abeb-c66d17788ec7 */
    private List <Horario> horarios;
-   /** @pdOid ef35c7ad-5b7e-4095-b213-65fe727fd659 */
    private List <Servicio> servicios;
-   
+   private List <Reserva> reservas;
+
+    public Dia() {
+        this.horarios = new ArrayList();
+        this.servicios = new ArrayList();
+        this.reservas = new ArrayList();
+    }
+
+    public Dia(GregorianCalendar fecha) {
+        this();
+        this.fecha = fecha;
+        Empresa.getPersistencia().insert(this);
+    }
+    
+    /**Agrega horarios al día.
+     * 
+     * @param unHorario
+     * @throws Exception 
+     */
+    public void agregarHorario(Horario unHorario) throws Exception{
+        if (!this.horarios.contains(unHorario)) {
+            this.horarios.add(unHorario);
+        } else {
+            throw new Exception ("Ese horario ya existe en ese dia.");
+        }
+    }
 
     public GregorianCalendar getFecha() {
         return fecha;
@@ -40,6 +61,14 @@ public class Dia {
 
     public void setServicios(List<Servicio> servicios) {
         this.servicios = servicios;
+    }
+
+    public List<Reserva> getReservas() {
+        return reservas;
+    }
+
+    public void setReservas(List<Reserva> reservas) {
+        this.reservas = reservas;
     }
 
    
