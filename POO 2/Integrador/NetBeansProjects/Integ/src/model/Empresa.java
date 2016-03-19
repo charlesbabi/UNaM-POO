@@ -94,6 +94,22 @@ public class Empresa extends Observable {
        }
        return retorno;
    } 
+   
+   public void modificarVehiculo (String patente, GregorianCalendar fechaDeCompra, Modelo modelo, Cliente unCliente) throws Exception {
+       this.getVehiculos();
+       Vehiculo aux = this.vehiculos.get(patente);
+       if (aux == null){
+           throw new Exception("El Vehiculo con Patente " + patente + " no se encuentra en el sistema.");
+       }else{
+           aux.setPatente(patente);
+           aux.setFechaDeCompra(fechaDeCompra);
+           aux.setModelo(modelo);
+           aux.setCliente(unCliente);
+           persistencia.update(aux);
+       }
+   }
+
+   
    // Metodos Marcas
    
    public void agregarMarca(String nombre, float valorPorHora) throws Exception{
@@ -221,9 +237,9 @@ public class Empresa extends Observable {
        }
    }
    
-   public void cambiarEstadoCliente(Cliente unCliente)throws Exception {
-       unCliente.cambiarEstado();
-       persistencia.update(unCliente);
+   public void cambiarEstado(Persona unaPersona)throws Exception {
+       unaPersona.cambiarEstado();
+       persistencia.update(unaPersona);
        persistencia.update(this);
    }
    
@@ -274,6 +290,23 @@ public class Empresa extends Observable {
            retorno = true;
        }
        return retorno;
+   }
+   
+   public void modificarEspecialista(String dni, String nombre, String apellido, GregorianCalendar fechaDeNacimiento, String telefono, Marca unaMarca) throws Exception {
+       this.getClientes();
+       Especialista aux = this.especialistas.get(dni);
+       nombre = nombre.toUpperCase();
+       apellido = apellido.toUpperCase();
+       if (aux == null){
+           throw new Exception("El Especialista con DNI " + dni + " no se encuentra en el sistema.");
+       }else{
+           aux.setNombre(nombre);
+           aux.setApellido(apellido);
+           aux.setFechaDeNacimiento(fechaDeNacimiento);
+           aux.setTelefono(telefono);
+           aux.setMarca(unaMarca);
+           persistencia.update(aux);
+       }
    }
    
    /**Genera una agena a partir de una fecha inicial hasta la final, en un especialista determinado con un intervalo determinado.

@@ -7,9 +7,7 @@ package GUI;
 
 import com.toedter.calendar.JDateChooser;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
-import javax.swing.JTextField;
 
 /**
  *

@@ -1,5 +1,6 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
 
@@ -12,13 +13,18 @@ public class Reserva {
    private short estado;
    private List <Problema> problemas;
    private Servicio servicio;
+   private Vehiculo vehiculo;
 
-   public Reserva(GregorianCalendar fecha, Especialista especialista, Cliente cliente, List<Problema> problemas, Servicio servicio) {
+    public Reserva() {
+        this.problemas = new ArrayList<Problema> ();
+    }
+
+   public Reserva(GregorianCalendar fecha, Especialista especialista, Cliente cliente, Vehiculo vehiculo) {
+        this(); 
         this.fecha = fecha;
         this.especialista = especialista;
         this.cliente = cliente;
-        this.problemas = problemas;
-        this.servicio = servicio;
+        this.vehiculo = vehiculo;
     }
      
    public boolean estaOcupado(GregorianCalendar fecha, int hora) {
@@ -87,6 +93,14 @@ public class Reserva {
 
     public void setServicio(Servicio servicio) {
         this.servicio = servicio;
+    }
+
+    public Vehiculo getVehiculo() {
+        return vehiculo;
+    }
+
+    public void setVehiculo(Vehiculo vehiculo) {
+        this.vehiculo = vehiculo;
     }
 
    

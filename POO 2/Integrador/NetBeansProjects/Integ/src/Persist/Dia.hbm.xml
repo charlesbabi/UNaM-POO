@@ -2,15 +2,13 @@
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
   <class table="dias" dynamic-insert="false" dynamic-update="false" mutable="true" name="model.Dia" optimistic-lock="version" polymorphism="implicit" select-before-update="false">
-    <id name="fecha" column="dia_id" type="calendar_date">
-        <generator class="assigned"/>
+    <id name="id" column="dia_id" type="integer">
+        <generator class="sequence"/>
     </id>
-      
-    <list name="horarios">
-        <key column="dia_id"/>
-        <list-index column="dia_horarios_index" />
-        <one-to-many class="model.Horario"/>
-    </list>
+    
+    <property name="fecha" column="dia_fecha" type="calendar_date" />
+    <property name="entrada" column="horario_entrada" type="time" />
+    <property name="salida" column="horario_salida" type="time" />
     
     <list name="servicios">
         <key column="dia_id"/>
@@ -23,6 +21,5 @@
         <list-index column="dia_reserva_index" />
         <one-to-many class="model.Reserva"/>
     </list>
-    
   </class>
 </hibernate-mapping>

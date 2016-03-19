@@ -242,7 +242,7 @@ public class VtnGestionClientes extends javax.swing.JFrame {
                 Cliente unCliente = this.emp.buscarCliente((String) jTable1.getModel().getValueAt(jTable1.getSelectedRow(), 0)); 
                 int opcion = JOptionPane.showConfirmDialog(this, "¿Seguro que desea cambiar el estado del Cliente " + unCliente.getDni() + "?");
                 if (opcion == 0) {
-                    this.emp.cambiarEstadoCliente(unCliente);
+                    this.emp.cambiarEstado(unCliente);
                     JOptionPane.showMessageDialog(this, "Se cambio de estado correctamente");
                 }
             } catch (Exception ex) {

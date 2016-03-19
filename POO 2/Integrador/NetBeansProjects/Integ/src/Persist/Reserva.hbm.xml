@@ -10,7 +10,8 @@
       <many-to-one name="especialista" class="model.Especialista" column="especialista_dni"/>
       <many-to-one name="cliente" class="model.Cliente" column="cliente_dni" />
       <property name="estado" column="reserva_estado" type="short" />
-
+      <many-to-one name="vehiculo" class="model.Vehiculo" column="patente_vehiculo"/>
+      
       <list name="problemas">
         <key column="reserva_id"/>
         <list-index column="reserva_problema_index" />

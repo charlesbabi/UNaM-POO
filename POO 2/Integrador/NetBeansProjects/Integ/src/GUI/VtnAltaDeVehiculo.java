@@ -17,6 +17,7 @@ import model.Cliente;
 import model.Empresa;
 import model.Marca;
 import model.Modelo;
+import model.Vehiculo;
 
 /**
  *
@@ -27,18 +28,37 @@ public class VtnAltaDeVehiculo extends javax.swing.JFrame {
     /**
      * Creates new form VtnAltaDeVehiculo
      */
-    Empresa emp = null;
-    Cliente unCliente = null;
+    private Empresa emp = null;
+    private Cliente unCliente = null;
+    private boolean modificar = false;
+    
     public VtnAltaDeVehiculo() {
         initComponents();
     }
     
     public VtnAltaDeVehiculo(Empresa emp) {
-        initComponents();
+        this();
         this.emp = emp;
         cargarMarcas(ComboMarca);
         cargarModelos(ComboModelo);
         camposEstandar();
+    }
+    
+    public VtnAltaDeVehiculo(Empresa emp, Vehiculo unVehiculo) {
+        this(emp);       
+        this.modificar = true;
+        this.unCliente = unVehiculo.getCliente();
+        BtnAceptar.setText("Modificar");        
+        TxtDni.setText(unVehiculo.getCliente().getDni());
+        lblNombre.setText(unVehiculo.getCliente().getApellido() + ", " + unVehiculo.getCliente().getNombre());
+        SimpleDateFormat sfd = new SimpleDateFormat("dd-MM-yyyy");
+        lblFechaDeNacimiento.setText(sfd.format(unVehiculo.getCliente().getFechaDeNacimiento().getTime())); 
+        TxtPatente.setText(unVehiculo.getPatente());
+        TxtPatente.disable();
+        DateFechaDeCompra.setCalendar(unVehiculo.getFechaDeCompra());
+        ComboMarca.setSelectedItem(unVehiculo.getModelo().getMarca());
+        ComboModelo.setSelectedItem(unVehiculo.getModelo());
+        lblTitulo.setText("Modificar Vehiculo");        
     }
 
     /**
@@ -52,12 +72,12 @@ public class VtnAltaDeVehiculo extends javax.swing.JFrame {
 
         jLabel4 = new javax.swing.JLabel();
         TxtPatente = new javax.swing.JTextField();
-        jLabel5 = new javax.swing.JLabel();
+        lblTitulo = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         ComboModelo = new javax.swing.JComboBox();
         jLabel6 = new javax.swing.JLabel();
         ComboMarca = new javax.swing.JComboBox();
-        jDateChooser1 = new com.toedter.calendar.JDateChooser();
+        DateFechaDeCompra = new com.toedter.calendar.JDateChooser();
         jLabel7 = new javax.swing.JLabel();
         BtnAceptar = new javax.swing.JButton();
         BtnCancelar = new javax.swing.JButton();
@@ -71,8 +91,8 @@ public class VtnAltaDeVehiculo extends javax.swing.JFrame {
 
         jLabel4.setText("Patente");
 
-        jLabel5.setFont(new java.awt.Font("Tahoma", 0, 34)); // NOI18N
-        jLabel5.setText("Alta de Vehiculo");
+        lblTitulo.setFont(new java.awt.Font("Tahoma", 0, 34)); // NOI18N
+        lblTitulo.setText("Alta de Vehiculo");
 
         jLabel1.setText("Modelo");
 
@@ -126,7 +146,7 @@ public class VtnAltaDeVehiculo extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(43, 43, 43)
-                        .addComponent(jLabel5))
+                        .addComponent(lblTitulo))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -140,7 +160,7 @@ public class VtnAltaDeVehiculo extends javax.swing.JFrame {
                                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addComponent(jLabel4)
                                     .addComponent(TxtPatente)
-                                    .addComponent(jDateChooser1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addComponent(DateFechaDeCompra, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addGap(49, 49, 49)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(jLabel1)
@@ -161,7 +181,7 @@ public class VtnAltaDeVehiculo extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(20, 20, 20)
-                .addComponent(jLabel5)
+                .addComponent(lblTitulo)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8)
@@ -187,7 +207,7 @@ public class VtnAltaDeVehiculo extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel7)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(DateFechaDeCompra, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -204,14 +224,26 @@ public class VtnAltaDeVehiculo extends javax.swing.JFrame {
 
     private void BtnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnAceptarActionPerformed
         try {
-            if (ComboMarca.getSelectedIndex() >= 0 && ComboModelo.getSelectedIndex() >=0) {
-                String patente = TxtPatente.getText();
-                Modelo modelo = (Modelo) ComboModelo.getSelectedItem();
-                GregorianCalendar fecha = Modulo.DateChooserToGregorianCalendar(jDateChooser1);
-                this.emp.agregarVehiculo(patente, fecha, modelo, unCliente);
-                camposEstandar();
-            }else{
-                JOptionPane.showMessageDialog(this, "Seleccione un modelo y marca para el vehiculo.");
+            if (modificar == false) {
+                if (ComboMarca.getSelectedIndex() >= 0 && ComboModelo.getSelectedIndex() >=0) {
+                    String patente = TxtPatente.getText();
+                    Modelo modelo = (Modelo) ComboModelo.getSelectedItem();
+                    GregorianCalendar fecha = Modulo.DateChooserToGregorianCalendar(DateFechaDeCompra);
+                    this.emp.agregarVehiculo(patente, fecha, modelo, unCliente);
+                    camposEstandar();
+                }else{
+                    JOptionPane.showMessageDialog(this, "Seleccione un modelo y marca para el vehiculo.");
+                }
+            } else if(modificar == true) {
+                if (ComboMarca.getSelectedIndex() >= 0 && ComboModelo.getSelectedIndex() >=0) {
+                    String patente = TxtPatente.getText();
+                    Modelo modelo = (Modelo) ComboModelo.getSelectedItem();
+                    GregorianCalendar fecha = Modulo.DateChooserToGregorianCalendar(DateFechaDeCompra);
+                    this.emp.modificarVehiculo(patente, fecha, modelo, unCliente);
+                    camposEstandar();
+                }else{
+                    JOptionPane.showMessageDialog(this, "Seleccione un modelo y marca para el vehiculo.");
+                }
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage());
@@ -265,7 +297,7 @@ public class VtnAltaDeVehiculo extends javax.swing.JFrame {
         lblNombre.setText("Nombre");
         lblFechaDeNacimiento.setText("Fecha de Nacimiento");
         Calendar fechaActual = new GregorianCalendar();
-        jDateChooser1.setCalendar(fechaActual);
+        DateFechaDeCompra.setCalendar(fechaActual);
     }    
     
     /**
@@ -308,17 +340,17 @@ public class VtnAltaDeVehiculo extends javax.swing.JFrame {
     private javax.swing.JButton BtnCancelar;
     private javax.swing.JComboBox ComboMarca;
     private javax.swing.JComboBox ComboModelo;
+    private com.toedter.calendar.JDateChooser DateFechaDeCompra;
     private javax.swing.JTextField TxtDni;
     private javax.swing.JTextField TxtPatente;
     private javax.swing.JButton jButton1;
-    private com.toedter.calendar.JDateChooser jDateChooser1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel lblFechaDeNacimiento;
     private javax.swing.JLabel lblNombre;
+    private javax.swing.JLabel lblTitulo;
     // End of variables declaration//GEN-END:variables
 }

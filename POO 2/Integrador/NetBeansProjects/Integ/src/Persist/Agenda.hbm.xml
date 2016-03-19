@@ -6,11 +6,12 @@
           <generator class="assigned"/>
       </id>
       
-      <map name="dias" cascade="all">
-        <key column="agenda_id" />
-        <map-key column="dia_id" type="calendar_date"/>
+      <list name="dias">
+        <key column="agenda_id"/>
+        <list-index column="agenda_dia_index" />
         <one-to-many class="model.Dia"/>
-      </map>
+      </list>
+      
       
   </class>
 </hibernate-mapping>

@@ -28,13 +28,12 @@ public class VtnAltaDeCliente extends javax.swing.JFrame {
     }
     
     public VtnAltaDeCliente(Empresa unaEmpresa) {
-        initComponents();
+        this();
         this.emp = unaEmpresa;
     }
     
     public VtnAltaDeCliente(Empresa unaEmpresa, Cliente tipo) {
-        initComponents();
-        this.emp = unaEmpresa;        
+        this(unaEmpresa);       
         this.modificar = true;
         BtnAceptar.setText("Modificar");        
         TxtDNI.setText(tipo.getDni());

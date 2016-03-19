@@ -43,20 +43,22 @@ public class VtnPrincipal extends javax.swing.JFrame {
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenuItem1 = new javax.swing.JMenuItem();
         MenuGestion = new javax.swing.JMenu();
+        MenuSolicitud = new javax.swing.JMenu();
+        ItemMenuServicio = new javax.swing.JMenuItem();
         MenuClientes = new javax.swing.JMenu();
         jMenuItem5 = new javax.swing.JMenuItem();
         jMenuItem3 = new javax.swing.JMenuItem();
         MenuEspecialista = new javax.swing.JMenu();
         MiAltaDeEspecialista = new javax.swing.JMenuItem();
         MenuAgenda = new javax.swing.JMenuItem();
+        MenuGestionarEspecialistas = new javax.swing.JMenuItem();
         MenuMarcas = new javax.swing.JMenu();
         MiAltaDeMarca = new javax.swing.JMenuItem();
         MenuModelos = new javax.swing.JMenu();
         jMenuItem4 = new javax.swing.JMenuItem();
         MenuVehiculos = new javax.swing.JMenu();
         MiAltaDeVehiculo = new javax.swing.JMenuItem();
-        MenuSolicitud = new javax.swing.JMenu();
-        ItemMenuServicio = new javax.swing.JMenuItem();
+        MenuGestionarVehiculos = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Sistema tu Carrito");
@@ -100,6 +102,20 @@ public class VtnPrincipal extends javax.swing.JFrame {
         jMenuBar1.add(jMenu2);
 
         MenuGestion.setText("Gestion");
+        jMenuBar1.add(MenuGestion);
+
+        MenuSolicitud.setText("Solicitud");
+        MenuSolicitud.setName("Solicitud"); // NOI18N
+
+        ItemMenuServicio.setText("Servicio");
+        ItemMenuServicio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ItemMenuServicioActionPerformed(evt);
+            }
+        });
+        MenuSolicitud.add(ItemMenuServicio);
+
+        jMenuBar1.add(MenuSolicitud);
 
         MenuClientes.setText("Clientes");
 
@@ -119,7 +135,7 @@ public class VtnPrincipal extends javax.swing.JFrame {
         });
         MenuClientes.add(jMenuItem3);
 
-        MenuGestion.add(MenuClientes);
+        jMenuBar1.add(MenuClientes);
 
         MenuEspecialista.setText("Especialistas");
 
@@ -139,7 +155,15 @@ public class VtnPrincipal extends javax.swing.JFrame {
         });
         MenuEspecialista.add(MenuAgenda);
 
-        MenuGestion.add(MenuEspecialista);
+        MenuGestionarEspecialistas.setText("Gestionar Especialistas");
+        MenuGestionarEspecialistas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MenuGestionarEspecialistasActionPerformed(evt);
+            }
+        });
+        MenuEspecialista.add(MenuGestionarEspecialistas);
+
+        jMenuBar1.add(MenuEspecialista);
 
         MenuMarcas.setText("Marcas");
 
@@ -151,7 +175,7 @@ public class VtnPrincipal extends javax.swing.JFrame {
         });
         MenuMarcas.add(MiAltaDeMarca);
 
-        MenuGestion.add(MenuMarcas);
+        jMenuBar1.add(MenuMarcas);
 
         MenuModelos.setText("Modelos");
 
@@ -163,7 +187,7 @@ public class VtnPrincipal extends javax.swing.JFrame {
         });
         MenuModelos.add(jMenuItem4);
 
-        MenuGestion.add(MenuModelos);
+        jMenuBar1.add(MenuModelos);
 
         MenuVehiculos.setText("Vehiculos");
 
@@ -175,22 +199,15 @@ public class VtnPrincipal extends javax.swing.JFrame {
         });
         MenuVehiculos.add(MiAltaDeVehiculo);
 
-        MenuGestion.add(MenuVehiculos);
-
-        jMenuBar1.add(MenuGestion);
-
-        MenuSolicitud.setText("Solicitud");
-        MenuSolicitud.setName("Solicitud"); // NOI18N
-
-        ItemMenuServicio.setText("Servicio");
-        ItemMenuServicio.addActionListener(new java.awt.event.ActionListener() {
+        MenuGestionarVehiculos.setText("Gestionar Vehiculos");
+        MenuGestionarVehiculos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ItemMenuServicioActionPerformed(evt);
+                MenuGestionarVehiculosActionPerformed(evt);
             }
         });
-        MenuSolicitud.add(ItemMenuServicio);
+        MenuVehiculos.add(MenuGestionarVehiculos);
 
-        jMenuBar1.add(MenuSolicitud);
+        jMenuBar1.add(MenuVehiculos);
 
         setJMenuBar(jMenuBar1);
 
@@ -262,6 +279,18 @@ public class VtnPrincipal extends javax.swing.JFrame {
         ventana.setVisible(true);
     }//GEN-LAST:event_MenuAgendaActionPerformed
 
+    private void MenuGestionarEspecialistasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuGestionarEspecialistasActionPerformed
+        VtnGestionarEspecialistas ventana = new VtnGestionarEspecialistas(this.emp);
+        ventana.setLocationRelativeTo(this);
+        ventana.setVisible(true);
+    }//GEN-LAST:event_MenuGestionarEspecialistasActionPerformed
+
+    private void MenuGestionarVehiculosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuGestionarVehiculosActionPerformed
+        VtnGestionarVehiculos ventana = new VtnGestionarVehiculos(this.emp);
+        ventana.setLocationRelativeTo(this);
+        ventana.setVisible(true);
+    }//GEN-LAST:event_MenuGestionarVehiculosActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -304,6 +333,8 @@ public class VtnPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenu MenuClientes;
     private javax.swing.JMenu MenuEspecialista;
     private javax.swing.JMenu MenuGestion;
+    private javax.swing.JMenuItem MenuGestionarEspecialistas;
+    private javax.swing.JMenuItem MenuGestionarVehiculos;
     private javax.swing.JMenu MenuMarcas;
     private javax.swing.JMenu MenuModelos;
     private javax.swing.JMenu MenuSolicitud;

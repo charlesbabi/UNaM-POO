@@ -5,12 +5,9 @@
  */
 package GUI;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import model.Empresa;
 import model.Especialista;
@@ -26,18 +23,19 @@ public class VtnGenerarAgenda extends javax.swing.JFrame {
      */
     Empresa emp;
     int minutos;
+    Especialista unEspecialista;
     
     public VtnGenerarAgenda() {
         initComponents();
-        minutos = 30;
+        this.minutos = 30;
+        unEspecialista = null;
     }
     
     public VtnGenerarAgenda(Empresa emp) {
-        initComponents();
+        this();
         this.emp = emp;
         cargarHoras();
         limpiarCampos();
-        this.minutos = 30;
     }
 
 
@@ -71,7 +69,7 @@ public class VtnGenerarAgenda extends javax.swing.JFrame {
         ComboHasta = new javax.swing.JComboBox();
         jPanel5 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList();
+        ListaDeDias = new javax.swing.JList();
         BtnAgregar2 = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
 
@@ -82,7 +80,12 @@ public class VtnGenerarAgenda extends javax.swing.JFrame {
 
         jLabel1.setText("Especialista");
 
-        TxtDni.setText("123456");
+        TxtDni.setText("11966785");
+        TxtDni.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                TxtDniActionPerformed(evt);
+            }
+        });
 
         jLabel2.setText("Apellido y Nombre");
 
@@ -227,12 +230,12 @@ public class VtnGenerarAgenda extends javax.swing.JFrame {
 
         jPanel5.setBorder(javax.swing.BorderFactory.createEtchedBorder(javax.swing.border.EtchedBorder.RAISED));
 
-        jList1.setModel(new javax.swing.AbstractListModel() {
+        ListaDeDias.setModel(new javax.swing.AbstractListModel() {
             String[] strings = { "DOMINGO", "LUNES", "MARTES", "MIERCOLES", "JUEVES", "VIERNES", "SABADO" };
             public int getSize() { return strings.length; }
             public Object getElementAt(int i) { return strings[i]; }
         });
-        jScrollPane1.setViewportView(jList1);
+        jScrollPane1.setViewportView(ListaDeDias);
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -335,7 +338,7 @@ public class VtnGenerarAgenda extends javax.swing.JFrame {
     private void BtnBuscarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnBuscarClienteActionPerformed
         // TODO add your handling code here:
         TxtApellidoYNombre.setText("");
-        if (TxtDni.getText().length() > 5) {
+        if (TxtDni.getText().length() > 0) {
             try {
                 this.emp.getEspecialistas();
                 Especialista aux;
@@ -343,11 +346,12 @@ public class VtnGenerarAgenda extends javax.swing.JFrame {
                 aux = this.emp.buscarEspecialista(dniAux);
                 TxtApellidoYNombre.setText(aux.getApellido() + " " + aux.getNombre());
                 lblMarca.setText(aux.getMarca().getNombre());
+                this.unEspecialista = aux;
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(rootPane, ex.getMessage());
             }
         } else {
-            JOptionPane.showMessageDialog(rootPane, "Ingrese al menos 6 digitos.");
+            JOptionPane.showMessageDialog(rootPane, "Ingrese un numero de dni.");
         }
     }//GEN-LAST:event_BtnBuscarClienteActionPerformed
 
@@ -364,17 +368,18 @@ public class VtnGenerarAgenda extends javax.swing.JFrame {
             desde.add(Calendar.MINUTE, Integer.parseInt(horaDesde[1]));
             hasta.add(Calendar.HOUR_OF_DAY, Integer.parseInt(horaHasta[0]));
             hasta.add(Calendar.MINUTE, Integer.parseInt(horaHasta[1]));
-            
-            //se pregunta si la fecha hasta es superior a desde.
-            if (desde.before(hasta) || !desde.equals(hasta)) {
-                JOptionPane.showMessageDialog(null, sdf.format(desde.getTime()) + " - " + sdf.format(hasta.getTime()));
-            } else {
-                JOptionPane.showMessageDialog(null, "La fecha Final debe ser menor que la inicial");
+            //Se controla que la hora hasta sea mayor que desde
+            if(desde.get(Calendar.HOUR_OF_DAY) < hasta.get(Calendar.HOUR_OF_DAY) && desde.get(Calendar.MINUTE) <= hasta.get(Calendar.MINUTE)){
+                //Se obtiene todos los dias que va a trabajar entre el rango de fechas.
+                int Dias[] = ListaDeDias.getSelectedIndices();            
+                //se usa el metodo de agenda. de el especialista que obtuvimos
+                this.unEspecialista.getAgenda().agregarDiasEnRangoDeFecha(desde, hasta, desde, hasta, Dias);            
+                JOptionPane.showMessageDialog(null, "Se genero la agenda correctamente.");
+            }else{
+                JOptionPane.showMessageDialog(null, "La Hora final debe ser mayor que la inicial.");
             }
-            
-            
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, ex.getMessage());
+            JOptionPane.showMessageDialog(this, ex.getMessage());
         }        
     }//GEN-LAST:event_BtnAgregar2ActionPerformed
 
@@ -382,6 +387,10 @@ public class VtnGenerarAgenda extends javax.swing.JFrame {
         // TODO add your handling code here:
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void TxtDniActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TxtDniActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_TxtDniActionPerformed
 
     /**
      * @param args the command line arguments
@@ -421,7 +430,7 @@ public class VtnGenerarAgenda extends javax.swing.JFrame {
     private void limpiarCampos(){
         lblMarca.setText(null);
         TxtApellidoYNombre.setText(null);
-        
+        unEspecialista = null;
     }
     
     private void cargarHoras(){
@@ -436,6 +445,7 @@ public class VtnGenerarAgenda extends javax.swing.JFrame {
             ComboHasta.addItem(sdf.format(fecha.getTime()));
             ComboDesde.addItem(sdf.format(fecha.getTime()));
             fecha.add(Calendar.MINUTE,this.minutos);
+            //JOptionPane.showMessageDialog(this, sdf.format(fecha.getTime()));
         }                
     }
     
@@ -446,14 +456,13 @@ public class VtnGenerarAgenda extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton BtnAgregar;
-    private javax.swing.JButton BtnAgregar1;
     private javax.swing.JButton BtnAgregar2;
     private javax.swing.JButton BtnBuscarCliente;
     private javax.swing.JComboBox ComboDesde;
     private javax.swing.JComboBox ComboHasta;
     private com.toedter.calendar.JDateChooser DateDesde;
     private com.toedter.calendar.JDateChooser DateHasta;
+    private javax.swing.JList ListaDeDias;
     private javax.swing.JTextField TxtApellidoYNombre;
     private javax.swing.JTextField TxtDni;
     private javax.swing.JButton jButton1;
@@ -464,7 +473,6 @@ public class VtnGenerarAgenda extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JList jList1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;

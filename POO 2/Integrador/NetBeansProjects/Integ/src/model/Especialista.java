@@ -59,7 +59,6 @@ public class Especialista extends Persona {
        boolean act = true;
            while(itReservas.hasNext() && act == true){
                Reserva temp = itReservas.next();
-
            }        
        if(act){
            this.reservas.add(unaReserva);

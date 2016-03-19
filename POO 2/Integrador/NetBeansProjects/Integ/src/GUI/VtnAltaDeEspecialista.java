@@ -11,6 +11,7 @@ import java.util.Iterator;
 import java.util.Map;
 import javax.swing.JOptionPane;
 import model.Empresa;
+import model.Especialista;
 import model.Marca;
 
 /**
@@ -22,7 +23,8 @@ public class VtnAltaDeEspecialista extends javax.swing.JFrame {
     /**
      * Creates new form VtnAltaDeEspecialista
      */
-    Empresa emp = null;
+    private Empresa emp = null;
+    private boolean modificar = false;
     public VtnAltaDeEspecialista() {
         initComponents();
     }
@@ -33,6 +35,21 @@ public class VtnAltaDeEspecialista extends javax.swing.JFrame {
         actualizarComboMarcas();
     }
 
+    public VtnAltaDeEspecialista(Empresa unaEmpresa, Especialista tipo) {
+        initComponents();
+        this.emp = unaEmpresa;        
+        this.modificar = true;
+        BtnAceptar.setText("Modificar");        
+        TxtDNI.setText(tipo.getDni());
+        TxtDNI.disable();
+        TxtApellido.setText(tipo.getApellido());
+        TxtNombre.setText(tipo.getNombre());
+        TxtTelefono.setText(tipo.getTelefono());
+        DateNacimiento.setCalendar(tipo.getFechaDeNacimiento());
+        CbMarcas.setSelectedItem(tipo.getMarca());
+        lblTitulo.setText("Modificar Especialista");
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -45,7 +62,7 @@ public class VtnAltaDeEspecialista extends javax.swing.JFrame {
         BtnAceptar = new javax.swing.JButton();
         BtnCancelar = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
+        lblTitulo = new javax.swing.JLabel();
         TxtTelefono = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         TxtNombre = new javax.swing.JTextField();
@@ -80,8 +97,8 @@ public class VtnAltaDeEspecialista extends javax.swing.JFrame {
         jLabel6.setFont(new java.awt.Font("Tahoma", 0, 8)); // NOI18N
         jLabel6.setText("Ingresar solo numeros");
 
-        jLabel5.setFont(new java.awt.Font("Tahoma", 0, 34)); // NOI18N
-        jLabel5.setText("Alta de Especialista");
+        lblTitulo.setFont(new java.awt.Font("Tahoma", 0, 34)); // NOI18N
+        lblTitulo.setText("Alta de Especialista");
 
         jLabel4.setText("Telefono");
 
@@ -122,7 +139,7 @@ public class VtnAltaDeEspecialista extends javax.swing.JFrame {
                         .addComponent(CbMarcas, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(37, 37, 37)
-                        .addComponent(jLabel5)))
+                        .addComponent(lblTitulo)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
@@ -162,7 +179,7 @@ public class VtnAltaDeEspecialista extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(22, 22, 22)
-                .addComponent(jLabel5)
+                .addComponent(lblTitulo)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -205,8 +222,19 @@ public class VtnAltaDeEspecialista extends javax.swing.JFrame {
 
     private void BtnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnAceptarActionPerformed
         try {
-            GregorianCalendar fecha = new GregorianCalendar(DateNacimiento.getCalendar().get(Calendar.YEAR), Calendar.MONTH, Calendar.DAY_OF_MONTH);
-            this.emp.agregarEspecialista(TxtDNI.getText(), TxtNombre.getText(), TxtApellido.getText(), fecha, TxtTelefono.getText(), (Marca) CbMarcas.getSelectedItem());
+            if (modificar == false) {
+                if (CbMarcas.getSelectedIndex() >= 0) {
+                    GregorianCalendar fecha = new GregorianCalendar(DateNacimiento.getCalendar().get(Calendar.YEAR), Calendar.MONTH, Calendar.DAY_OF_MONTH);
+                    this.emp.agregarEspecialista(TxtDNI.getText(), TxtNombre.getText(), TxtApellido.getText(), fecha, TxtTelefono.getText(), (Marca) CbMarcas.getSelectedItem());
+                } else {
+                    JOptionPane.showMessageDialog(null, "Debe seleccionar una marca");
+                }
+            } else if (modificar == true) {
+                GregorianCalendar fecha = new GregorianCalendar(DateNacimiento.getCalendar().get(Calendar.YEAR), Calendar.MONTH, Calendar.DAY_OF_MONTH);
+                this.emp.modificarEspecialista(TxtDNI.getText(), TxtNombre.getText(), TxtApellido.getText(), fecha, TxtTelefono.getText(), (Marca) CbMarcas.getSelectedItem());
+            }
+            
+            
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage());
         }
@@ -219,9 +247,13 @@ public class VtnAltaDeEspecialista extends javax.swing.JFrame {
     private void actualizarComboMarcas(){
         CbMarcas.removeAllItems();
         Map lista = this.emp.getMarcas();
-        Iterator<Marca>  it = lista.values().iterator();
-        while(it.hasNext()){
-            CbMarcas.addItem(it.next());
+        if (lista.size() > 0) {
+            Iterator<Marca>  it = lista.values().iterator();
+            while(it.hasNext()){
+                CbMarcas.addItem(it.next());
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "No existe ninguna marca en el sistema. Por favor registre una para poder asignarle al especialista.");
         }
     }
     
@@ -283,9 +315,9 @@ public class VtnAltaDeEspecialista extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel lblTitulo;
     // End of variables declaration//GEN-END:variables
 }
