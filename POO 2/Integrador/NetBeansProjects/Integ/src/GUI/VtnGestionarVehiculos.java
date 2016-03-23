@@ -5,7 +5,6 @@
  */
 package GUI;
 
-import java.awt.HeadlessException;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
@@ -13,9 +12,7 @@ import java.util.Calendar;
 import java.util.Iterator;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
-import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
-import model.Cliente;
 import model.Empresa;
 import model.Vehiculo;
 
@@ -25,7 +22,7 @@ import model.Vehiculo;
  */
 public class VtnGestionarVehiculos extends javax.swing.JFrame {
     
-    Empresa emp = null;
+    private Empresa emp = null;
     private TableRowSorter trsfiltro;
 
     /**
@@ -36,14 +33,15 @@ public class VtnGestionarVehiculos extends javax.swing.JFrame {
     }
 
     public VtnGestionarVehiculos(Empresa emp){
+        this();
         this.emp = emp;
-        actualizarVehiculos();
-        cargarCombo(ComboFiltro);        
-        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+        this.cargarCombo(jComboBox1);
+        actualizarVehiculos();        
+        TablaVehiculos.addMouseListener(new java.awt.event.MouseAdapter() {
  
         @Override
         public void mouseClicked(MouseEvent e) {
-            if(jTable1.getSelectedRow() > 0){
+            if(TablaVehiculos.getSelectedRow() > 0){
                 //BtnEliminar.setVisible(true);
             }
         }
@@ -58,19 +56,17 @@ public class VtnGestionarVehiculos extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        ComboFiltro = new javax.swing.JComboBox();
         jButton1 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        TablaVehiculos = new javax.swing.JTable();
         jButton3 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         TxtBusqueda = new javax.swing.JTextField();
         BtnAgregar = new javax.swing.JButton();
+        jComboBox1 = new javax.swing.JComboBox();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        ComboFiltro.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jButton1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/cross.png"))); // NOI18N
@@ -81,8 +77,8 @@ public class VtnGestionarVehiculos extends javax.swing.JFrame {
             }
         });
 
-        jTable1.setAutoCreateRowSorter(true);
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        TablaVehiculos.setAutoCreateRowSorter(true);
+        TablaVehiculos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -90,10 +86,10 @@ public class VtnGestionarVehiculos extends javax.swing.JFrame {
 
             }
         ));
-        jTable1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        jTable1.setFocusable(false);
-        jTable1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        jScrollPane1.setViewportView(jTable1);
+        TablaVehiculos.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        TablaVehiculos.setFocusable(false);
+        TablaVehiculos.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jScrollPane1.setViewportView(TablaVehiculos);
 
         jButton3.setText("Modificar");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
@@ -127,6 +123,8 @@ public class VtnGestionarVehiculos extends javax.swing.JFrame {
             }
         });
 
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -137,8 +135,8 @@ public class VtnGestionarVehiculos extends javax.swing.JFrame {
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addComponent(TxtBusqueda, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(ComboFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(BtnAgregar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -161,9 +159,9 @@ public class VtnGestionarVehiculos extends javax.swing.JFrame {
                 .addGap(29, 29, 29)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(BtnAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(ComboFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(TxtBusqueda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton3))
+                    .addComponent(jButton3)
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -184,7 +182,7 @@ public class VtnGestionarVehiculos extends javax.swing.JFrame {
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         try {
             VtnAltaDeVehiculo ventana;
-            ventana = new VtnAltaDeVehiculo(this.emp, this.emp.buscarVehiculo((String) jTable1.getModel().getValueAt(jTable1.getSelectedRow(), 0)));
+            ventana = new VtnAltaDeVehiculo(this.emp, this.emp.buscarVehiculo((String) TablaVehiculos.getModel().getValueAt(TablaVehiculos.getSelectedRow(), 0)));
             ventana.setLocationRelativeTo(null);
             ventana.setVisible(true);
         } catch (Exception ex) {
@@ -207,8 +205,8 @@ public class VtnGestionarVehiculos extends javax.swing.JFrame {
                 filtro();
             }
         });
-        trsfiltro = new TableRowSorter(jTable1.getModel());
-        jTable1.setRowSorter(trsfiltro);
+        trsfiltro = new TableRowSorter(TablaVehiculos.getModel());
+        TablaVehiculos.setRowSorter(trsfiltro);
     }//GEN-LAST:event_TxtBusquedaKeyTyped
 
     private void BtnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnAgregarActionPerformed
@@ -257,7 +255,7 @@ public class VtnGestionarVehiculos extends javax.swing.JFrame {
     private void actualizarVehiculos(){
         try {
             MyTableModel modelo = new MyTableModel();
-            //modelo.isCellEditable(0, 0);
+            modelo.isCellEditable(0, 0);
             modelo.setColumnCount(0);
             
             modelo.addColumn("PATENTE");
@@ -275,14 +273,16 @@ public class VtnGestionarVehiculos extends javax.swing.JFrame {
                 fila[1] = aux.getModelo().getMarca();
                 fila[2] = aux.getModelo();
                 fila[3] = aux.getFechaDeCompra().get(Calendar.DAY_OF_MONTH) + "-" + aux.getFechaDeCompra().get(Calendar.MONTH) + "-" +aux.getFechaDeCompra().get(Calendar.YEAR);
-            }            
-            this.jTable1.setModel(modelo);
-            jTable1.setLayout(null);
-        } catch (SecurityException e) {
-        } catch (HeadlessException e) {
-        }             
-    }
+                modelo.addRow(fila);
+            }
+            this.TablaVehiculos.setModel(modelo);
+            TablaVehiculos.setLayout(null);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+        }
     
+    //se carga el combobox con todos los tipos de busquedas.
     private void cargarCombo(JComboBox unCombo){
         unCombo.removeAllItems();
         unCombo.insertItemAt("Patente", 0);
@@ -293,19 +293,19 @@ public class VtnGestionarVehiculos extends javax.swing.JFrame {
     }
     
     public void filtro() {    
-        trsfiltro.setRowFilter(javax.swing.RowFilter.regexFilter(TxtBusqueda.getText(), ComboFiltro.getSelectedIndex()));
+        trsfiltro.setRowFilter(javax.swing.RowFilter.regexFilter(TxtBusqueda.getText(), jComboBox1.getSelectedIndex()));
     }
     
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BtnAgregar;
-    private javax.swing.JComboBox ComboFiltro;
+    private javax.swing.JTable TablaVehiculos;
     private javax.swing.JTextField TxtBusqueda;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JComboBox jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
 }

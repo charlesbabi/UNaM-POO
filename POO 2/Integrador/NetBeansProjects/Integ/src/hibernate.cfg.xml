@@ -24,5 +24,7 @@
     <mapping resource="Persist/Repuesto.hbm.xml"/>
     <mapping resource="Persist/RepuestoLinea.hbm.xml"/>
     <mapping resource="Persist/Usuario.hbm.xml"/>
+    <mapping resource="Persist/Anio.xml"/>
+    <mapping resource="Persist/Mes.xml"/>
   </session-factory>
 </hibernate-configuration>

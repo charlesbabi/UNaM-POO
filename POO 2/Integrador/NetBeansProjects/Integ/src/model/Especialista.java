@@ -7,9 +7,9 @@ import java.util.List;
 
 public class Especialista extends Persona {
 
-   private List reservas;
+   private List<Reserva> reservas;
    private Marca marca;
-   private List servicios;
+   private List<Servicio> servicios;
    private Agenda agenda;
    
    public Especialista(){
@@ -28,77 +28,76 @@ public class Especialista extends Persona {
         this.marca = unaMarca;
         this.marca.asociarEspecialista(this);
         Empresa.getPersistencia().insert(this);
-    }   
+    }
    
-   private boolean estaOcupado(GregorianCalendar fecha, int hora) {       
-       return false;
-
-   }
-   
-   /**  <editor-fold defaultstate="collapsed" desc=" UML Marker ">
-    *  #[regen=yes,id=DCE.EC54F152-9C7E-C762-2EF9-D9FAC85A74FD]
-    *  </editor-fold>
+   /**
     * 
-    * @pdOid 074dbf21-0fe1-4d15-bc62-2a08e881310b */
-   public void verReservas() {
+    * @param fecha 
+     * @return  
+     * @throws java.lang.Exception  
+    */
+   public List<Reserva> verReservas(GregorianCalendar fecha) throws Exception {
+       return this.agenda.buscarReservas(fecha);
    }
    
-   /** *  @param fecha 
-    * @param duracion
-     * @return List
-    * @pdOid 68673683-eaad-418c-a97f-dc62517b5b79 */
-   public List buscarHorariosLibres(GregorianCalendar fecha, int duracion) {        
-     return null;
+   public List horarioDisponible(GregorianCalendar fecha) throws Exception{
+       List retorno = null;
+       retorno = agenda.buscarHorariosLibres(fecha);
+       return retorno;
    }
    
    /** @param unaReserva
     * @exception Exception
     * @pdOid 830e165a-9345-48dc-a12c-c2bf9652fe15 */
    public void agregarReserva(Reserva unaReserva) throws Exception {
-       Iterator<Reserva> itReservas = this.getReservas().iterator();
+        if(!this.getReservas().contains(unaReserva)){
+            this.reservas.add(unaReserva);
+            Empresa.getPersistencia().update(this);
+        }else{
+            throw new Exception("El Especialista ya posee esa reserva.");
+        } 
+       /*
+       
+       Iterator<Reserva> itReservas = this.reservas.iterator();
        boolean act = true;
            while(itReservas.hasNext() && act == true){
                Reserva temp = itReservas.next();
            }        
        if(act){
            this.reservas.add(unaReserva);
+           Empresa.getPersistencia().update(this);
        }else{
            throw new Exception("El horario para esa reserva esta ocupado.");
-       }       
+       } 
+       
+       */
    }
-
-    public List getReservas() {
+   
+   //Getters and Setters..
+   public List<Reserva> getReservas() {
         return reservas;
     }
-
-    public void setReservas(List reservas) {
+    public void setReservas(List<Reserva> reservas) {
         this.reservas = reservas;
     }
-
     public Marca getMarca() {
         return marca;
     }
-
     public void setMarca(Marca marca) {
         this.marca = marca;
     }
-
-    public List getServicios() {
+    public List<Servicio> getServicios() {
         return servicios;
     }
-
-    public void setServicios(List servicios) {
+    public void setServicios(List<Servicio> servicios) {
         this.servicios = servicios;
     }
-
     public Agenda getAgenda() {
         return agenda;
     }
-
     public void setAgenda(Agenda agenda) {
         this.agenda = agenda;
     }
-
     @Override
     public String toString() {
         return this.getApellido() +" "+ this.getNombre();

@@ -24,11 +24,6 @@
             </MenuItem>
           </SubComponents>
         </Menu>
-        <Menu class="javax.swing.JMenu" name="MenuGestion">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Gestion"/>
-          </Properties>
-        </Menu>
         <Menu class="javax.swing.JMenu" name="MenuSolicitud">
           <Properties>
             <Property name="text" type="java.lang.String" value="Solicitud"/>

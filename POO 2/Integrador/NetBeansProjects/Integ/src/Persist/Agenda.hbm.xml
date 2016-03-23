@@ -6,10 +6,10 @@
           <generator class="assigned"/>
       </id>
       
-      <list name="dias">
+      <list name="anios">
         <key column="agenda_id"/>
-        <list-index column="agenda_dia_index" />
-        <one-to-many class="model.Dia"/>
+        <list-index column="agenda_anio_index" />
+        <one-to-many class="model.Anio"/>
       </list>
       
       

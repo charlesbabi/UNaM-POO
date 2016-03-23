@@ -36,6 +36,8 @@ public class Persona {
         estado = estado != true;
     }
 
+    
+    //Getters and Setters
     public String getDni() {
         return dni;
     }
@@ -92,5 +94,8 @@ public class Persona {
         this.estado = estado;
     }
     
-    
+   @Override
+    public String toString(){
+        return this.apellido + ", " + this.nombre;
+    }
 }

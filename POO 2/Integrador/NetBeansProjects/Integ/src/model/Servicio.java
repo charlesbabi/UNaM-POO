@@ -13,6 +13,7 @@ public class Servicio {
    private Reserva reserva;
 
     public Servicio() {
+        this.problemas = new ArrayList();
     }
 
     public Servicio(int id, String observacion, int tiempo, Reserva reserva) {

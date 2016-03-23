@@ -8,6 +8,7 @@ package GUI;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.List;
 import javax.swing.JOptionPane;
 import model.Empresa;
 import model.Especialista;
@@ -21,9 +22,9 @@ public class VtnGenerarAgenda extends javax.swing.JFrame {
     /**
      * Creates new form VtnGenerarAgenda
      */
-    Empresa emp;
-    int minutos;
-    Especialista unEspecialista;
+    private Empresa emp;
+    private int minutos;
+    private Especialista unEspecialista;
     
     public VtnGenerarAgenda() {
         initComponents();
@@ -34,8 +35,8 @@ public class VtnGenerarAgenda extends javax.swing.JFrame {
     public VtnGenerarAgenda(Empresa emp) {
         this();
         this.emp = emp;
-        cargarHoras();
         limpiarCampos();
+        cargarHoras();        
     }
 
 
@@ -80,7 +81,7 @@ public class VtnGenerarAgenda extends javax.swing.JFrame {
 
         jLabel1.setText("Especialista");
 
-        TxtDni.setText("11966785");
+        TxtDni.setText("123");
         TxtDni.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 TxtDniActionPerformed(evt);
@@ -357,26 +358,42 @@ public class VtnGenerarAgenda extends javax.swing.JFrame {
 
     private void BtnAgregar2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnAgregar2ActionPerformed
         try {
+            //Se tranforma todas las fechas a los formatos correspondientes para su facil uso.
             SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-YYYY HH:mm");
             GregorianCalendar desde = Modulo.DateChooserToGregorianCalendar(DateDesde);
             GregorianCalendar hasta = Modulo.DateChooserToGregorianCalendar(DateHasta);
-            //manejo de combo a horas
-            String[] horaDesde = ComboDesde.getSelectedItem().toString().split(":");
-            String[] horaHasta = ComboHasta.getSelectedItem().toString().split(":");
-            //se agrega la hora a la fecha para manejarla como una sola fecha.
-            desde.add(Calendar.HOUR_OF_DAY, Integer.parseInt(horaDesde[0]));
-            desde.add(Calendar.MINUTE, Integer.parseInt(horaDesde[1]));
-            hasta.add(Calendar.HOUR_OF_DAY, Integer.parseInt(horaHasta[0]));
-            hasta.add(Calendar.MINUTE, Integer.parseInt(horaHasta[1]));
-            //Se controla que la hora hasta sea mayor que desde
-            if(desde.get(Calendar.HOUR_OF_DAY) < hasta.get(Calendar.HOUR_OF_DAY) && desde.get(Calendar.MINUTE) <= hasta.get(Calendar.MINUTE)){
-                //Se obtiene todos los dias que va a trabajar entre el rango de fechas.
-                int Dias[] = ListaDeDias.getSelectedIndices();            
-                //se usa el metodo de agenda. de el especialista que obtuvimos
-                this.unEspecialista.getAgenda().agregarDiasEnRangoDeFecha(desde, hasta, desde, hasta, Dias);            
-                JOptionPane.showMessageDialog(null, "Se genero la agenda correctamente.");
-            }else{
-                JOptionPane.showMessageDialog(null, "La Hora final debe ser mayor que la inicial.");
+            //Se controla que exista un Especialista seleccionado
+            if (unEspecialista != null) {
+                //Se controla la fecha que nosea mayor que la final.
+                if (desde.before(hasta) || desde.equals(hasta)) {
+                    //manejo de combo a horas
+                    String[] horaDesde = ComboDesde.getSelectedItem().toString().split(":");
+                    String[] horaHasta = ComboHasta.getSelectedItem().toString().split(":");
+                    //se agrega la hora a la fecha para manejarla como una sola fecha.
+                    desde.add(Calendar.HOUR_OF_DAY, Integer.parseInt(horaDesde[0]));
+                    desde.add(Calendar.MINUTE, Integer.parseInt(horaDesde[1]));
+                    hasta.add(Calendar.HOUR_OF_DAY, Integer.parseInt(horaHasta[0]));
+                    hasta.add(Calendar.MINUTE, Integer.parseInt(horaHasta[1]));
+                    //Se controla que la hora hasta sea mayor que desde
+                    if(desde.get(Calendar.HOUR_OF_DAY) < hasta.get(Calendar.HOUR_OF_DAY) || (desde.get(Calendar.HOUR_OF_DAY) == hasta.get(Calendar.HOUR_OF_DAY) &&desde.get(Calendar.MINUTE) < hasta.get(Calendar.MINUTE))){
+                        //Se obtiene todos los dias que va a trabajar entre el rango de fechas.
+                        int Dias[] = ListaDeDias.getSelectedIndices();  
+                        //se controla que se hayan seleccionado dias.
+                        if (Dias.length > 0) {
+                            //se usa el metodo de agenda. de el especialista que obtuvimos
+                            this.unEspecialista.getAgenda().agregarDiasEnRangoDeFecha(desde, hasta, (GregorianCalendar)desde.clone(), (GregorianCalendar)hasta.clone(), Dias);
+                            JOptionPane.showMessageDialog(null, "Se genero la agenda correctamente.");
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Debe seleccionar los dias para generar la agenda.");
+                        }
+                    }else{
+                        JOptionPane.showMessageDialog(null, "La Hora final debe ser mayor que la inicial.");
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "La fecha final no debe ser superior a la inicial");
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Debe seleccionar un Especialista para continuar.");
             }
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage());
@@ -449,12 +466,6 @@ public class VtnGenerarAgenda extends javax.swing.JFrame {
         }                
     }
     
-    private void crearHorarios(Especialista unEspe, GregorianCalendar desde, GregorianCalendar hasta){
-        while(desde.before(hasta) || !desde.equals(hasta)){
-            //unEspe.getAgenda()
-        }
-    }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BtnAgregar2;
     private javax.swing.JButton BtnBuscarCliente;

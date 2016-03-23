@@ -57,4 +57,17 @@ public class Modulo {
         return fecha;   
     }
     
+    /**Devuelve un Gregorian Calendar con la misma fecha pero reinicia en 0 las horas, minutos, segundos y milisegundos.
+     *
+     * @param horario
+     * @return 
+     */
+    public static GregorianCalendar horaCero(GregorianCalendar horario){
+        GregorianCalendar retorno = (GregorianCalendar) horario.clone();
+        retorno.set(Calendar.HOUR_OF_DAY,0);
+        retorno.set(Calendar.MINUTE,0);
+        retorno.set(Calendar.SECOND,0);
+        retorno.set(Calendar.MILLISECOND,0);
+        return retorno;
+    }
 }

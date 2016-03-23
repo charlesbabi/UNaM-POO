@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class dynamic-insert="false" dynamic-update="false" mutable="true" name="model.Mes" optimistic-lock="version" polymorphism="implicit" select-before-update="false">
+    <id name="id" column="mes_id" type="integer">
+        <generator class="sequence"/>
+    </id>
+    
+    <property name="mes" column="mes_fecha" type="int" />
+
+    <list name="dias">
+        <key column="mes_id"/>
+        <list-index column="anio_dia_index" />
+        <one-to-many class="model.Dia"/>
+    </list>
+  
+  </class>
+</hibernate-mapping>

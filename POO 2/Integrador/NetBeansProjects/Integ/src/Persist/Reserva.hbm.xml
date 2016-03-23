@@ -5,12 +5,12 @@
       <id name="id" column="reserva_id" type="integer">
           <generator class="sequence" />
       </id>
-      <property name="fecha" column="reserva_fecha" type="calendar_date"/>
+      <property name="fecha" column="reserva_fecha" type="timestamp"/>
       <property name="duracion" column="reserva_duracion" type="integer"/>
-      <many-to-one name="especialista" class="model.Especialista" column="especialista_dni"/>
-      <many-to-one name="cliente" class="model.Cliente" column="cliente_dni" />
+      <many-to-one name="especialista" class="model.Especialista" column="especialista_dni" cascade="save-update" />
+      <many-to-one name="cliente" class="model.Cliente" column="cliente_dni" cascade="save-update"/>
       <property name="estado" column="reserva_estado" type="short" />
-      <many-to-one name="vehiculo" class="model.Vehiculo" column="patente_vehiculo"/>
+      <many-to-one name="vehiculo" class="model.Vehiculo" column="patente_vehiculo" cascade="save-update"/>
       
       <list name="problemas">
         <key column="reserva_id"/>
@@ -18,7 +18,7 @@
         <one-to-many class="model.Problema"/>
       </list>
       
-      <one-to-one name="servicio" class="model.Servicio" />
+      <one-to-one name="servicio" class="model.Servicio" cascade="save-update" />
       
   </class>
 </hibernate-mapping>

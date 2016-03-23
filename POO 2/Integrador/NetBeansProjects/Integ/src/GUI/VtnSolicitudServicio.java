@@ -6,6 +6,7 @@
 package GUI;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.List;
@@ -16,6 +17,7 @@ import javax.swing.JOptionPane;
 import model.Cliente;
 import model.Empresa;
 import model.Especialista;
+import model.Funciones;
 //import modelo.Funciones;
 import model.Vehiculo;
 
@@ -27,8 +29,6 @@ public class VtnSolicitudServicio extends javax.swing.JFrame implements Observer
 
     private Empresa emp;
     private GregorianCalendar diaSeleccionado;
-    private int diasMostrados = 8;
-    private int duracionMantenimiento = 1;
 
     /**
      * Creates new form VtnSolicitudServicio
@@ -38,6 +38,10 @@ public class VtnSolicitudServicio extends javax.swing.JFrame implements Observer
 
     }
 
+    /**
+     * 
+     * @param emp 
+     */
     VtnSolicitudServicio(Empresa emp) {
         this();
         this.emp = emp;
@@ -46,18 +50,17 @@ public class VtnSolicitudServicio extends javax.swing.JFrame implements Observer
         try {
             CalFecha.getDayChooser().addPropertyChangeListener(
                     new java.beans.PropertyChangeListener() {
-
                         @Override
                         public void propertyChange(java.beans.PropertyChangeEvent evt) {
                             //evt.getPropertyName().
                             if (evt.getPropertyName().compareTo("day") == 0) {
                                 //SimpleDateFormat formatoDeFecha = new SimpleDateFormat("dd/MM/yyyy");
                                 diaSeleccionado = (GregorianCalendar) CalFecha.getCalendar();
-                                llenarEspecialistas();
+                                llenarEspecialistas(diaSeleccionado);
                             }
                         }
                     });
-            llenarEspecialistas();
+            llenarEspecialistas(diaSeleccionado);
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(rootPane, ex.getMessage());
         }
@@ -104,11 +107,6 @@ public class VtnSolicitudServicio extends javax.swing.JFrame implements Observer
         jLabel2.setText("Apellido y Nombre");
 
         TxtApellidoYNombre.setEditable(false);
-        TxtApellidoYNombre.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                TxtApellidoYNombreActionPerformed(evt);
-            }
-        });
 
         BtnBuscarCliente.setText("Buscar");
         BtnBuscarCliente.addActionListener(new java.awt.event.ActionListener() {
@@ -151,17 +149,6 @@ public class VtnSolicitudServicio extends javax.swing.JFrame implements Observer
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Vehiculos"));
         jPanel2.setToolTipText("Vehiculos");
-
-        ComboVehiculos.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                ComboVehiculosMouseClicked(evt);
-            }
-        });
-        ComboVehiculos.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                ComboVehiculosItemStateChanged(evt);
-            }
-        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -273,26 +260,29 @@ public class VtnSolicitudServicio extends javax.swing.JFrame implements Observer
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void TxtApellidoYNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TxtApellidoYNombreActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_TxtApellidoYNombreActionPerformed
-
+    /** rdyr boton boton busca al cliente.
+     * 
+     * @param evt 
+     */
     private void BtnBuscarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnBuscarClienteActionPerformed
         // TODO add your handling code here:               
         TxtApellidoYNombre.setText("");
         if (ComboVehiculos.getItemCount() > 0) {
             ComboVehiculos.removeAllItems();
         }
-        if (TxtDni.getText().length() > 5) {
+        //se pregunta si el campo no esta vacio.
+        if (!TxtDni.getText().isEmpty()) {
             try {
                 this.emp.getClientes();
                 Cliente aux;
                 String dniAux = TxtDni.getText();
+                //busca el cliente.
                 aux = this.emp.buscarCliente(dniAux);
                 List vehiculos = aux.getVehiculos();
+                //pregunta si tiene algun vehiculo
                 if (vehiculos.size() > 0) {
                     Iterator<Vehiculo> it = vehiculos.iterator();
-                    TxtApellidoYNombre.setText(aux.getApellido() + " " + aux.getNombre());
+                    TxtApellidoYNombre.setText(aux.getApellido() + ", " + aux.getNombre());
                     while (it.hasNext()) {
                         Vehiculo temp = it.next();
                         ComboVehiculos.addItem(temp);
@@ -304,34 +294,38 @@ public class VtnSolicitudServicio extends javax.swing.JFrame implements Observer
                 JOptionPane.showMessageDialog(rootPane, ex.getMessage());
             }
         } else {
-            JOptionPane.showMessageDialog(rootPane, "Ingrese al menos 6 digitos.");
+            JOptionPane.showMessageDialog(rootPane, "Ingrese al menos un digitos.");
         }
     }//GEN-LAST:event_BtnBuscarClienteActionPerformed
-
-    private void ComboVehiculosItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_ComboVehiculosItemStateChanged
-
-    }//GEN-LAST:event_ComboVehiculosItemStateChanged
-
-    private void ComboVehiculosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ComboVehiculosMouseClicked
-
-    }//GEN-LAST:event_ComboVehiculosMouseClicked
 
     private void llenarHorarios(GregorianCalendar dia, Especialista unEspeci) {
         try {
             if (unEspeci != null) {
-                ListaHorario.setListData(unEspeci.buscarHorariosLibres(dia, duracionMantenimiento).toArray());
+                if(dia.after(Funciones.horaCero(new GregorianCalendar()))){
+                    ListaHorario.setListData(this.emp.buscarHorariosLibres(unEspeci, dia).toArray());
+                }else{
+                    ListaHorario.removeAll();
+                }
+            }else{
+                JOptionPane.showMessageDialog(rootPane, "El especialista debe ser correcto.");
             }
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(rootPane, ex.getMessage());
         }
     }
 
-    private void llenarEspecialistas() {
+    private void llenarEspecialistas(GregorianCalendar dia) {
         try {
             if (ComboVehiculos.getItemCount() > 0) {
-                Vehiculo aux = (Vehiculo) ComboVehiculos.getSelectedItem();
-                Map especialistasAux = this.emp.buscarEspecialistasPorMarca(aux.getModelo().getMarca());
-                ListaEspecialistas.setListData(especialistasAux.values().toArray());
+                if (dia.after(Funciones.horaCero(new GregorianCalendar()))) {
+                    Vehiculo aux = (Vehiculo) ComboVehiculos.getSelectedItem();
+                    Map especialistasAux = this.emp.buscarEspecialistasPorMarca(aux.getModelo().getMarca());
+                    ListaEspecialistas.setListData(especialistasAux.values().toArray());
+                } else {
+                    ListaEspecialistas.removeAll();
+                }
+            }else{
+                ListaEspecialistas.removeAll();
             }
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(rootPane, ex.getMessage());
@@ -339,23 +333,24 @@ public class VtnSolicitudServicio extends javax.swing.JFrame implements Observer
     }
 
     private void BtnBuscarEspecialistaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnBuscarEspecialistaActionPerformed
-        /*
-        try {
+        try { 
             Cliente auxCliente = null;
             Vehiculo auxVehiculo = null;
             Especialista auxEspecialista = null;
             if (!TxtDni.getText().isEmpty()) {
-                int dniAux = Integer.parseInt(TxtDni.getText());
+                String dniAux = TxtDni.getText();
                 auxCliente = this.emp.buscarCliente(dniAux);
                 if (ComboVehiculos.getItemCount() > 0) {
                     auxVehiculo = (Vehiculo) ComboVehiculos.getSelectedItem();
                     if (!ListaEspecialistas.isSelectionEmpty()) {
                         auxEspecialista = (Especialista) ListaEspecialistas.getSelectedValue();
                         if (!ListaHorario.isSelectionEmpty()) {
-                            diaSeleccionado = (GregorianCalendar) Funciones.horaCero(diaSeleccionado);
-                            diaSeleccionado.set(Calendar.HOUR_OF_DAY, Integer.parseInt(ListaHorario.getSelectedValue().toString()));
+                            diaSeleccionado = (GregorianCalendar) Modulo.horaCero(diaSeleccionado);
+                            String[] horas = ListaHorario.getSelectedValue().toString().split(":");
+                            diaSeleccionado.set(Calendar.HOUR_OF_DAY, Integer.parseInt(horas[0]));
+                            diaSeleccionado.set(Calendar.MINUTE, Integer.parseInt(horas[1]));
                             //JOptionPane.showMessageDialog(rootPane, diaSeleccionado.get(Calendar.HOUR_OF_DAY));
-                            this.emp.confirmarReserva(auxCliente, auxVehiculo, auxEspecialista, diaSeleccionado, duracionMantenimiento);
+                            this.emp.confirmarReserva(auxCliente, auxVehiculo, auxEspecialista, diaSeleccionado);
                             JOptionPane.showMessageDialog(rootPane, "Su reserva a sido exitosa.");
                         } else {
                             JOptionPane.showMessageDialog(rootPane, "Debe seleccionar un Horario.");
@@ -372,22 +367,20 @@ public class VtnSolicitudServicio extends javax.swing.JFrame implements Observer
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(rootPane, ex.getMessage());
         }
-        */
+        
     }//GEN-LAST:event_BtnBuscarEspecialistaActionPerformed
 
     private void CalFechaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CalFechaMouseClicked
         diaSeleccionado = (GregorianCalendar) CalFecha.getCalendar();
-        llenarEspecialistas();
+        llenarEspecialistas(diaSeleccionado);
     }//GEN-LAST:event_CalFechaMouseClicked
 
     private void ListaEspecialistasValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_ListaEspecialistasValueChanged
-        // TODO add your handling code here:
         if (!ListaEspecialistas.isSelectionEmpty()) {
             llenarHorarios(diaSeleccionado, (Especialista) ListaEspecialistas.getSelectedValue());
         } else {
             //JOptionPane.showMessageDialog(rootPane, "Debe seleccionar un especialista.");
         }
-
     }//GEN-LAST:event_ListaEspecialistasValueChanged
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed

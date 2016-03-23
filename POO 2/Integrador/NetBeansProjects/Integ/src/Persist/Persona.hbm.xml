@@ -14,13 +14,13 @@
       <joined-subclass name="model.Cliente" table="clientes" >
           <key column="persona_dni" />
           
-          <list name="vehiculos" inverse="false" cascade="all">
+          <list name="vehiculos" cascade="save-update">
             <key column="cliente_dni" />
             <list-index column="vehiculo_cliente_index" />
             <one-to-many class="model.Vehiculo" />
           </list>
           
-          <list name="reservas">
+          <list name="reservas" cascade="save-update">
             <key column="cliente_dni"/>
             <list-index column="reserva_cliente_index" />
             <one-to-many class="model.Reserva"/>
@@ -30,7 +30,7 @@
       <joined-subclass name="model.Especialista" table="especialista" >
           <key column="persona_dni" />
           
-          <list name="reservas">
+          <list name="reservas" cascade="save-update">
             <key column="especialista_dni"/>
             <list-index column="reserva_especialista_index" />
             <one-to-many class="model.Reserva"/>
@@ -38,7 +38,7 @@
           
           <many-to-one name="marca" column="marca_nombre" class="model.Marca" />
           
-          <list name="servicios">
+          <list name="servicios" cascade="save-update">
             <key column="especialista_dni"/>
             <list-index column="servicio_especialista_index" />
             <one-to-many class="model.Servicio"/>

@@ -14,10 +14,7 @@ import javax.swing.table.DefaultTableModel;
 public class MyTableModel extends DefaultTableModel {
         /** Creates a new instance of MyTableModel */
     public MyTableModel() {
-      
     }
-    
-    
     
     @Override
     public boolean isCellEditable(int row, int column) {

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class dynamic-insert="false" dynamic-update="false" mutable="true" name="model.Anio" optimistic-lock="version" polymorphism="implicit" select-before-update="false">
+    <id name="id" column="anio_id" type="integer">
+        <generator class="sequence"/>
+    </id>
+    
+    <property name="anio" column="anio_fecha" type="int" />
+
+    <list name="meses">
+        <key column="anio_id"/>
+        <list-index column="anio_mes_index" />
+        <one-to-many class="model.Mes"/>
+    </list>
+  </class>
+</hibernate-mapping>

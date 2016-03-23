@@ -22,6 +22,10 @@ public class Vehiculo {
         Empresa.getPersistencia().insert(this);
     }   
 
+    public void asociarReserva(Reserva unaReserva){
+        this.reserva = unaReserva;
+    }
+    
    @Override
     public String toString(){
         return this.patente + " - " + this.modelo.getNombre();

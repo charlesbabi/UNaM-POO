@@ -1,9 +1,4 @@
 package model;
-
-import modelo.*;
-
-
-// <editor-fold defaultstate="collapsed" desc=" UML Marker "> 
 // #[regen=yes,id=DCE.211F76F0-8E19-6FB7-E828-E374E04F77A6]
 // </editor-fold> 
 public class RepuestoLinea {

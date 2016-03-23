@@ -331,11 +331,11 @@ public class Empresa extends Observable {
            
        }
    }
-
    
    /** Metodos Especialistas
     *
     * @param unaMarca
+     * @return 
     * @exception Exception
     * @pdOid 288d0c83-9edc-449c-9c44-72c475abd712 */
    public Map buscarEspecialistasPorMarca(Marca unaMarca) throws Exception {
@@ -350,27 +350,52 @@ public class Empresa extends Observable {
    /** Metodos Reserva
     *
     * @param unCliente
+     * @param unDia
     * @param unVehiculo
     * @param unEspecialista
     * @param fecha
     * @param duracion
     * @exception Exception
     * @pdOid 4efe5309-ea75-48a9-a966-bf64a67c2839 */
-   public void confirmarReserva(Cliente unCliente, Vehiculo unVehiculo, Especialista unEspecialista, GregorianCalendar fecha, int duracion) throws Exception {
-
+   public void confirmarReserva(Cliente unCliente, Vehiculo unVehiculo, Especialista unEspecialista, GregorianCalendar fecha) throws Exception {
+       if (unCliente != null) {
+           if (unVehiculo != null) {
+               if (unEspecialista != null) {
+                   GregorianCalendar hoy = new GregorianCalendar();
+                   if (fecha.getTime().after(hoy.getTime())) {
+                       //espescialista busca el dia
+                       Dia unDia = unEspecialista.getAgenda().buscarDia(fecha);
+                        Reserva unaReserva = new Reserva(fecha, unDia, unEspecialista, unCliente, unVehiculo);
+                        this.reservas.add(unaReserva);
+                        Empresa.persistencia.update(this);
+                   } else {
+                       SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+                       throw new Exception("La fecha debe ser superior a la actual: " + sdf.format(hoy.getTime()));
+                   }
+               } else {
+                   throw new Exception("El Especialista es incorrecto o nulo.");
+               }
+           } else {
+               throw new Exception("El Vehiculo es incorrecto o nulo.");
+           }
+       } else {
+           throw new Exception("El cliente es incorrecto o nulo.");
+       }
    }
-
-   /** @param unEspecialista
+   
+   /** *  @param unEspecialista
     * @param fecha
     * @param duracion
+     * @return 
     * @exception Exception
     * @pdOid ee73084e-9816-422a-8e5e-1ca636d5625d */
-   public List buscarHorariosLibres(Especialista unEspecialista, GregorianCalendar fecha, int duracion) throws Exception {
+   public List buscarHorariosLibres(Especialista unEspecialista, GregorianCalendar fecha) throws Exception {
        List<Horario> retorno;
-       retorno = unEspecialista.buscarHorariosLibres(fecha, duracion);
+       retorno = unEspecialista.horarioDisponible(fecha);
        return retorno;
    }
 
+   //Metodos Problemas
    /** @param descripcion
     * @param duracion
     * @pdOid e9d631ca-8162-4970-a55e-00bd88af3312 */
@@ -378,6 +403,7 @@ public class Empresa extends Observable {
       // TODO: implement
    }
 
+   //Metodos Usuarios
    /** @param nombreUsuario
     * @pdOid e09a0d52-7f40-4d59-b0ca-929b33381b95 */
    public Usuario buscarUsuario(String nombreUsuario) {
@@ -385,7 +411,11 @@ public class Empresa extends Observable {
       return null;
    }
 
-    public static Persistencia getPersistencia() {
+    
+   
+   
+   //Getter and Setter..
+   public static Persistencia getPersistencia() {
         return persistencia;
     }
 

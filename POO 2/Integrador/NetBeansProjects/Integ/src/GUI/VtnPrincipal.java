@@ -42,7 +42,6 @@ public class VtnPrincipal extends javax.swing.JFrame {
         jMenu2 = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenuItem1 = new javax.swing.JMenuItem();
-        MenuGestion = new javax.swing.JMenu();
         MenuSolicitud = new javax.swing.JMenu();
         ItemMenuServicio = new javax.swing.JMenuItem();
         MenuClientes = new javax.swing.JMenu();
@@ -100,9 +99,6 @@ public class VtnPrincipal extends javax.swing.JFrame {
         jMenu2.add(jMenuItem1);
 
         jMenuBar1.add(jMenu2);
-
-        MenuGestion.setText("Gestion");
-        jMenuBar1.add(MenuGestion);
 
         MenuSolicitud.setText("Solicitud");
         MenuSolicitud.setName("Solicitud"); // NOI18N
@@ -332,7 +328,6 @@ public class VtnPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem MenuAgenda;
     private javax.swing.JMenu MenuClientes;
     private javax.swing.JMenu MenuEspecialista;
-    private javax.swing.JMenu MenuGestion;
     private javax.swing.JMenuItem MenuGestionarEspecialistas;
     private javax.swing.JMenuItem MenuGestionarVehiculos;
     private javax.swing.JMenu MenuMarcas;

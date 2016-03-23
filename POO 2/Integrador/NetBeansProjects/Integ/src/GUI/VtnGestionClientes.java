@@ -315,7 +315,7 @@ public class VtnGestionClientes extends javax.swing.JFrame {
     
     private void actualizarClientes(){
         try {
-            DefaultTableModel modelo = new DefaultTableModel();
+            MyTableModel modelo = new MyTableModel();
             modelo.isCellEditable(0, 0);
             modelo.setColumnCount(0);
             
