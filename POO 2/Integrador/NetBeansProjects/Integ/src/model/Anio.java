@@ -1,17 +1,20 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+/***********************************************************************
+ * Module:  Anio.java
+ * Author:  Babi, John Charles
+ * Purpose: Defines the Class Agenda
+ ***********************************************************************/
+
 package model;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.ListIterator;
 
 /**
  *
- * @author Adamantium
+ * @author Babi, John Charles
  */
 public class Anio {
     
@@ -19,10 +22,17 @@ public class Anio {
     private int anio;
     private List <Mes> meses;
 
+    /** Constructor Nulo.
+     * 
+     */
     public Anio() {
         this.meses = new ArrayList();
     }
     
+    /** Crea un año.
+     * 
+     * @param anio 
+     */
     public Anio(int anio){
         this();
         this.anio = anio;
@@ -39,6 +49,19 @@ public class Anio {
         if (anio == this.anio) {
             retorno = true;
         }
+        return retorno;
+    }
+    
+    /** Busca un Dia especifico.
+     * 
+     * @param fecha
+     * @return 
+     * @throws java.lang.Exception 
+     */
+    public Dia buscarDia(GregorianCalendar fecha) throws Exception{
+        this.getMeses();
+        Dia retorno = null;
+        retorno = this.buscarMes(fecha.get(Calendar.MONTH)).buscarDia(fecha.get(Calendar.DAY_OF_MONTH));
         return retorno;
     }
     
@@ -77,30 +100,23 @@ public class Anio {
         }
     }
     
-    
     //Getters and Setters.
     public int getId() {
         return id;
     }
-
     public void setId(int id) {
         this.id = id;
     }
-
     public int getAnio() {
         return anio;
     }
-
     public void setAnio(int anio) {
         this.anio = anio;
     }
-
     public List<Mes> getMeses() {
         return meses;
     }
-
     public void setMeses(List<Mes> meses) {
         this.meses = meses;
     }
-
 }

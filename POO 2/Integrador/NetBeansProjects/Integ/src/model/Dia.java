@@ -1,12 +1,11 @@
 /***********************************************************************
  * Module:  Dia.java
- * Author:  Adamantium
+ * Author:  Babi, John Charles
  * Purpose: Defines the Class Dia
  ***********************************************************************/
 
 package model;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -18,11 +17,18 @@ public class Dia {
    private List <Servicio> servicios;
    private List <Reserva> reservas;
 
+   /**Constructor nulo.
+    * 
+    */
     public Dia() {
         this.servicios = new ArrayList();
         this.reservas = new ArrayList();
     }
     
+    /**Constructor, crea una fecha.
+     * 
+     * @param fecha 
+     */
     public Dia(GregorianCalendar fecha) {
         this();
         GregorianCalendar aux = (GregorianCalendar) fecha.clone();
@@ -30,7 +36,7 @@ public class Dia {
         Empresa.getPersistencia().insert(this);
     }
 
-    /**
+    /**Constructor crea un dia con los parametros recibidos.
      * 
      * @param fecha
      * @param entrada
@@ -38,6 +44,7 @@ public class Dia {
      */
     public Dia(GregorianCalendar fecha, GregorianCalendar entrada, GregorianCalendar salida) {
         this();
+        //se usa una variable auxiliar ya que las fechas siempre se pasan por referencia.S
         GregorianCalendar aux = (GregorianCalendar) fecha.clone();
         this.fecha = aux;
         this.entrada = entrada.getTime();
@@ -112,6 +119,11 @@ public class Dia {
        }       
     }
     
+    /** Esta funcion pregunta si es el dia indicado.
+     * 
+     * @param fecha
+     * @return 
+     */
     public boolean isThis(int fecha){
         boolean retorno = false;
         if(this.fecha.get(Calendar.DAY_OF_MONTH) == fecha){
@@ -120,51 +132,56 @@ public class Dia {
         return retorno;
     }
     
+    /** Devuelve todas las reservas, si esta vacia lanza una excepcion.
+     * 
+     * @return
+     * @throws Exception 
+     */
+    public List<Reserva> obtenerReservas() throws Exception{
+        //llamamos para obtener los vehiculos de la bd
+        this.getReservas();
+        //si esta vacia la lista larga una excepcion.
+        if(this.reservas.isEmpty()){
+            throw new Exception("El dia no posee reservas.");
+        }
+        //si no larga la excepcion es porque no esta vacia, por ello devuelve todas las reservas.
+        return this.reservas;
+    }
+    
     //Getters and Setters..
     public int getId() {
         return id;
     }
-
     public void setId(int id) {
         this.id = id;
     }
-    
     public GregorianCalendar getFecha() {
         return fecha;
     }
-
     public void setFecha(GregorianCalendar fecha) {
         this.fecha = fecha;
     }
-
     public List<Servicio> getServicios() {
         return servicios;
     }
-
     public void setServicios(List<Servicio> servicios) {
         this.servicios = servicios;
     }
-
     public List<Reserva> getReservas() {
         return reservas;
     }
-
     public void setReservas(List<Reserva> reservas) {
         this.reservas = reservas;
     }
-
     public Date getEntrada() {
         return entrada;
     }
-
     public void setEntrada(Date entrada) {
         this.entrada = entrada;
     }
-
     public Date getSalida() {
         return salida;
     }
-
     public void setSalida(Date salida) {
         this.salida = salida;
     }

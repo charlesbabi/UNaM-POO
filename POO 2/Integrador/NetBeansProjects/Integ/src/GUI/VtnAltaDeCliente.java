@@ -232,7 +232,7 @@ public class VtnAltaDeCliente extends javax.swing.JFrame {
                 TxtApellido.setText(unCliente.getApellido());
                 TxtNombre.setText(unCliente.getNombre());
                 TxtTelefono.setText(unCliente.getTelefono());
-                this.emp.buscarVehiculos(unCliente);
+                this.emp.buscarVehiculosPorCliente(unCliente);
             }else{
                 JOptionPane.showMessageDialog(this, "Debe elegir un cliente existente para administrar vehiculos.");
             }

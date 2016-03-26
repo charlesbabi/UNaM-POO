@@ -1,3 +1,9 @@
+/***********************************************************************
+ * Module:  Empresa.java
+ * Author:  Babi, John Charles
+ * Purpose: Defines the Class Empresa
+ ***********************************************************************/
+
 package model;
 
 import java.util.ArrayList;
@@ -31,6 +37,9 @@ public class Empresa extends Observable {
    private List <Reserva> reservas;
    private Map <String, Usuario> usuarios;
 
+   /** Constructor Nulo, inicializa todas las colecciones.
+    * 
+    */
    public Empresa () {
         this.marcas = new HashMap();
         this.modelos = new HashMap();
@@ -43,7 +52,11 @@ public class Empresa extends Observable {
         this.reservas = new ArrayList();
         this.usuarios = new HashMap();        
     }
-   
+   /** Crea una empresa e inicializa todas las colecciones
+    * 
+    * @param nombre
+    * @param direccion 
+    */
     public Empresa(String nombre, String direccion) {
         this();
         this.nombre = nombre;
@@ -54,18 +67,33 @@ public class Empresa extends Observable {
     
    // Metodos Vehiculo
 
+    /** Crea un vehiculo y lo agrega a la lista de la empresa.
+     * 
+     * @param patente
+     * @param fechaDeCompra
+     * @param modelo
+     * @param unCliente
+     * @throws Exception 
+     */
    public void agregarVehiculo (String patente, GregorianCalendar fechaDeCompra, Modelo modelo, Cliente unCliente) throws Exception {
        this.getVehiculos();
-       boolean aux = this.existeVehiculo(patente);
-       if(aux == false){
+       //pregunta si no existe el vehiculo, entonces lo agrega
+       if(!this.existeVehiculo(patente)){
            Vehiculo vehiculo = new Vehiculo ( patente,  fechaDeCompra,  modelo, unCliente);
            this.vehiculos.put(patente, vehiculo);
            persistencia.update(this);
        }else{
+           // si existe lanza una excepcion
            throw new Exception ("El Vehiculo "+ modelo.getNombre()+ " - " + patente + " ya se encuentra registrado.");
        }
    }
    
+   /** Busca un vehiculo por la patente, si no existe en la empresa lanza una excepcion.
+    * 
+    * @param patente
+    * @return
+    * @throws Exception 
+    */
    public Vehiculo buscarVehiculo(String patente) throws Exception {
        this.getVehiculos();
        Vehiculo aux = null;
@@ -74,18 +102,32 @@ public class Empresa extends Observable {
            throw new Exception("El Vehiculo " + patente + " no se encuentra en el sistema.");
        }
        return aux;
-   } 
+   }
    
-   public List buscarVehiculos(Cliente unCliente) throws Exception {
-       //this.getVehiculos();
-       List retorno = unCliente.getVehiculos();
-       if (retorno.size() <= 0){
+   /** Busca los vehiculo por cliente. si no posee vehiculos lanza una excepcion.
+    * 
+    * @param unCliente
+    * @return
+    * @throws Exception 
+    */
+   public List buscarVehiculosPorCliente(Cliente unCliente) throws Exception {
+       this.getVehiculos();
+       //Le pide al cliente sus vehiculos.
+       List retorno = unCliente.obtenerVehiculos();
+       //pregunta si el retorno es igual a null, entonces lanza una excepcion.
+       if (retorno == null){
            throw new Exception("El cliente no posee vehiculos cargados.");
        }
+       //caso de no saltar la excepcion devuelve los vehiculos del cliente.
        return retorno;
    }
    
-   public boolean existeVehiculo(String patente) throws Exception {
+   /** Devulve verdadero si existe el vehiculo.
+    * 
+    * @param patente
+    * @return 
+    */
+   public boolean existeVehiculo(String patente){
        this.getVehiculos();
        boolean retorno = false;
        Vehiculo aux = vehiculos.get(patente);
@@ -95,23 +137,37 @@ public class Empresa extends Observable {
        return retorno;
    } 
    
+   /** Modifica el vehiculo con los datos dados, en caso de no existir el vehiculo lanza una excepcion.
+    * 
+    * @param patente
+    * @param fechaDeCompra
+    * @param modelo
+    * @param unCliente
+    * @throws Exception 
+    */
    public void modificarVehiculo (String patente, GregorianCalendar fechaDeCompra, Modelo modelo, Cliente unCliente) throws Exception {
        this.getVehiculos();
-       Vehiculo aux = this.vehiculos.get(patente);
-       if (aux == null){
-           throw new Exception("El Vehiculo con Patente " + patente + " no se encuentra en el sistema.");
-       }else{
+       if(this.existeVehiculo(patente)){
+           Vehiculo aux = this.buscarVehiculo(patente);
            aux.setPatente(patente);
            aux.setFechaDeCompra(fechaDeCompra);
            aux.setModelo(modelo);
            aux.setCliente(unCliente);
            persistencia.update(aux);
+       }else{
+           throw new Exception("El Vehiculo con Patente " + patente + " no se encuentra en el sistema.");
        }
    }
 
    
    // Metodos Marcas
    
+   /** Crea una Marca y la agrega al sistema.
+    * 
+    * @param nombre
+    * @param valorPorHora
+    * @throws Exception 
+    */
    public void agregarMarca(String nombre, float valorPorHora) throws Exception{
        this.getMarcas();
        nombre = nombre.toUpperCase();

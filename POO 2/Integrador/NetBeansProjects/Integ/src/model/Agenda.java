@@ -1,23 +1,34 @@
 /***********************************************************************
  * Module:  Agenda.java
- * Author:  Adamantium
+ * Author:  Babi, John Charles
  * Purpose: Defines the Class Agenda
  ***********************************************************************/
 
 package model;
 
 import java.util.*;
-
+/**
+ * 
+ * @author Babi, John Charles
+ */
 public class Agenda {
     
    private String id;
    private List <Anio> anios;
    private Especialista especialista;
    
+   /**Constructor Nulo.
+    * 
+    */
    public Agenda(){
        this.anios = new ArrayList <Anio>();
    }
    
+   /**Constructor, crea una agenda con esos parametros.
+    * 
+    * @param id
+    * @param especialista 
+    */
     public Agenda(String id, Especialista especialista) {
         this();
         this.id = id;
@@ -29,8 +40,7 @@ public class Agenda {
      *
      * @param fecha
      * @param entrada
-     * @param salida
-     * @return 
+     * @param salida 
      * @throws java.lang.Exception
      */
     public void agregarDiaALaAgenda(GregorianCalendar fecha, GregorianCalendar entrada, GregorianCalendar salida) throws Exception{
@@ -71,14 +81,13 @@ public class Agenda {
         }      
     }
     
-    /**
+    /** Agreda los dias a la agenda entro el rando de fecha seleccionar, los dias a la semana indicados.
      * 
      * @param desde
      * @param hasta
      * @param entrada
      * @param salida
      * @param dias
-     * @return
      * @throws Exception 
      */
     public void agregarDiasEnRangoDeFecha(GregorianCalendar desde, GregorianCalendar hasta, GregorianCalendar entrada, GregorianCalendar salida,int dias[]) throws Exception{
@@ -117,19 +126,24 @@ public class Agenda {
         }
     }
 
+    /** Busca un día en la agenda y lo devuelve. 
+     * 
+     * @param fecha
+     * @return
+     * @throws Exception 
+     */
     public Dia buscarDia(GregorianCalendar fecha) throws Exception{
         this.getAnios();
-        Anio unAnio;
-        Mes unMes;
-        unAnio = this.buscarAnio(fecha.get(Calendar.YEAR));
-        unMes = unAnio.buscarMes(fecha.get(Calendar.MONTH));
-        return unMes.buscarDia(fecha.get(Calendar.DAY_OF_MONTH));
+        Dia retorno = null;
+        retorno = this.buscarAnio(fecha.get(Calendar.YEAR)).buscarDia(fecha);
+        return retorno;
     }
     
     //Agregar Anios
     /**Agrega un Anio si no existe, y si existe lanza una excepcion
      * 
      * @param anio 
+     * @throws java.lang.Exception 
      */
     public void agregarAnio(int anio) throws Exception{
         Anio unAnio = buscarAnio(anio);
@@ -162,6 +176,7 @@ public class Agenda {
     //Metodos Horarios
    /** Buscar horarios libres en una fecha especifica para cierta duracion.
     *  @param fecha
+     * @param duracion
      * @return List
      * @throws java.lang.Exception
     */
@@ -178,7 +193,7 @@ public class Agenda {
        return horarios;
    }
    
-   /**Busca horarios libre en una fecha especifica.
+   /**Busca horarios libre en una fecha especifica si no encuentra lanza una excepcion.
     * 
     * @param fecha
     * @return
@@ -186,9 +201,7 @@ public class Agenda {
     */
    public List buscarHorariosLibres(GregorianCalendar fecha) throws Exception {
        List horarios = null;
-       Anio auxAnio = this.buscarAnio(fecha.get(Calendar.YEAR));
-       Mes auxMes = auxAnio.buscarMes(fecha.get(Calendar.MONTH));
-       Dia unDia = auxMes.buscarDia(fecha.get(Calendar.DAY_OF_MONTH));
+       Dia unDia = this.buscarDia(fecha);
        if (unDia != null) {
            horarios = unDia.horarioLibre();
        } else {
@@ -198,11 +211,15 @@ public class Agenda {
    }
     
    //Metodos Reservas de Dias
+   /** Busca las reservas de la Agenda en una fecha.
+    * 
+    * @param fecha
+    * @return
+    * @throws Exception 
+    */
    public List<Reserva> buscarReservas(GregorianCalendar fecha) throws Exception{
-       Anio auxAnio = this.buscarAnio(fecha.get(Calendar.YEAR));
-       Mes auxMes = auxAnio.buscarMes(fecha.get(Calendar.MONTH));
-       Dia unDia = auxMes.buscarDia(fecha.get(Calendar.DAY_OF_MONTH));
-       return auxMes.buscarDia(fecha.get(Calendar.DAY_OF_MONTH)).getReservas();
+       Dia unDia = this.buscarDia(fecha);
+       return unDia.getReservas();
    }
    
     //Getter and Setter..
@@ -224,7 +241,4 @@ public class Agenda {
     public void setAnios(List<Anio> anios) {
         this.anios = anios;
     }
-
-    
-    
 }
