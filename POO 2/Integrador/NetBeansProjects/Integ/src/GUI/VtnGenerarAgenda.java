@@ -381,7 +381,7 @@ public class VtnGenerarAgenda extends javax.swing.JFrame {
                         //se controla que se hayan seleccionado dias.
                         if (Dias.length > 0) {
                             //se usa el metodo de agenda. de el especialista que obtuvimos
-                            this.unEspecialista.getAgenda().agregarDiasEnRangoDeFecha(desde, hasta, (GregorianCalendar)desde.clone(), (GregorianCalendar)hasta.clone(), Dias);
+                            this.unEspecialista.generarAgenda(desde, hasta, (GregorianCalendar)desde.clone(), (GregorianCalendar)hasta.clone(), Dias);
                             JOptionPane.showMessageDialog(null, "Se genero la agenda correctamente.");
                         } else {
                             JOptionPane.showMessageDialog(null, "Debe seleccionar los dias para generar la agenda.");

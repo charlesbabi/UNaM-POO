@@ -132,8 +132,7 @@ public class VtnAltadeModelo extends javax.swing.JFrame {
         try {
             if (CbMarcas.getSelectedIndex() >= 0) {
                 String nombre = TxtModeloNombre.getText();
-                Marca marca = (Marca) CbMarcas.getSelectedItem();
-                this.emp.existeModelo(nombre, marca);                 
+                Marca marca = (Marca) CbMarcas.getSelectedItem();         
                 this.emp.agregarModelo(nombre, marca);
             } else {
                 JOptionPane.showMessageDialog(this, "Seleccione una Marca para continuar.");

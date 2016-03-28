@@ -1,5 +1,5 @@
 /***********************************************************************
- * Module:  Agenda.java
+ * Module:  Cliente.java
  * Author:  Babi, John Charles
  * Purpose: Defines the Class Cliente
  ***********************************************************************/

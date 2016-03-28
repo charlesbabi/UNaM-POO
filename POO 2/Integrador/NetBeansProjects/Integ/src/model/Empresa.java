@@ -19,6 +19,7 @@ import java.util.Calendar;
 
 public class Empresa extends Observable {
 
+    //Se declara static para poder usarla sin necesidad de tener una instancia de persistencia.
    private static Persistencia persistencia = new Persistencia();
 
    private int id;
@@ -181,6 +182,12 @@ public class Empresa extends Observable {
        }
    }
    
+   /** Busca y devuelve una marca en la empresa, si no existe lanza una excepcion.
+    * 
+    * @param nombre
+    * @return
+    * @throws Exception 
+    */
    public Marca buscarMarca(String nombre) throws Exception{
        this.getMarcas();
        Marca aux = this.marcas.get(nombre.toUpperCase());
@@ -190,6 +197,12 @@ public class Empresa extends Observable {
        return aux;
    }
    
+   /** Retorna un boolean, verdadero si existe la marca.
+    * 
+    * @param nombre
+    * @return
+    * @throws Exception 
+    */
    public boolean existeMarca (String nombre) throws Exception{
        boolean retorno = false;
        this.getMarcas();
@@ -202,6 +215,12 @@ public class Empresa extends Observable {
    
    // Metodos Modelos
    
+   /** Crea y agrega un modelo a la Empresa, si este ya no existe lanza una excepcion.
+    * 
+    * @param nombre
+    * @param marca
+    * @throws Exception 
+    */
    public void agregarModelo(String nombre, Marca marca) throws Exception{
        this.getModelos();
        nombre = nombre.toUpperCase();
@@ -215,6 +234,12 @@ public class Empresa extends Observable {
        }
    }
    
+   /** Busca y devuelve un Modelo en la empresa, si no existe lanza una excepcion.
+    * 
+    * @param nombre
+    * @return
+    * @throws Exception 
+    */
    public Modelo buscarModelo(String nombre) throws Exception{
        this.getMarcas();
        Modelo aux = this.modelos.get(nombre);
@@ -224,6 +249,13 @@ public class Empresa extends Observable {
        return aux;
    }
    
+   /** Retorna un boolean, verdadero si existe el Modelo.
+    * 
+    * @param nombre
+    * @param marca
+    * @return
+    * @throws Exception 
+    */
    public boolean existeModelo(String nombre, Marca marca) throws Exception{
        this.getMarcas();
        boolean retorno = false;
@@ -235,7 +267,15 @@ public class Empresa extends Observable {
    }
    
    // Metodos Cliente
-
+   /** Crea y agrega un Cliente a la Empresa, si este ya no existe lanza una excepcion.
+    * 
+    * @param dni
+    * @param nombre
+    * @param apellido
+    * @param fechaDeNacimiento
+    * @param telefono
+    * @throws Exception 
+    */
    public void agregarCliente(String dni, String nombre, String apellido, GregorianCalendar fechaDeNacimiento, String telefono) throws Exception {
        this.getClientes();
        nombre = nombre.toUpperCase();
@@ -250,6 +290,12 @@ public class Empresa extends Observable {
        }
    }
 
+   /** Busca y devuelve un Cliente de la empresa, si no se encuentra en el sistema lanza una excepcion.
+    * 
+    * @param dni
+    * @return
+    * @throws Exception 
+    */
    public Cliente buscarCliente(String dni) throws Exception {
        this.getClientes();
        Cliente aux = this.clientes.get(dni);
@@ -259,6 +305,12 @@ public class Empresa extends Observable {
        return aux;
    }
    
+   /** Retorna un boolean, verdadero si existe el Cliente.
+    * 
+    * @param dni
+    * @return
+    * @throws Exception 
+    */
    public boolean existeCliente(String dni) throws Exception {
        this.getClientes();
        boolean retorno = false;
@@ -269,6 +321,12 @@ public class Empresa extends Observable {
        return retorno;
    }   
    
+   /** Elimina logicamente el cliente, cambia el estado del cliente a false.
+    * En caso que el cliente no exista lanza una excepcion.
+    * 
+    * @param dni
+    * @throws Exception 
+    */
    public void eliminarCliente(String dni)throws Exception {
        this.getClientes();
        Cliente aux = buscarCliente(dni);
@@ -281,6 +339,12 @@ public class Empresa extends Observable {
        }
    }   
       
+   /**Comprueba que el cliente se encuentre activo en el sistema.
+    * Si no esta activo o si no encuentra el cliente, lanza una excepcion.
+    * 
+    * @param dni
+    * @throws Exception 
+    */
    public void comprobarEstadoActivoCliente(String dni)throws Exception {
        this.getClientes();
        Cliente aux = buscarCliente(dni);
@@ -293,30 +357,50 @@ public class Empresa extends Observable {
        }
    }
    
-   public void cambiarEstado(Persona unaPersona)throws Exception {
+   /**Cambia el estado de una persona. de true a false o de false a true. dependiendo el estado anterior.
+    * 
+    * @param unaPersona 
+    */
+   public void cambiarEstado(Persona unaPersona){
        unaPersona.cambiarEstado();
        persistencia.update(unaPersona);
        persistencia.update(this);
    }
    
+   /**Modifica el cliente con todos los datos ingresados. Si no encuentra el cliente lanza una excepcion.
+    * 
+    * @param dni
+    * @param nombre
+    * @param apellido
+    * @param fechaDeNacimiento
+    * @param telefono
+    * @throws Exception 
+    */
    public void modificarCliente(String dni, String nombre, String apellido, GregorianCalendar fechaDeNacimiento, String telefono) throws Exception {
-       this.getClientes();
-       Cliente aux = this.clientes.get(dni);
-       nombre = nombre.toUpperCase();
-       apellido = apellido.toUpperCase();
-       if (aux == null){
-           throw new Exception("El Cliente con DNI " + dni + " no se encuentra en el sistema.");
-       }else{
-           aux.setNombre(nombre);
-           aux.setApellido(apellido);
-           aux.setFechaDeNacimiento(fechaDeNacimiento);
-           aux.setTelefono(telefono);
-           persistencia.update(aux);
-       }
+        this.getClientes();
+        // en caso de no encontrar el cliente lanza una excepcion desde esta funcion.
+        Cliente aux = this.buscarCliente(dni);
+        nombre = nombre.toUpperCase();
+        apellido = apellido.toUpperCase();
+        aux.setNombre(nombre);
+        aux.setApellido(apellido);
+        aux.setFechaDeNacimiento(fechaDeNacimiento);
+        aux.setTelefono(telefono);
+        persistencia.update(aux);
    }
 
     // Metodos Especilista
    
+   /**Crea y agrega un Especialista a la Empresa. Si ya existe el especialista lanza una excepcion.
+    * 
+    * @param dni
+    * @param apellido
+    * @param nombre
+    * @param fechaDeNacimiento
+    * @param telefono
+    * @param unaMarca
+    * @throws Exception 
+    */
    public void agregarEspecialista (String dni, String apellido, String nombre, GregorianCalendar fechaDeNacimiento, String telefono, Marca unaMarca) throws Exception{
        this.getEspecialistas();
        boolean asd = existeEspecialista(dni);
@@ -329,6 +413,12 @@ public class Empresa extends Observable {
        }
    }
    
+   /** Busca y retorno un Especialista. en caso de no encontrar el especialista lanza una excepcion.
+    * 
+    * @param dni
+    * @return
+    * @throws Exception 
+    */
    public Especialista buscarEspecialista (String dni) throws Exception{
        this.getEspecialistas();
        Especialista aux = this.especialistas.get(dni);
@@ -338,6 +428,12 @@ public class Empresa extends Observable {
        return aux;
    }
 
+   /** Retorna un boolean, verdadero si existe el Especialista.
+    * 
+    * @param dni
+    * @return
+    * @throws Exception 
+    */
    public boolean existeEspecialista(String dni) throws Exception {
        this.getEspecialistas();
        boolean retorno = false;
@@ -348,6 +444,16 @@ public class Empresa extends Observable {
        return retorno;
    }
    
+   /**Modifica los datos del especialista, en caso de no encontrar al especialista lanza una excepcion.
+    * 
+    * @param dni
+    * @param nombre
+    * @param apellido
+    * @param fechaDeNacimiento
+    * @param telefono
+    * @param unaMarca
+    * @throws Exception 
+    */
    public void modificarEspecialista(String dni, String nombre, String apellido, GregorianCalendar fechaDeNacimiento, String telefono, Marca unaMarca) throws Exception {
        this.getClientes();
        Especialista aux = this.especialistas.get(dni);
@@ -365,7 +471,7 @@ public class Empresa extends Observable {
        }
    }
    
-   /**Genera una agena a partir de una fecha inicial hasta la final, en un especialista determinado con un intervalo determinado.
+   /**Genera una agenda a partir de una fecha inicial hasta la final, en un especialista determinado con un intervalo determinado.
     * 
     * @param unEspecialista
     * @param inicio
@@ -375,14 +481,12 @@ public class Empresa extends Observable {
     */
    public void generarAgenda(Especialista unEspecialista, GregorianCalendar inicio, GregorianCalendar fin, int intervalo) throws Exception {
        this.getEspecialistas();
-       Horario unHorario;
        Dia unDia;
        while(inicio.before(fin) || inicio.equals(fin)){
            unDia = new Dia(inicio);
            SimpleDateFormat sdf = new SimpleDateFormat();
            while(inicio.get(Calendar.HOUR_OF_DAY) <= fin.get(Calendar.HOUR_OF_DAY) && inicio.get(Calendar.MINUTE) <= fin.get(Calendar.MINUTE) ){
-               unHorario = new Horario(inicio, fin);
-               inicio.add(Calendar.MINUTE, intervalo);
+
            }
            
        }
@@ -420,7 +524,7 @@ public class Empresa extends Observable {
                    GregorianCalendar hoy = new GregorianCalendar();
                    if (fecha.getTime().after(hoy.getTime())) {
                        //espescialista busca el dia
-                       Dia unDia = unEspecialista.getAgenda().buscarDia(fecha);
+                        Dia unDia = unEspecialista.buscarDia(fecha);
                         Reserva unaReserva = new Reserva(fecha, unDia, unEspecialista, unCliente, unVehiculo);
                         this.reservas.add(unaReserva);
                         Empresa.persistencia.update(this);
@@ -446,22 +550,19 @@ public class Empresa extends Observable {
     * @exception Exception
     * @pdOid ee73084e-9816-422a-8e5e-1ca636d5625d */
    public List buscarHorariosLibres(Especialista unEspecialista, GregorianCalendar fecha) throws Exception {
-       List<Horario> retorno;
+       List retorno;
        retorno = unEspecialista.horarioDisponible(fecha);
        return retorno;
    }
 
    //Metodos Problemas
-   /** @param descripcion
-    * @param duracion
-    * @pdOid e9d631ca-8162-4970-a55e-00bd88af3312 */
+
    public void agregarProblema(String descripcion, int duracion) {
       // TODO: implement
    }
 
    //Metodos Usuarios
-   /** @param nombreUsuario
-    * @pdOid e09a0d52-7f40-4d59-b0ca-929b33381b95 */
+
    public Usuario buscarUsuario(String nombreUsuario) {
       // TODO: implement
       return null;
@@ -474,115 +575,85 @@ public class Empresa extends Observable {
    public static Persistencia getPersistencia() {
         return persistencia;
     }
-
     public static void setPersistencia(Persistencia persistencia) {
         Empresa.persistencia = persistencia;
     }
-
     public int getId() {
         return id;
     }
-
     public void setId(int id) {
         this.id = id;
     }
-
     public String getNombre() {
         return nombre;
     }
-
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
-
     public String getDireccion() {
         return direccion;
     }
-
     public void setDireccion(String direccion) {
         this.direccion = direccion;
     }
-
     public Map<String, Vehiculo> getVehiculos() {
         return vehiculos;
     }
-
     public void setVehiculos(Map<String, Vehiculo> vehiculos) {
         this.vehiculos = vehiculos;
     }
-
     public Map<String, Marca> getMarcas() {
         return marcas;
     }
-
     public void setMarcas(Map<String, Marca> marcas) {
         this.marcas = marcas;
     }
-
     public Map<String, Modelo> getModelos() {
         return modelos;
     }
-
     public void setModelos(Map<String, Modelo> modelos) {
         this.modelos = modelos;
     }
-
     public Map<String, Cliente> getClientes() {
         return clientes;
     }
-
     public void setClientes(Map<String, Cliente> clientes) {
         this.clientes = clientes;
     }
-
     public Map<String, Especialista> getEspecialistas() {
         return especialistas;
     }
-
     public void setEspecialistas(Map<String, Especialista> especialistas) {
         this.especialistas = especialistas;
     }
-
     public Map getServicios() {
         return servicios;
     }
-
     public void setServicios(Map servicios) {
         this.servicios = servicios;
     }
-
     public Map getRepuestos() {
         return repuestos;
     }
-
     public void setRepuestos(Map repuestos) {
         this.repuestos = repuestos;
     }
-
     public Map<Integer, Problema> getProblemas() {
         return problemas;
     }
-
     public void setProblemas(Map<Integer, Problema> problemas) {
         this.problemas = problemas;
     }
-
     public List<Reserva> getReservas() {
         return reservas;
     }
-
     public void setReservas(List<Reserva> reservas) {
         this.reservas = reservas;
     }
-
     public Map<String, Usuario> getUsuarios() {
         return usuarios;
     }
-
     public void setUsuarios(Map<String, Usuario> usuarios) {
         this.usuarios = usuarios;
     }
-
-   
-
 }

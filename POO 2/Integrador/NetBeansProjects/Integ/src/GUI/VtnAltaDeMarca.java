@@ -135,7 +135,7 @@ public class VtnAltaDeMarca extends javax.swing.JFrame {
 
     private void BtnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnAceptarActionPerformed
         try {
-            this.emp.existeMarca(TxtMarcaNombre.getText());
+            //this.emp.existeMarca(TxtMarcaNombre.getText());
             float valor = Float.parseFloat(TxtValorPorHora.getText());
             this.emp.agregarMarca(TxtMarcaNombre.getText(), valor);
         } catch (Exception e) {

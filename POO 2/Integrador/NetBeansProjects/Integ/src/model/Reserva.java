@@ -40,7 +40,7 @@ public class Reserva {
         this.cliente = cliente;
         this.vehiculo = vehiculo;
         this.duracion = 60;
-        this.especialista.agregarReserva(this);
+        //this.especialista.asociarReserva(this);
         this.cliente.agregarReserva(this);
         Empresa.getPersistencia().insert(this);
         unDia.agregarReserva(this);
@@ -64,6 +64,13 @@ public class Reserva {
        }
    }
    
+   public boolean isThis(Date fecha){
+       boolean retorno = false;
+       if(this.fecha.equals(fecha)){
+           retorno = true;
+       }
+       return retorno;
+   }
    //Getters and Setters
     public int getId() {
         return id;

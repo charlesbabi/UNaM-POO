@@ -80,6 +80,9 @@ public class Anio {
             retorno = it.next();
             find = retorno.isThis(anio);
         }
+        if(!find){
+            retorno = null;
+        }
         return retorno; 
     }
     

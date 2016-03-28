@@ -170,6 +170,9 @@ public class Agenda {
             retorno = itAnio.next();
             find = retorno.isThis(anio);
         }
+        if(!find){
+            retorno = null;
+        }
         return retorno;        
     }
     
@@ -205,7 +208,7 @@ public class Agenda {
        if (unDia != null) {
            horarios = unDia.horarioLibre();
        } else {
-           throw new Exception("El especialista no tiene horarios ese dia.");
+           throw new Exception("El especialista no trabaja ese dia.");
        }
        return horarios;
    }
@@ -219,7 +222,7 @@ public class Agenda {
     */
    public List<Reserva> buscarReservas(GregorianCalendar fecha) throws Exception{
        Dia unDia = this.buscarDia(fecha);
-       return unDia.getReservas();
+       return unDia.obtenerReservas();
    }
    
     //Getter and Setter..
