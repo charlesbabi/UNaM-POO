@@ -15,6 +15,7 @@ import java.util.Observable;
 import Persist.Persistencia;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Iterator;
 
 
 public class Empresa extends Observable {
@@ -31,9 +32,9 @@ public class Empresa extends Observable {
    private Map<String, Modelo> modelos;
    private Map<String, Cliente> clientes;
    private Map<String, Especialista> especialistas;
-   private Map servicios;   
-   private Map repuestos;
-   private Map <Integer, Problema> problemas;
+   private List <Servicio> servicios;   
+   private List <Repuesto> repuestos;
+   private List <Problema> problemas;
    
    private List <Reserva> reservas;
    private Map <String, Usuario> usuarios;
@@ -47,9 +48,9 @@ public class Empresa extends Observable {
         this.vehiculos = new HashMap <String, Vehiculo>();
         this.clientes = new HashMap <String, Cliente>();
         this.especialistas = new HashMap <String, Especialista>();
-        this.servicios = new HashMap();
-        this.repuestos = new HashMap();
-        this.problemas = new HashMap();
+        this.servicios = new ArrayList();
+        this.repuestos = new ArrayList();
+        this.problemas = new ArrayList();
         this.reservas = new ArrayList();
         this.usuarios = new HashMap();        
     }
@@ -405,9 +406,14 @@ public class Empresa extends Observable {
        this.getEspecialistas();
        boolean asd = existeEspecialista(dni);
        if(asd == false){
-           Especialista unEspecialista = new Especialista( dni,  apellido,  nombre, fechaDeNacimiento, telefono, unaMarca);
-           especialistas.put(dni, unEspecialista);
-           persistencia.update(this);
+           try {
+            Usuario temp = this.crearUsuario(dni, "1");
+            Especialista unEspecialista = new Especialista( dni,  apellido.toUpperCase(),  nombre.toUpperCase(), fechaDeNacimiento, telefono, unaMarca, temp);
+            especialistas.put(dni, unEspecialista);
+            persistencia.update(this);
+           } catch (Exception e) {
+               throw new Exception(e.getMessage());
+           }
        }else{
            throw new Exception("El especialista con numero de identidad "+ dni +" ya se encuentra registrado en el sistema.");
        }
@@ -471,26 +477,33 @@ public class Empresa extends Observable {
        }
    }
    
-   /**Genera una agenda a partir de una fecha inicial hasta la final, en un especialista determinado con un intervalo determinado.
-    * 
-    * @param unEspecialista
-    * @param inicio
-    * @param fin
-    * @param intervalo
-    * @throws Exception 
-    */
-   public void generarAgenda(Especialista unEspecialista, GregorianCalendar inicio, GregorianCalendar fin, int intervalo) throws Exception {
-       this.getEspecialistas();
-       Dia unDia;
-       while(inicio.before(fin) || inicio.equals(fin)){
-           unDia = new Dia(inicio);
-           SimpleDateFormat sdf = new SimpleDateFormat();
-           while(inicio.get(Calendar.HOUR_OF_DAY) <= fin.get(Calendar.HOUR_OF_DAY) && inicio.get(Calendar.MINUTE) <= fin.get(Calendar.MINUTE) ){
-
-           }
-           
+  /**
+   * 
+   * @param unEspecialista
+   * @param desde
+   * @param hasta
+   * @param gregorianCalendar
+   * @param gregorianCalendar0
+   * @param Dias 
+     * @throws java.lang.Exception 
+   */
+   public void generarAgenda(Especialista unEspecialista, GregorianCalendar desde, GregorianCalendar hasta, GregorianCalendar gregorianCalendar, GregorianCalendar gregorianCalendar0, int[] Dias) throws Exception {
+       if(unEspecialista != null){
+           unEspecialista.generarAgenda(desde, hasta, gregorianCalendar, gregorianCalendar0, Dias);
        }
    }
+   
+   public boolean verificarDia(GregorianCalendar dia, int[] dias){
+        boolean retorno = false;
+        int i = 0;
+        while(i < dias.length && retorno == false){
+            if (dias[i] == dia.get(Calendar.DAY_OF_WEEK)){
+                retorno = true;
+            }
+        }
+        return retorno;
+   }
+   
    
    /** Metodos Especialistas
     *
@@ -507,14 +520,12 @@ public class Empresa extends Observable {
        return aux;
    }
 
-   /** Metodos Reserva
+   /** Agrega una reserva de Mantenimiento
     *
     * @param unCliente
-     * @param unDia
     * @param unVehiculo
     * @param unEspecialista
     * @param fecha
-    * @param duracion
     * @exception Exception
     * @pdOid 4efe5309-ea75-48a9-a966-bf64a67c2839 */
    public void confirmarReserva(Cliente unCliente, Vehiculo unVehiculo, Especialista unEspecialista, GregorianCalendar fecha) throws Exception {
@@ -543,9 +554,47 @@ public class Empresa extends Observable {
        }
    }
    
+   /**Agrega una reserva de Reparacion cuando se le pasa una lista de problemas.
+    * 
+    * @param unCliente
+    * @param unVehiculo
+    * @param unEspecialista
+    * @param fecha
+    * @param problemas
+    * @throws Exception 
+    */
+   public void confirmarReserva(Cliente unCliente, Vehiculo unVehiculo, Especialista unEspecialista, GregorianCalendar fecha, ArrayList<Problema> problemas) throws Exception {   
+       if (unCliente != null) {
+           if (unVehiculo != null) {
+               if (unEspecialista != null) {
+                   GregorianCalendar hoy = new GregorianCalendar();
+                   if (fecha.getTime().after(hoy.getTime())) {
+                       //espescialista busca el dia
+                        Dia unDia = unEspecialista.buscarDia(fecha);
+                        Iterator<Problema> it = problemas.iterator();
+                        Reserva unaReserva = new Reserva(fecha, unDia, unEspecialista, unCliente, unVehiculo);
+                        while(it.hasNext()){
+                            unaReserva.agregarProblema(it.next());
+                        }
+                        this.reservas.add(unaReserva);
+                        Empresa.persistencia.update(this);
+                   } else {
+                       SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+                       throw new Exception("La fecha debe ser superior a la actual: " + sdf.format(hoy.getTime()));
+                   }
+               } else {
+                   throw new Exception("El Especialista es incorrecto o nulo.");
+               }
+           } else {
+               throw new Exception("El Vehiculo es incorrecto o nulo.");
+           }
+       } else {
+           throw new Exception("El cliente es incorrecto o nulo.");
+       }
+   }
+   
    /** *  @param unEspecialista
     * @param fecha
-    * @param duracion
      * @return 
     * @exception Exception
     * @pdOid ee73084e-9816-422a-8e5e-1ca636d5625d */
@@ -557,22 +606,136 @@ public class Empresa extends Observable {
 
    //Metodos Problemas
 
-   public void agregarProblema(String descripcion, int duracion) {
-      // TODO: implement
+   public void agregarProblema(String descripcion, int duracion) throws Exception {
+        this.getProblemas();
+        if(!existeProblema(descripcion)){
+            Problema nuevoProblema = new Problema(descripcion.toUpperCase(), duracion);
+            problemas.add(nuevoProblema);
+            persistencia.update(this);
+        }else{
+            throw new Exception("El problema: " + descripcion + ", ya se encuentra registrado en el sistema.");
+        }
    }
 
+   public boolean existeProblema(String descripcion) throws Exception {
+       this.getProblemas();
+       boolean retorno = false;
+       Iterator<Problema> it = this.problemas.iterator();
+       while(it.hasNext() && retorno == false){
+           if (it.next().isThis(descripcion)){
+               retorno = true;
+           }
+       }
+       return retorno;
+   }
+    
    //Metodos Usuarios
 
+   public Usuario crearUsuario(String nombre, String pass) throws Exception{
+       this.getUsuarios();
+       Usuario retorno = null;
+       if (this.usuarios.get(nombre) == null){
+           retorno = new Usuario(nombre, pass);
+           this.usuarios.put(nombre, retorno);
+           persistencia.update(this);
+       }else{
+           throw new Exception("El Usuario ya existe");
+       }
+       return retorno;
+   }
+   
+   public boolean existeUsuario(String nombre){
+       this.getUsuarios();
+       boolean retorno = false;
+       if(this.buscarUsuario(nombre) != null){
+           retorno = true;
+       }
+       return retorno;
+   }
+   
    public Usuario buscarUsuario(String nombreUsuario) {
-      // TODO: implement
-      return null;
+       return usuarios.get(nombreUsuario);
    }
 
-    
+   /** Comprubea que el usuario y contraseña sean correctos. En caso de verdadero devuelve el usuario al cual ingreso, en caso de ser incorrecto devuelve null.
+    * 
+    * @param usuario
+    * @param contra
+    * @return 
+    */
+   public Usuario verificarUsuario(String usuario, String contra){
+       Usuario temp = this.buscarUsuario(usuario);
+       if (temp != null){
+           if (!temp.verificarClave(contra)){
+               temp = null;
+           }
+       }
+       return temp;
+   } 
    
+   //Metodos Reservas
+   
+   public List verReservas(Especialista unEspe, GregorianCalendar unDia) throws Exception{
+       return unEspe.verReservas(unDia);
+   }
+   
+   //Metodos Servicios
+   
+   public void agregarServicio(String observacion, int tiempo, Reserva reserva, List <Problema> problemas, List <RepuestoLinea> repuestos) throws Exception{
+       if (reserva != null) {
+           if(!reserva.fueAtendido()){
+             Servicio unServicio = new Servicio(observacion, tiempo, reserva, problemas, repuestos);
+             this.servicios.add(unServicio);
+             Empresa.persistencia.update(this);  
+           }else{
+              throw new Exception("La reserva ya fue atendida por el especialista."); 
+           }             
+       } else {
+           throw new Exception("El servicio ya existe en el sistema.");
+       }
+   }
+   
+   //Metodos Repuesto
+   
+   public boolean existeRepuesto(String descripcion){
+       this.getRepuestos();
+       boolean retorno = false;
+       Iterator<Repuesto> it = this.repuestos.iterator();
+       while(it.hasNext() && retorno == false){
+           if (it.next().isThis(descripcion)){
+               retorno = true;
+           }
+       }
+       return retorno;
+   }
+   
+   public void agregarRepuesto(String descripcion, float valor, int stock) throws Exception{
+       this.getProblemas();
+        if(!existeRepuesto(descripcion)){
+            Repuesto nuevoRepuesto = new Repuesto(descripcion.toUpperCase(), valor, stock);
+            repuestos.add(nuevoRepuesto);
+            persistencia.update(this);
+        }else{
+            throw new Exception("El Repuesto: " + descripcion + ", ya se encuentra registrado en el sistema.");
+        }
+   }
+   
+   public Repuesto buscarRepuesto(String descripcion) throws Exception{
+       List <Repuesto> lista = this.getRepuestos();
+       Iterator <Repuesto> it = lista.iterator();
+       boolean is = false;
+       Repuesto aux = null;
+       while(it.hasNext() && is == false){
+           aux = it.next();
+           if(!(is = aux.isThis(descripcion))){
+               aux = null;
+           }
+       }
+       return aux;
+   }
    
    //Getter and Setter..
-   public static Persistencia getPersistencia() {
+    public static Persistencia getPersistencia() {
         return persistencia;
     }
     public static void setPersistencia(Persistencia persistencia) {
@@ -626,22 +789,22 @@ public class Empresa extends Observable {
     public void setEspecialistas(Map<String, Especialista> especialistas) {
         this.especialistas = especialistas;
     }
-    public Map getServicios() {
+    public List <Servicio> getServicios() {
         return servicios;
     }
-    public void setServicios(Map servicios) {
+    public void setServicios(List <Servicio> servicios) {
         this.servicios = servicios;
     }
-    public Map getRepuestos() {
+    public List <Repuesto> getRepuestos() {
         return repuestos;
     }
-    public void setRepuestos(Map repuestos) {
+    public void setRepuestos(List <Repuesto> repuestos) {
         this.repuestos = repuestos;
     }
-    public Map<Integer, Problema> getProblemas() {
+    public List<Problema> getProblemas() {
         return problemas;
     }
-    public void setProblemas(Map<Integer, Problema> problemas) {
+    public void setProblemas(List<Problema> problemas) {
         this.problemas = problemas;
     }
     public List<Reserva> getReservas() {

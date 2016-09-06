@@ -12,6 +12,6 @@
         <one-to-many class="model.Anio"/>
       </list>
       
-      
+      <one-to-one name="especialista" class="model.Especialista" cascade="save-update"/>
   </class>
 </hibernate-mapping>

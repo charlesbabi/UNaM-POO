@@ -19,6 +19,7 @@ public class Especialista extends Persona {
    private Marca marca;
    private List<Servicio> servicios;
    private Agenda agenda;
+   private Usuario usuario;
    
    /**Constructor nulo
     * 
@@ -40,13 +41,15 @@ public class Especialista extends Persona {
     * @param telefono
     * @param unaMarca 
     */
-    public Especialista(String dni, String apellido, String nombre, GregorianCalendar fechaDeNacimiento, String telefono, Marca unaMarca) {
+    public Especialista(String dni, String apellido, String nombre, GregorianCalendar fechaDeNacimiento, String telefono, Marca unaMarca, Usuario usuario) {
         super(dni, apellido, nombre, fechaDeNacimiento, telefono);
         this.reservas = new ArrayList();
         this.servicios = new ArrayList();
         this.agenda = new Agenda(dni, this);
         this.marca = unaMarca;
         this.marca.asociarEspecialista(this);
+        this.usuario = usuario;
+        this.usuario.asociarPersona(this);
         Empresa.getPersistencia().insert(this);
     }
    
@@ -67,7 +70,11 @@ public class Especialista extends Persona {
     * @throws Exception 
     */
    public List horarioDisponible(GregorianCalendar fecha) throws Exception{
-       return this.agenda.buscarHorariosLibres(fecha);
+       List retorno = this.agenda.buscarHorariosLibres(fecha);
+       if (retorno == null){
+           throw new Exception("El Especialista " + this.getApellido() + ", " + this.getNombre() + " no trabaja ese dia.");
+       }
+       return retorno; 
    }
       
    //Metodos Reservas
@@ -102,11 +109,20 @@ public class Especialista extends Persona {
    public void asociarReserva(Reserva unaReserva) throws Exception{
        if(!this.getReservas().contains(unaReserva)){
             this.reservas.add(unaReserva);
-            Empresa.getPersistencia().update(this);
+            //Empresa.getPersistencia().update(this);
         }else{
             throw new Exception("El Especialista ya posee esa reserva.");
         } 
    }
+   
+   public void asociarServicio(Servicio unServicio) throws Exception {
+       if(!this.getServicios().contains(unServicio)){
+           this.servicios.add(unServicio);
+           //Empresa.getPersistencia().update(this);
+       }else{
+           throw new Exception("El Especialista ya posee ese servicio.");
+       }       
+    }
    
    /**Busca una reserva, en caso de no encontrar devuelve un null.
     * 
@@ -174,7 +190,16 @@ public class Especialista extends Persona {
         return this.getApellido() +" "+ this.getNombre();
     }   
 
+    /** Genera una agenda a partir de los parametros pasados para el especialista actual.
+     * 
+     * @param desde
+     * @param hasta
+     * @param gregorianCalendar
+     * @param gregorianCalendar0
+     * @param Dias
+     * @throws Exception 
+     */
     public void generarAgenda(GregorianCalendar desde, GregorianCalendar hasta, GregorianCalendar gregorianCalendar, GregorianCalendar gregorianCalendar0, int[] Dias) throws Exception {
-        this.agenda.agregarDiasEnRangoDeFecha(desde, hasta, hasta, hasta, Dias);
+        this.agenda.agregarDiasEnRangoDeFecha(desde, hasta, gregorianCalendar, gregorianCalendar0, Dias);
     }
 }

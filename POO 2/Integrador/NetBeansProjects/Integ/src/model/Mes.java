@@ -54,7 +54,7 @@ public class Mes {
     public Dia buscarDia(int fecha) throws Exception{
         this.getDias();
         Dia retorno = null;
-        //Se obtiene el iterator para buscar el anio.
+        //Se obtiene el iterator para buscar el dia.
         ListIterator <Dia> it = this.dias.listIterator();
         boolean find = false;
         while(it.hasNext() && !find){
@@ -68,7 +68,7 @@ public class Mes {
     }
     
     
-    void agregarDia(GregorianCalendar fecha, GregorianCalendar entrada, GregorianCalendar salida) throws Exception {
+    public void agregarDia(GregorianCalendar fecha, GregorianCalendar entrada, GregorianCalendar salida) throws Exception {
         this.getDias();
         Dia aux = this.buscarDia(fecha.get(Calendar.DAY_OF_MONTH));
         if(aux == null){
@@ -104,9 +104,4 @@ public class Mes {
     public void setMes(int mes) {
         this.mes = mes;
     }
-    
-    public void agregarDia(Dia unDia){
-        //s;ldkfj;aklshd n;lfkhas;ldf;lakshnd;fkjas;la
-    }
-
 }

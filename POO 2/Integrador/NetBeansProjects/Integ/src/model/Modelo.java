@@ -14,8 +14,8 @@ public class Modelo {
     public Modelo(String nombre, Marca marca) {
         this.nombre = nombre;
         this.marca = marca;
-        this.marca.agregarModelo(this);  
-        Empresa.getPersistencia().insert(this);              
+        this.marca.agregarModelo(this);
+        Empresa.getPersistencia().insert(this);
     }
 
     public String getNombre() {

@@ -53,7 +53,7 @@ public class Cliente extends Persona {
    public void agregarReserva(Reserva unaReserva) throws Exception {
        if(!this.getReservas().contains(unaReserva)){
            this.reservas.add(unaReserva);
-           Empresa.getPersistencia().update(this);
+           //Empresa.getPersistencia().update(this);
        }else{
            throw new Exception("El Cliente ya posee esa reserva.");
        }  
@@ -78,7 +78,7 @@ public class Cliente extends Persona {
      * @throws java.lang.Exception 
     */
    public void agregarVehiculo(Vehiculo unCar) throws Exception{
-       if(existeVehiculo(unCar.getPatente())){
+       if(!existeVehiculo(unCar.getPatente())){
            this.vehiculos.add(unCar);
        }else{
            throw new Exception("Ya existe el vehiculo: " + unCar + " en la lista del Cliente.");

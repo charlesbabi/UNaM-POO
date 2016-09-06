@@ -27,6 +27,7 @@ public class VtnAltaDeEspecialista extends javax.swing.JFrame {
     private boolean modificar = false;
     public VtnAltaDeEspecialista() {
         initComponents();
+        
     }
     
     public VtnAltaDeEspecialista(Empresa emp) {
@@ -46,6 +47,7 @@ public class VtnAltaDeEspecialista extends javax.swing.JFrame {
         TxtNombre.setText(tipo.getNombre());
         TxtTelefono.setText(tipo.getTelefono());
         DateNacimiento.setCalendar(tipo.getFechaDeNacimiento());
+        actualizarComboMarcas();
         CbMarcas.setSelectedItem(tipo.getMarca());
         lblTitulo.setText("Modificar Especialista");
     }
@@ -226,6 +228,7 @@ public class VtnAltaDeEspecialista extends javax.swing.JFrame {
                 if (CbMarcas.getSelectedIndex() >= 0) {
                     GregorianCalendar fecha = new GregorianCalendar(DateNacimiento.getCalendar().get(Calendar.YEAR), Calendar.MONTH, Calendar.DAY_OF_MONTH);
                     this.emp.agregarEspecialista(TxtDNI.getText(), TxtNombre.getText(), TxtApellido.getText(), fecha, TxtTelefono.getText(), (Marca) CbMarcas.getSelectedItem());
+                    JOptionPane.showMessageDialog(null, "Se agrego el especialista correctamente.");
                 } else {
                     JOptionPane.showMessageDialog(null, "Debe seleccionar una marca");
                 }

@@ -10,8 +10,12 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 import javax.swing.JOptionPane;
+import model.Agenda;
+import model.Anio;
+import model.Dia;
 import model.Empresa;
 import model.Especialista;
+import model.Mes;
 
 /**
  *
@@ -377,11 +381,31 @@ public class VtnGenerarAgenda extends javax.swing.JFrame {
                     //Se controla que la hora hasta sea mayor que desde
                     if(desde.get(Calendar.HOUR_OF_DAY) < hasta.get(Calendar.HOUR_OF_DAY) || (desde.get(Calendar.HOUR_OF_DAY) == hasta.get(Calendar.HOUR_OF_DAY) &&desde.get(Calendar.MINUTE) < hasta.get(Calendar.MINUTE))){
                         //Se obtiene todos los dias que va a trabajar entre el rango de fechas.
-                        int Dias[] = ListaDeDias.getSelectedIndices();  
+                        int dias[] = ListaDeDias.getSelectedIndices();  
                         //se controla que se hayan seleccionado dias.
-                        if (Dias.length > 0) {
+                        if (dias.length > 0) {
+                            while(desde.before(hasta) || desde.equals(hasta)){
+                               Anio unAnio = unEspecialista.getAgenda().buscarAnio(desde.get(Calendar.YEAR));
+                                if(unAnio == null){
+                                    unAnio = unEspecialista.getAgenda().agregarAnio(desde.get(Calendar.YEAR));
+                                }
+                                Mes unMes = unAnio.buscarMes(desde.get(desde.get(Calendar.MONTH)));
+                                if(unMes == null){
+                                    unMes = unAnio.agregarMes(desde.get(Calendar.MONTH));
+                                }
+                                boolean diaCorrecto = this.emp.verificarDia(desde, dias);
+                                if(diaCorrecto){
+                                    Dia unDia = unMes.buscarDia(desde.get(Calendar.DAY_OF_MONTH));
+                                    if(unDia == null){
+                                        unMes.agregarDia(desde, desde, hasta);
+                                    }
+                                }
+                                desde = sumarFecha(desde);
+                                //desde.add(Calendar.DAY_OF_MONTH, 1);
+                            }
                             //se usa el metodo de agenda. de el especialista que obtuvimos
-                            this.unEspecialista.generarAgenda(desde, hasta, (GregorianCalendar)desde.clone(), (GregorianCalendar)hasta.clone(), Dias);
+                            //this.emp.generarAgenda(unEspecialista, desde, hasta, (GregorianCalendar)desde.clone(), (GregorianCalendar)hasta.clone(), Dias);
+                            //this.unEspecialista.generarAgenda(desde, hasta, (GregorianCalendar)desde.clone(), (GregorianCalendar)hasta.clone(), Dias);
                             JOptionPane.showMessageDialog(null, "Se genero la agenda correctamente.");
                         } else {
                             JOptionPane.showMessageDialog(null, "Debe seleccionar los dias para generar la agenda.");
@@ -400,6 +424,24 @@ public class VtnGenerarAgenda extends javax.swing.JFrame {
         }        
     }//GEN-LAST:event_BtnAgregar2ActionPerformed
 
+    private boolean verificarDia(GregorianCalendar dia, int[] dias){
+        boolean retorno = false;
+        int i = 0;
+        while(i < dias.length && retorno == false){
+            if (dias[i] == dia.get(Calendar.DAY_OF_WEEK)){
+                retorno = true;
+            }
+        }
+        return retorno;
+    }
+    
+    private GregorianCalendar sumarFecha(GregorianCalendar fecha){
+        GregorianCalendar retorno;
+        fecha.add(Calendar.DAY_OF_MONTH, 1);
+        retorno = fecha;
+        return retorno;
+    }
+    
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         this.dispose();

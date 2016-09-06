@@ -52,8 +52,9 @@ public class Marca {
       * @param unModelo 
       */
     public void agregarModelo(Modelo unModelo) {
+        this.getModelos();
         this.modelos.add(unModelo);
-        Empresa.getPersistencia().update(this);
+        //Empresa.getPersistencia().update(this);
     }
 
     /**Asocia un especialista a la marca y actualiza la bd.
@@ -61,8 +62,9 @@ public class Marca {
      * @param unEspecialista 
      */
     public void asociarEspecialista(Especialista unEspecialista) {
+        this.getEspecialistas();
         this.especialistas.put(unEspecialista.getDni(), unEspecialista);
-        Empresa.getPersistencia().update(this);
+        //Empresa.getPersistencia().update(this);
     }
     
     //Getters and Setters

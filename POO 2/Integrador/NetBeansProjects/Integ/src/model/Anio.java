@@ -60,8 +60,14 @@ public class Anio {
      */
     public Dia buscarDia(GregorianCalendar fecha) throws Exception{
         this.getMeses();
+        //se declara el retorno.
         Dia retorno = null;
-        retorno = this.buscarMes(fecha.get(Calendar.MONTH)).buscarDia(fecha.get(Calendar.DAY_OF_MONTH));
+        Mes auxMes;
+        auxMes = this.buscarMes(fecha.get(Calendar.MONTH));
+        //se pregunta si existe el mes,
+        if(auxMes != null){
+            retorno = auxMes.buscarDia(fecha.get(Calendar.DAY_OF_MONTH));
+        }
         return retorno;
     }
     
@@ -78,7 +84,7 @@ public class Anio {
         boolean find = false;
         while(it.hasNext() && !find){
             retorno = it.next();
-            find = retorno.isThis(anio);
+            find = retorno.isThis(mes);
         }
         if(!find){
             retorno = null;
@@ -89,18 +95,18 @@ public class Anio {
     /**Agrega un mes en el año, si no existe devuelve una excepcion
      * 
      * @param mes
+     * @return 
      * @throws Exception 
      */
-    public void agregarMes(int mes) throws Exception{
+    public Mes agregarMes(int mes) throws Exception{
         this.getMeses();
         Mes aux = this.buscarMes(mes);
         if(aux == null){
             aux = new Mes(mes);
             this.meses.add(aux);
             Empresa.getPersistencia().update(this);
-        }else{
-            throw new Exception("Ya existe el año " + mes + " en el año  " + this.anio);
         }
+        return aux;
     }
     
     //Getters and Setters.

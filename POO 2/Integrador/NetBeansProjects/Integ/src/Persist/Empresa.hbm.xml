@@ -38,23 +38,23 @@
         <one-to-many class="model.Especialista"/>
       </map>
       
-      <map name="servicios" cascade="all">
-        <key column="empresa_id" />
-        <map-key column="servicios_id" type="integer"/>
+      <list name="servicios">
+        <key column="empresa_id"/>
+        <list-index column="empresa_servicios_index" />
         <one-to-many class="model.Servicio"/>
-      </map>
+      </list>
       
-      <map name="repuestos" cascade="all">
-        <key column="empresa_id" />
-        <map-key column="repuesto_id" type="integer"/>
+      <list name="repuestos">
+        <key column="empresa_id"/>
+        <list-index column="empresa_repuestos_index" />
         <one-to-many class="model.Repuesto"/>
-      </map>
+      </list>
       
-      <map name="problemas" cascade="all">
-        <key column="empresa_id" />
-        <map-key column="problema_id" type="integer"/>
+      <list name="problemas">
+        <key column="empresa_id"/>
+        <list-index column="empresa_problema_index" />
         <one-to-many class="model.Problema"/>
-      </map>
+      </list>
       
       <map name="usuarios" cascade="all">
         <key column="empresa_id" />
@@ -67,8 +67,5 @@
         <list-index column="empresa_reserva_index" />
         <one-to-many class="model.Reserva"/>
       </list>
-      
-      
-      
   </class>
 </hibernate-mapping>

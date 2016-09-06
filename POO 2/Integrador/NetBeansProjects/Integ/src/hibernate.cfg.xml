@@ -15,7 +15,6 @@
     <mapping resource="Persist/Persona.hbm.xml"/>
     <mapping resource="Persist/Dia.hbm.xml"/>
     <mapping resource="Persist/Empresa.hbm.xml"/>
-    <mapping resource="Persist/Horario.hbm.xml"/>
     <mapping resource="Persist/Marca.hbm.xml"/>
     <mapping resource="Persist/Modelo.hbm.xml"/>
     <mapping resource="Persist/Problema.hbm.xml"/>

@@ -10,17 +10,18 @@
       <property name="telefono" type="string" column="persona_telefono" />
       <property name="fechaDeNacimiento" type="calendar_date" column="persona_fecha_de_nacimiento" />
       <property name="estado" type="boolean" column="persona_estado" />
+ 
       
       <joined-subclass name="model.Cliente" table="clientes" >
           <key column="persona_dni" />
           
-          <list name="vehiculos" cascade="save-update">
+          <list name="vehiculos">
             <key column="cliente_dni" />
             <list-index column="vehiculo_cliente_index" />
             <one-to-many class="model.Vehiculo" />
           </list>
           
-          <list name="reservas" cascade="save-update">
+          <list name="reservas" cascade="all">
             <key column="cliente_dni"/>
             <list-index column="reserva_cliente_index" />
             <one-to-many class="model.Reserva"/>
@@ -30,7 +31,7 @@
       <joined-subclass name="model.Especialista" table="especialista" >
           <key column="persona_dni" />
           
-          <list name="reservas" cascade="save-update">
+          <list name="reservas">
             <key column="especialista_dni"/>
             <list-index column="reserva_especialista_index" />
             <one-to-many class="model.Reserva"/>
@@ -38,14 +39,16 @@
           
           <many-to-one name="marca" column="marca_nombre" class="model.Marca" />
           
+          <!--
           <list name="servicios" cascade="save-update">
             <key column="especialista_dni"/>
             <list-index column="servicio_especialista_index" />
             <one-to-many class="model.Servicio"/>
           </list>
+          -->
           
           <one-to-one name="agenda" class="model.Agenda" />
-          <one-to-one name="usuario" class="model.Usuario" />          
+          <one-to-one name="usuario" class="model.Usuario" cascade="save-update" />      
       </joined-subclass>
       
   </class>

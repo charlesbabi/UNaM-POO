@@ -40,6 +40,10 @@ public class RepuestoLinea {
         this.repuesto = repuesto;
     }
 
-
+    @Override
+    public String toString(){
+        return "Repuesto: " + this.repuesto + ", Cantidad: " + this.cantidad;
+    }
+    
 }
 

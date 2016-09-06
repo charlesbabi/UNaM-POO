@@ -247,6 +247,7 @@ public class VtnAltaDeCliente extends javax.swing.JFrame {
             if(modificar == false){
                 this.emp.agregarCliente(TxtDNI.getText(), TxtNombre.getText(), TxtApellido.getText(), fecha, TxtTelefono.getText()); 
                 this.limpiarCampos();
+                JOptionPane.showMessageDialog(null, "Se agrego correctamente el cliente");
             }else if(modificar == true){
                 this.emp.modificarCliente(TxtDNI.getText(), TxtNombre.getText(), TxtApellido.getText(), fecha, TxtTelefono.getText());
             }            

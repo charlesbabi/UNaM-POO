@@ -6,6 +6,6 @@
           <generator class="assigned"/>
       </id>
       <property name="clave" column="usuario_clave" type="string"/>
-      <one-to-one name="unaPersona" class="model.Persona"/>
+      <one-to-one name="unaPersona" class="model.Especialista"/>
   </class>
 </hibernate-mapping>

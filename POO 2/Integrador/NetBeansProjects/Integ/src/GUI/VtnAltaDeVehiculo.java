@@ -224,22 +224,31 @@ public class VtnAltaDeVehiculo extends javax.swing.JFrame {
 
     private void BtnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnAceptarActionPerformed
         try {
+            String patente;
+            patente = TxtPatente.getText();
+            if (unCliente == null){
+                throw new Exception("Por favor seleccione un cliente");
+            }
+            if (patente.isEmpty()){
+                throw new Exception("Por favor escriba la patente del auto");
+            } else {
+            }
             if (modificar == false) {
-                if (ComboMarca.getSelectedIndex() >= 0 && ComboModelo.getSelectedIndex() >=0) {
-                    String patente = TxtPatente.getText();
+                if (ComboMarca.getSelectedIndex() >= 0 && ComboModelo.getSelectedIndex() >=0) { 
                     Modelo modelo = (Modelo) ComboModelo.getSelectedItem();
                     GregorianCalendar fecha = Modulo.DateChooserToGregorianCalendar(DateFechaDeCompra);
                     this.emp.agregarVehiculo(patente, fecha, modelo, unCliente);
+                    JOptionPane.showMessageDialog(null, "Se agrego el vehiculo correctamente.");
                     camposEstandar();
                 }else{
                     JOptionPane.showMessageDialog(this, "Seleccione un modelo y marca para el vehiculo.");
                 }
             } else if(modificar == true) {
                 if (ComboMarca.getSelectedIndex() >= 0 && ComboModelo.getSelectedIndex() >=0) {
-                    String patente = TxtPatente.getText();
                     Modelo modelo = (Modelo) ComboModelo.getSelectedItem();
                     GregorianCalendar fecha = Modulo.DateChooserToGregorianCalendar(DateFechaDeCompra);
                     this.emp.modificarVehiculo(patente, fecha, modelo, unCliente);
+                    JOptionPane.showMessageDialog(null, "Se modifico el vehiculo correctamente.");
                     camposEstandar();
                 }else{
                     JOptionPane.showMessageDialog(this, "Seleccione un modelo y marca para el vehiculo.");

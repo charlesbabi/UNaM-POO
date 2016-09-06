@@ -39,19 +39,40 @@ public class Reserva {
         this.especialista = especialista;
         this.cliente = cliente;
         this.vehiculo = vehiculo;
-        this.duracion = 60;
-        //this.especialista.asociarReserva(this);
-        this.cliente.agregarReserva(this);
-        Empresa.getPersistencia().insert(this);
+        //this.duracion = 60;
+        calcularDuracion();
+        especialista.asociarReserva(this);
+        cliente.agregarReserva(this);
         unDia.agregarReserva(this);
-        this.vehiculo.asociarReserva(this);
+        vehiculo.asociarReserva(this);
+        Empresa.getPersistencia().insert(this);
+    }
+   
+    public Reserva(GregorianCalendar fecha, Dia unDia, Especialista especialista, Cliente cliente, Vehiculo vehiculo, ArrayList listaDeProblemas) throws Exception {
+        this();
+        Date aux = (Date) fecha.getTime().clone();
+        this.fecha = aux;
+        this.especialista = especialista;
+        this.cliente = cliente;
+        this.vehiculo = vehiculo;
+        //this.duracion = 60;
+        Iterator<Problema> it = listaDeProblemas.iterator();
+        while(it.hasNext()){
+            agregarProblema(it.next());
+        }
+        calcularDuracion();
+        especialista.asociarReserva(this);
+        cliente.agregarReserva(this);
+        unDia.agregarReserva(this);
+        vehiculo.asociarReserva(this);
+        Empresa.getPersistencia().insert(this);
     }
      
    public boolean estaOcupado(GregorianCalendar fecha, int hora) {
        return false;
    }
 
-   public void calcularDuracion(){
+   private void calcularDuracion(){
        this.getProblemas();
        if (!this.problemas.isEmpty()) {
            Iterator<Problema> it = this.problemas.iterator();
@@ -62,6 +83,22 @@ public class Reserva {
        } else {
            duracion = 60;
        }
+   }
+   
+   public void agregarProblema(Problema unProblema){
+       this.getProblemas();
+       if (!this.problemas.contains(unProblema)) {
+           this.problemas.add(unProblema);
+           //calcularDuracion();
+       }
+   }
+   
+   public boolean fueAtendido(){
+       boolean retorno = false;
+       if(this.servicio != null){
+           retorno = true;
+       }
+       return retorno;
    }
    
    public boolean isThis(Date fecha){
@@ -125,5 +162,10 @@ public class Reserva {
     }
     public void setVehiculo(Vehiculo vehiculo) {
         this.vehiculo = vehiculo;
+    }
+    
+   @Override
+    public String toString(){
+        return this.vehiculo.getModelo().getMarca().getNombre() + "-" + this.vehiculo.getModelo().getNombre() + " || " + this.cliente;
     }
 }

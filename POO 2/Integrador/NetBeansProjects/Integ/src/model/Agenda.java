@@ -78,10 +78,10 @@ public class Agenda {
             mesAux.agregarDia(fecha, entrada, salida);
             //recupera el dia que agregamos recien.
             //diaAux = mesAux.buscarDia(dia);
-        }      
+        }
     }
     
-    /** Agreda los dias a la agenda entro el rando de fecha seleccionar, los dias a la semana indicados.
+    /** Agreda los dias a la agenda dentro del rango de fecha seleccionado, los dias a la semana indicados.
      * 
      * @param desde
      * @param hasta
@@ -133,9 +133,17 @@ public class Agenda {
      * @throws Exception 
      */
     public Dia buscarDia(GregorianCalendar fecha) throws Exception{
+        //se fuerza al hibernate a traer todos los anios, para evitar puntos nulos
         this.getAnios();
+        //Esta hecho en muchas lineas para una facil comprension.
         Dia retorno = null;
-        retorno = this.buscarAnio(fecha.get(Calendar.YEAR)).buscarDia(fecha);
+        //se declara un anio, en el caso que no encuentre devolera null
+        Anio auxAnio;
+        auxAnio = this.buscarAnio(fecha.get(Calendar.YEAR));
+        //se pregunta si no es null para evitar pointer null.
+        if (auxAnio != null){
+            retorno = auxAnio.buscarDia(fecha);
+        }
         return retorno;
     }
     
@@ -143,17 +151,17 @@ public class Agenda {
     /**Agrega un Anio si no existe, y si existe lanza una excepcion
      * 
      * @param anio 
+     * @return  
      * @throws java.lang.Exception 
      */
-    public void agregarAnio(int anio) throws Exception{
+    public Anio agregarAnio(int anio) throws Exception{
         Anio unAnio = buscarAnio(anio);
         if(unAnio == null){
             unAnio = new Anio(anio);
             this.anios.add(unAnio);
             Empresa.getPersistencia().update(this);
-        }else{
-            throw new Exception("Ya existe el año " + anio + " en la Agenda " + this.getId());
         }
+       return unAnio;
     }
     
     /**Buscar un anio, devuelve null si no se encuentra.
@@ -207,8 +215,6 @@ public class Agenda {
        Dia unDia = this.buscarDia(fecha);
        if (unDia != null) {
            horarios = unDia.horarioLibre();
-       } else {
-           throw new Exception("El especialista no trabaja ese dia.");
        }
        return horarios;
    }

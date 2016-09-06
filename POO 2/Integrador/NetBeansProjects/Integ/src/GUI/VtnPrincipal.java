@@ -5,7 +5,11 @@
  */
 package GUI;
 
+import java.awt.Graphics;
+import java.awt.Image;
+import javax.swing.ImageIcon;
 import model.Empresa;
+import model.Usuario;
 
 /**
  *
@@ -14,6 +18,8 @@ import model.Empresa;
 public class VtnPrincipal extends javax.swing.JFrame {
 
     private Empresa emp;
+    private Usuario user;
+    private Image IMG = new ImageIcon(getClass().getResource("/Iconos/descarga.png")).getImage();
     
     /**
      * Creates new form VtnPrincipal
@@ -22,11 +28,17 @@ public class VtnPrincipal extends javax.swing.JFrame {
         initComponents();
     }
     
-    public VtnPrincipal(Empresa empresa){        
+    public VtnPrincipal(Empresa empresa, Usuario usuario){        
         this.emp = empresa;
-        initComponents();        
+        this.user = usuario;
+        initComponents();
     }
-
+ 
+    public void paintChildren(Graphics g){
+        g.drawImage(IMG, 0, 0, getWidth(), getHeight(), this);
+        jDesktopPane1.paint(g);
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -42,8 +54,6 @@ public class VtnPrincipal extends javax.swing.JFrame {
         jMenu2 = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenuItem1 = new javax.swing.JMenuItem();
-        MenuSolicitud = new javax.swing.JMenu();
-        ItemMenuServicio = new javax.swing.JMenuItem();
         MenuClientes = new javax.swing.JMenu();
         jMenuItem5 = new javax.swing.JMenuItem();
         jMenuItem3 = new javax.swing.JMenuItem();
@@ -55,23 +65,36 @@ public class VtnPrincipal extends javax.swing.JFrame {
         MiAltaDeMarca = new javax.swing.JMenuItem();
         MenuModelos = new javax.swing.JMenu();
         jMenuItem4 = new javax.swing.JMenuItem();
+        MenuProblemas = new javax.swing.JMenu();
+        MenuItemAltaProblema = new javax.swing.JMenuItem();
+        MenuRepuesto = new javax.swing.JMenu();
+        jMenuItem6 = new javax.swing.JMenuItem();
+        MenuReservas = new javax.swing.JMenu();
+        MenuItemVerReservas = new javax.swing.JMenuItem();
+        MenuSolicitud = new javax.swing.JMenu();
+        ItemMenuServicioMantenimiento = new javax.swing.JMenuItem();
+        ItemMenuServicioReparacion = new javax.swing.JMenuItem();
         MenuVehiculos = new javax.swing.JMenu();
         MiAltaDeVehiculo = new javax.swing.JMenuItem();
         MenuGestionarVehiculos = new javax.swing.JMenuItem();
+        MenuReclamo = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Sistema tu Carrito");
+        setTitle("Sistema Tu Autito");
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+
+        jDesktopPane1.setBackground(java.awt.Color.darkGray);
+        jDesktopPane1.setForeground(new java.awt.Color(51, 0, 204));
 
         javax.swing.GroupLayout jDesktopPane1Layout = new javax.swing.GroupLayout(jDesktopPane1);
         jDesktopPane1.setLayout(jDesktopPane1Layout);
         jDesktopPane1Layout.setHorizontalGroup(
             jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 782, Short.MAX_VALUE)
+            .addGap(0, 783, Short.MAX_VALUE)
         );
         jDesktopPane1Layout.setVerticalGroup(
             jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 438, Short.MAX_VALUE)
+            .addGap(0, 367, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -82,12 +105,17 @@ public class VtnPrincipal extends javax.swing.JFrame {
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jDesktopPane1)
+            .addComponent(jDesktopPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         jMenu2.setText("Inicio");
 
         jMenuItem2.setText("Cerrar Sesion");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
         jMenu2.add(jMenuItem2);
 
         jMenuItem1.setText("Salir");
@@ -99,19 +127,6 @@ public class VtnPrincipal extends javax.swing.JFrame {
         jMenu2.add(jMenuItem1);
 
         jMenuBar1.add(jMenu2);
-
-        MenuSolicitud.setText("Solicitud");
-        MenuSolicitud.setName("Solicitud"); // NOI18N
-
-        ItemMenuServicio.setText("Servicio");
-        ItemMenuServicio.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ItemMenuServicioActionPerformed(evt);
-            }
-        });
-        MenuSolicitud.add(ItemMenuServicio);
-
-        jMenuBar1.add(MenuSolicitud);
 
         MenuClientes.setText("Clientes");
 
@@ -185,6 +200,63 @@ public class VtnPrincipal extends javax.swing.JFrame {
 
         jMenuBar1.add(MenuModelos);
 
+        MenuProblemas.setText("Problemas");
+
+        MenuItemAltaProblema.setText("Alta de Problema");
+        MenuItemAltaProblema.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MenuItemAltaProblemaActionPerformed(evt);
+            }
+        });
+        MenuProblemas.add(MenuItemAltaProblema);
+
+        jMenuBar1.add(MenuProblemas);
+
+        MenuRepuesto.setText("Repuestos");
+
+        jMenuItem6.setText("Alta de Respuesto");
+        jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem6ActionPerformed(evt);
+            }
+        });
+        MenuRepuesto.add(jMenuItem6);
+
+        jMenuBar1.add(MenuRepuesto);
+
+        MenuReservas.setText("Reservas");
+
+        MenuItemVerReservas.setText("Ver Reservas");
+        MenuItemVerReservas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MenuItemVerReservasActionPerformed(evt);
+            }
+        });
+        MenuReservas.add(MenuItemVerReservas);
+
+        jMenuBar1.add(MenuReservas);
+
+        MenuSolicitud.setText("Solicitud");
+        MenuSolicitud.setName("Solicitud"); // NOI18N
+
+        ItemMenuServicioMantenimiento.setText("Servicio de Mantenimiento");
+        ItemMenuServicioMantenimiento.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ItemMenuServicioMantenimientoActionPerformed(evt);
+            }
+        });
+        MenuSolicitud.add(ItemMenuServicioMantenimiento);
+
+        ItemMenuServicioReparacion.setText("Servicio de Reparacion");
+        ItemMenuServicioReparacion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ItemMenuServicioReparacionActionPerformed(evt);
+            }
+        });
+        MenuSolicitud.add(ItemMenuServicioReparacion);
+
+        jMenuBar1.add(MenuSolicitud);
+
         MenuVehiculos.setText("Vehiculos");
 
         MiAltaDeVehiculo.setText("Alta de Vehiculo");
@@ -205,6 +277,9 @@ public class VtnPrincipal extends javax.swing.JFrame {
 
         jMenuBar1.add(MenuVehiculos);
 
+        MenuReclamo.setText("Reclamo");
+        jMenuBar1.add(MenuReclamo);
+
         setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -215,7 +290,7 @@ public class VtnPrincipal extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -226,12 +301,12 @@ public class VtnPrincipal extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
-    private void ItemMenuServicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ItemMenuServicioActionPerformed
+    private void ItemMenuServicioMantenimientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ItemMenuServicioMantenimientoActionPerformed
         // TODO add your handling code here:
         VtnSolicitudServicio ventana = new VtnSolicitudServicio(this.emp);
         ventana.setLocationRelativeTo(null);
         ventana.setVisible(true);
-    }//GEN-LAST:event_ItemMenuServicioActionPerformed
+    }//GEN-LAST:event_ItemMenuServicioMantenimientoActionPerformed
 
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
         VtnAltaDeCliente AltaCliente = new VtnAltaDeCliente(this.emp);
@@ -287,6 +362,39 @@ public class VtnPrincipal extends javax.swing.JFrame {
         ventana.setVisible(true);
     }//GEN-LAST:event_MenuGestionarVehiculosActionPerformed
 
+    private void ItemMenuServicioReparacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ItemMenuServicioReparacionActionPerformed
+        // TODO add your handling code here:
+        VtnSolicitudReparacion ventana = new VtnSolicitudReparacion(this.emp);
+        ventana.setLocationRelativeTo(null);
+        ventana.setVisible(true);
+    }//GEN-LAST:event_ItemMenuServicioReparacionActionPerformed
+
+    private void MenuItemAltaProblemaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuItemAltaProblemaActionPerformed
+        // TODO add your handling code here:
+        VtnAltaDeProblema ventana = new VtnAltaDeProblema(this.emp);
+        ventana.setLocationRelativeTo(null);
+        ventana.setVisible(true);
+    }//GEN-LAST:event_MenuItemAltaProblemaActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        Login ventana = new Login(this.emp);
+        ventana.setLocationRelativeTo(null);
+        ventana.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void MenuItemVerReservasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuItemVerReservasActionPerformed
+        VtnVerReservas ventana = new VtnVerReservas(this.emp);
+        ventana.setLocationRelativeTo(null);
+        ventana.setVisible(true);
+    }//GEN-LAST:event_MenuItemVerReservasActionPerformed
+
+    private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
+        VtnAltaDeRepuesto ventana = new VtnAltaDeRepuesto(this.emp);
+        ventana.setLocationRelativeTo(null);
+        ventana.setVisible(true);
+    }//GEN-LAST:event_jMenuItem6ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -324,14 +432,21 @@ public class VtnPrincipal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JMenuItem ItemMenuServicio;
+    private javax.swing.JMenuItem ItemMenuServicioMantenimiento;
+    private javax.swing.JMenuItem ItemMenuServicioReparacion;
     private javax.swing.JMenuItem MenuAgenda;
     private javax.swing.JMenu MenuClientes;
     private javax.swing.JMenu MenuEspecialista;
     private javax.swing.JMenuItem MenuGestionarEspecialistas;
     private javax.swing.JMenuItem MenuGestionarVehiculos;
+    private javax.swing.JMenuItem MenuItemAltaProblema;
+    private javax.swing.JMenuItem MenuItemVerReservas;
     private javax.swing.JMenu MenuMarcas;
     private javax.swing.JMenu MenuModelos;
+    private javax.swing.JMenu MenuProblemas;
+    private javax.swing.JMenu MenuReclamo;
+    private javax.swing.JMenu MenuRepuesto;
+    private javax.swing.JMenu MenuReservas;
     private javax.swing.JMenu MenuSolicitud;
     private javax.swing.JMenu MenuVehiculos;
     private javax.swing.JMenuItem MiAltaDeEspecialista;
@@ -345,6 +460,7 @@ public class VtnPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
+    private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 }

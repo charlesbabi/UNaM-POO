@@ -14,13 +14,21 @@ public class Repuesto {
     public Repuesto () {
     }
 
-    public Repuesto(int id, String descripcion, float valor, int stock) {
-        this.id = id;
+    public Repuesto(String descripcion, float valor, int stock) {
         this.descripcion = descripcion;
         this.valor = valor;
         this.stock = stock;
+        Empresa.getPersistencia().insert(this);
     }
 
+    public boolean isThis(String descripcion){
+        boolean retorno = false;
+        if(this.descripcion.equals(descripcion)){
+            retorno = true;
+        }
+        return retorno;
+    }
+    
     // <editor-fold defaultstate="collapsed" desc=" UML Marker "> 
     // #[regen=yes,regenBody=yes,id=DCE.CF3303D3-937F-C703-B255-C7F6D645D54E]
     // </editor-fold> 
@@ -77,5 +85,10 @@ public class Repuesto {
         this.valor = val;
     }
 
+    @Override
+    public String toString(){
+        return this.descripcion;
+    }
+    
 }
 

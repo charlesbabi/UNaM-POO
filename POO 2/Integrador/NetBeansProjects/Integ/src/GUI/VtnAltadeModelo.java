@@ -134,10 +134,10 @@ public class VtnAltadeModelo extends javax.swing.JFrame {
                 String nombre = TxtModeloNombre.getText();
                 Marca marca = (Marca) CbMarcas.getSelectedItem();         
                 this.emp.agregarModelo(nombre, marca);
+                JOptionPane.showMessageDialog(null, "Se agrego el modelo correctamente.");
             } else {
                 JOptionPane.showMessageDialog(this, "Seleccione una Marca para continuar.");
             }
-            
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage());
         }

@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
+import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import model.Cliente;
 import model.Empresa;
@@ -29,13 +30,14 @@ public class VtnSolicitudServicio extends javax.swing.JFrame implements Observer
 
     private Empresa emp;
     private GregorianCalendar diaSeleccionado;
+    DefaultListModel modeloEspecialista = new DefaultListModel();
+    DefaultListModel modeloHorario = new DefaultListModel();
 
     /**
      * Creates new form VtnSolicitudServicio
      */
     VtnSolicitudServicio() {
         initComponents();
-
     }
 
     /**
@@ -47,6 +49,8 @@ public class VtnSolicitudServicio extends javax.swing.JFrame implements Observer
         this.emp = emp;
         this.emp.addObserver(this);
         this.diaSeleccionado = new GregorianCalendar();
+        ListaEspecialistas.setModel(modeloEspecialista);
+        ListaHorario.setModel(modeloHorario);
         try {
             CalFecha.getDayChooser().addPropertyChangeListener(
                     new java.beans.PropertyChangeListener() {
@@ -278,7 +282,8 @@ public class VtnSolicitudServicio extends javax.swing.JFrame implements Observer
                 String dniAux = TxtDni.getText();
                 //busca el cliente.
                 aux = this.emp.buscarCliente(dniAux);
-                List vehiculos = aux.getVehiculos();
+                //List vehiculos = aux.getVehiculos();
+                List vehiculos = this.emp.buscarVehiculosPorCliente(aux);
                 //pregunta si tiene algun vehiculo
                 if (vehiculos.size() > 0) {
                     Iterator<Vehiculo> it = vehiculos.iterator();
@@ -302,9 +307,13 @@ public class VtnSolicitudServicio extends javax.swing.JFrame implements Observer
         try {
             if (unEspeci != null) {
                 if(dia.after(Funciones.horaCero(new GregorianCalendar()))){
-                    ListaHorario.setListData(this.emp.buscarHorariosLibres(unEspeci, dia).toArray());
+                    Iterator it = unEspeci.horarioDisponible(dia).iterator();
+                    modeloHorario.removeAllElements();
+                    while(it.hasNext()){
+                        modeloHorario.addElement(it.next());
+                    }
                 }else{
-                    ListaHorario.removeAll();
+                    modeloHorario.removeAllElements();
                 }
             }else{
                 JOptionPane.showMessageDialog(rootPane, "El especialista debe ser correcto.");
@@ -316,22 +325,41 @@ public class VtnSolicitudServicio extends javax.swing.JFrame implements Observer
 
     private void llenarEspecialistas(GregorianCalendar dia) {
         try {
+            camposListasEstandar();
             if (ComboVehiculos.getItemCount() > 0) {
                 if (dia.after(Funciones.horaCero(new GregorianCalendar()))) {
                     Vehiculo aux = (Vehiculo) ComboVehiculos.getSelectedItem();
                     Map especialistasAux = this.emp.buscarEspecialistasPorMarca(aux.getModelo().getMarca());
-                    ListaEspecialistas.setListData(especialistasAux.values().toArray());
+                    Iterator<Especialista> it = especialistasAux.values().iterator();
+                    while(it.hasNext()){
+                        Especialista temp = it.next();
+                        try{
+                            temp.horarioDisponible(dia);
+                            modeloEspecialista.addElement(temp);
+                        }catch(Exception ex){
+                            //Como el metodo horarioDisponible devuelve una excepcion se agrega un catch para evitar que la excepcion 
+                            //sea lanzada y corte el metodo.
+                        }
+                    }
                 } else {
-                    ListaEspecialistas.removeAll();
+                    modeloEspecialista.removeAllElements();
                 }
             }else{
-                ListaEspecialistas.removeAll();
+                modeloEspecialista.removeAllElements();
             }
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(rootPane, ex.getMessage());
         }
     }
 
+    /** Vuelve los campos de tipo lista a sus posiciones o valores iniciales.
+     * 
+     */
+    private void camposListasEstandar(){
+        modeloEspecialista.removeAllElements();
+        modeloHorario.removeAllElements();
+    }
+    
     private void BtnBuscarEspecialistaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnBuscarEspecialistaActionPerformed
         try { 
             Cliente auxCliente = null;
@@ -351,7 +379,9 @@ public class VtnSolicitudServicio extends javax.swing.JFrame implements Observer
                             diaSeleccionado.set(Calendar.MINUTE, Integer.parseInt(horas[1]));
                             //JOptionPane.showMessageDialog(rootPane, diaSeleccionado.get(Calendar.HOUR_OF_DAY));
                             this.emp.confirmarReserva(auxCliente, auxVehiculo, auxEspecialista, diaSeleccionado);
-                            JOptionPane.showMessageDialog(rootPane, "Su reserva a sido exitosa.");
+                            JOptionPane.showMessageDialog(rootPane, "Su reserva a sido exitosa.");  
+                            //se utiliza una funcion local para volver todos los campos a sus valores estandares.
+                            camposListasEstandar();
                         } else {
                             JOptionPane.showMessageDialog(rootPane, "Debe seleccionar un Horario.");
                         }
@@ -449,7 +479,7 @@ public class VtnSolicitudServicio extends javax.swing.JFrame implements Observer
          llenarHorarios(diaSeleccionado,  (Especialista)ListaEspecialistas.getSelectedValue());
          llenarEspecialistas();
          */
-        this.ListaEspecialistas.setListData(new ArrayList().toArray());
-        this.ListaHorario.setListData(new ArrayList().toArray());
+        modeloEspecialista.removeAllElements();
+        modeloHorario.removeAllElements();
     }
 }

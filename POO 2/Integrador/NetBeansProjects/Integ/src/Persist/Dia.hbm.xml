@@ -10,11 +10,13 @@
     <property name="entrada" column="horario_entrada" type="time" />
     <property name="salida" column="horario_salida" type="time" />
     
+    <!--
     <list name="servicios">
         <key column="dia_id"/>
         <list-index column="dia_servicio_index" />
         <one-to-many class="model.Servicio"/>
     </list>
+    -->
     
     <list name="reservas">
         <key column="dia_id"/>

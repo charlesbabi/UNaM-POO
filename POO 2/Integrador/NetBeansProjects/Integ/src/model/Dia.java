@@ -14,14 +14,14 @@ public class Dia {
    private GregorianCalendar fecha;
    private Date entrada;
    private Date salida;
-   private List <Servicio> servicios;
+   //private List <Servicio> servicios;
    private List <Reserva> reservas;
 
    /**Constructor nulo.
     * 
     */
     public Dia() {
-        this.servicios = new ArrayList();
+//        this.servicios = new ArrayList();
         this.reservas = new ArrayList();
     }
     
@@ -67,7 +67,7 @@ public class Dia {
               
         //aca creamos una variable auxiliar para manejar la fecha, el date tiene problemas para sumar.
         GregorianCalendar auxiliarFecha, auxiliarSalida;
-        //se clona la fecha para no usar esta, ya que se modificará y esta siempre pasa como referencia.
+        //se clona la fecha para no usar esta, ya que se modificará. Esta siempre pasa como referencia.
         auxiliarFecha = (GregorianCalendar) this.fecha.clone();
         auxiliarSalida = (GregorianCalendar) this.fecha.clone();
         //a la fecha auxiliar se iguala como la entrada.
@@ -100,6 +100,7 @@ public class Dia {
             retorno.add(sdf.format(auxiliarSalida.getTime()));
             //entradaAux.add(Calendar.MINUTE, moduloDeHorario);
         }else{
+            retorno = null;
             throw new Exception("Este Dia tiene todos los horarios ocupados.");
         }
         return retorno;
@@ -113,11 +114,20 @@ public class Dia {
     public void agregarReserva(Reserva unaReserva) throws Exception {
        if(!this.getReservas().contains(unaReserva)){
            this.reservas.add(unaReserva);
-           Empresa.getPersistencia().update(this);
+           //Empresa.getPersistencia().update(this);
        }else{
            throw new Exception("El Dia ya posee esa reserva.");
        }       
     }
+    
+    /*public void agregarServicio(Servicio unServicio) throws Exception {
+    if(!this.getServicios().contains(unServicio)){
+    this.servicios.add(unServicio);
+    //Empresa.getPersistencia().update(this);
+    }else{
+    throw new Exception("El Dia ya posee ese servicio.");
+    }
+    }*/
     
     /** Esta funcion pregunta si es el dia indicado.
      * 
@@ -161,12 +171,12 @@ public class Dia {
     public void setFecha(GregorianCalendar fecha) {
         this.fecha = fecha;
     }
-    public List<Servicio> getServicios() {
-        return servicios;
+    /*    public List<Servicio> getServicios() {
+    return servicios;
     }
     public void setServicios(List<Servicio> servicios) {
-        this.servicios = servicios;
-    }
+    this.servicios = servicios;
+    }*/
     public List<Reserva> getReservas() {
         return reservas;
     }

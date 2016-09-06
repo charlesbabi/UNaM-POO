@@ -138,6 +138,7 @@ public class VtnAltaDeMarca extends javax.swing.JFrame {
             //this.emp.existeMarca(TxtMarcaNombre.getText());
             float valor = Float.parseFloat(TxtValorPorHora.getText());
             this.emp.agregarMarca(TxtMarcaNombre.getText(), valor);
+            JOptionPane.showMessageDialog(null, "Se agrego correctamente la marca");
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage());
         }
